@@ -18,10 +18,11 @@ public class LdapStubServer {
     private LDAPConnection connection;
 
     public LdapStubServer() throws LDAPException {
-        InMemoryDirectoryServerConfig config = new InMemoryDirectoryServerConfig("dc=is,dc=company,dc=com");
+        InMemoryDirectoryServerConfig config = new InMemoryDirectoryServerConfig("dc=isp,dc=company,dc=com");
         InMemoryListenerConfig listenerConfig = createLDAPConfig("insecure", 51616);
         config.setListenerConfigs(listenerConfig);
         directoryServer = new InMemoryDirectoryServer(config);
+        directoryServer.importFromLDIF(false, "src/main/resources/ldap.ldif".replace("/", System.getProperty("file.separator")));
     }
 
     public void start() throws LDAPException {
@@ -49,7 +50,8 @@ public class LdapStubServer {
     }
 
     private String dnFor(String username) {
-        return format("uid=%s,ou=People,dc=isp,dc=sky,dc=com", username);
+        return format("uid=%s,ou=People,dc=isp,dc=company,dc=com", username);
     }
+
 
 }

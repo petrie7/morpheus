@@ -3,12 +3,14 @@ package net.morpheus;
 import com.googlecode.yatspec.junit.SpecRunner;
 import com.googlecode.yatspec.state.givenwhenthen.*;
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(SpecRunner.class)
 public class LoginTest extends TestState {
 
+    @Ignore
     @Test
     public void userCanLogin() throws Exception {
         given(anUserExists());

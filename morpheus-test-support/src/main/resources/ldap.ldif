@@ -1,0 +1,9 @@
+dn: dc=isp,dc=company,dc=com
+objectClass: top
+objectClass: domain
+dc: isp
+
+dn: ou=People,dc=isp,dc=company,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: People
