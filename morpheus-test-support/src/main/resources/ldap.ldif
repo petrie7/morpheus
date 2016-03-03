@@ -3,7 +3,44 @@ objectClass: top
 objectClass: domain
 dc: isp
 
+dn: ou=Applications,dc=isp,dc=company,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: resolve
+ou: Applications
+
 dn: ou=People,dc=isp,dc=company,dc=com
 objectClass: top
 objectClass: organizationalUnit
 ou: People
+
+# =======
+# Morpheus
+# =======
+dn: ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: resolve
+ou: morpheus
+
+dn: ou=auth,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: auth
+
+dn: uid=appauth,ou=auth,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com
+objectClass: account
+objectClass: top
+objectClass: simpleSecurityObject
+uid: appauth
+userPassword: secret
+
+dn: ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=developer,ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: developer

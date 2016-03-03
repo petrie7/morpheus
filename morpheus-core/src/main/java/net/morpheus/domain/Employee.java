@@ -11,4 +11,8 @@ public class Employee {
     public String username() {
         return username;
     }
+
+    public String role() {
+        return "developer";
+    }
 }
