@@ -19,6 +19,12 @@ public class LdapStubServer {
     private final InMemoryDirectoryServer directoryServer;
     private LDAPConnection connection;
 
+    public static void main(String[] args) throws Exception {
+        LdapStubServer ldapStubServer = new LdapStubServer();
+        ldapStubServer.start();
+        ldapStubServer.addEmployee(new Employee("a"), "a");
+    }
+
     public LdapStubServer() throws Exception {
         InMemoryDirectoryServerConfig config = new InMemoryDirectoryServerConfig("dc=isp,dc=company,dc=com");
         InMemoryListenerConfig listenerConfig = createLDAPConfig("insecure", 51616);
