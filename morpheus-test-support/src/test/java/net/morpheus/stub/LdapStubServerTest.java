@@ -1,4 +1,4 @@
-package net.morpheus;
+package net.morpheus.stub;
 
 import com.unboundid.ldap.sdk.*;
 import com.unboundid.ldif.LDIFException;
@@ -8,8 +8,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.core.support.LdapContextSource;
-
-import java.io.IOException;
 
 import static com.unboundid.ldap.sdk.Filter.createEqualityFilter;
 import static org.hamcrest.core.Is.is;
@@ -27,7 +25,7 @@ public class LdapStubServerTest {
     private SearchResult allUsers;
 
     @Before
-    public void startLdapServer() throws LDAPException, IOException {
+    public void startLdapServer() throws Exception {
         ldapConnection = new LDAPConnection();
         ldapStubServer = new LdapStubServer();
         ldapStubServer.start();

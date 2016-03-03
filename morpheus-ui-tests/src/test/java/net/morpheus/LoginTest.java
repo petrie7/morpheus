@@ -1,16 +1,13 @@
 package net.morpheus;
 
-import com.googlecode.yatspec.junit.SpecRunner;
-import com.googlecode.yatspec.state.givenwhenthen.*;
+import net.morpheus.domain.Employee;
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.junit.Ignore;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(SpecRunner.class)
-public class LoginTest extends TestState {
+public class LoginTest extends MorpheusTestCase {
 
-    @Ignore
     @Test
     public void userCanLogin() throws Exception {
         given(anUserExists());
@@ -20,24 +17,17 @@ public class LoginTest extends TestState {
         then(theUser(), isLoggedIn());
     }
 
-    private GivensBuilder anUserExists() {
-        return new GivensBuilder() {
+    private Matcher<Employee> isLoggedIn() {
+        return new TypeSafeMatcher<Employee>() {
             @Override
-            public InterestingGivens build(InterestingGivens givens) throws Exception {
-                return null;
+            protected boolean matchesSafely(Employee employee) {
+                return employee.equals(employeeForTest);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+
             }
         };
-    }
-
-    private StateExtractor<Object> theUser() {
-        return null;
-    }
-
-    private ActionUnderTest theUserLogsIn() {
-        return null;
-    }
-
-    private Matcher<? super Object> isLoggedIn() {
-        return null;
     }
 }

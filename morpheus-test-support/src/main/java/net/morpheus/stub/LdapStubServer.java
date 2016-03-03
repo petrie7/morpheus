@@ -1,4 +1,4 @@
-package net.morpheus;
+package net.morpheus.stub;
 
 import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
@@ -9,7 +9,6 @@ import com.unboundid.ldif.LDIFReader;
 import net.morpheus.domain.Employee;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
@@ -20,7 +19,7 @@ public class LdapStubServer {
     private final InMemoryDirectoryServer directoryServer;
     private LDAPConnection connection;
 
-    public LdapStubServer() throws LDAPException, IOException {
+    public LdapStubServer() throws Exception {
         InMemoryDirectoryServerConfig config = new InMemoryDirectoryServerConfig("dc=isp,dc=company,dc=com");
         InMemoryListenerConfig listenerConfig = createLDAPConfig("insecure", 51616);
         config.setListenerConfigs(listenerConfig);
