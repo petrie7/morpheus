@@ -17,8 +17,9 @@ public class MorpheusSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .ldapAuthentication()
-                .userDnPatterns("uid=%s,ou=People,dc=isp,dc=company,dc=com")
+                .userDnPatterns("uid={0},ou=People,dc=isp,dc=company,dc=com")
                 .groupSearchBase("ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com")
+                .groupSearchFilter("(&(objectClass=groupOfNames)(member={0}))")
                 .contextSource(contextSource());
     }
 
@@ -37,7 +38,7 @@ public class MorpheusSecurityConfig extends WebSecurityConfigurerAdapter {
 
         DefaultSpringSecurityContextSource contextSource = new DefaultSpringSecurityContextSource("ldap://localhost:51616");
         contextSource.setPooled(false);
-        contextSource.setUserDn("appauth");
+        contextSource.setUserDn("uid=appauth,ou=auth,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com");
         contextSource.setPassword("secret");
 
         return contextSource;
