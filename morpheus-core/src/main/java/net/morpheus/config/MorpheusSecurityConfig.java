@@ -26,16 +26,15 @@ public class MorpheusSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/css/**").permitAll()
-                .anyRequest().fullyAuthenticated()
+                .formLogin()
+                .loginPage("/login").permitAll()
                 .and()
-                .formLogin();
+                .authorizeRequests().antMatchers("/").authenticated()
+                .and().csrf().disable();
     }
 
     @Bean
     public BaseLdapPathContextSource contextSource() {
-
         DefaultSpringSecurityContextSource contextSource = new DefaultSpringSecurityContextSource("ldap://localhost:51616");
         contextSource.setPooled(false);
         contextSource.setUserDn("uid=appauth,ou=auth,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com");

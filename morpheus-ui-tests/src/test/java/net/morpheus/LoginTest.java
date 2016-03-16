@@ -1,6 +1,7 @@
 package net.morpheus;
 
-import net.morpheus.domain.Employee;
+import com.codeborne.selenide.WebDriverRunner;
+import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -14,19 +15,22 @@ public class LoginTest extends MorpheusTestCase {
 
         when(theUserLogsIn());
 
-        then(theUser(), isLoggedIn());
+        then(theDisplayedPage(), isHome());
     }
 
-    private Matcher<Employee> isLoggedIn() {
-        return new TypeSafeMatcher<Employee>() {
+    private StateExtractor<String> theDisplayedPage() {
+        return capturedInputAndOutputs -> WebDriverRunner.getWebDriver().getCurrentUrl();
+    }
+
+    private Matcher<String> isHome() {
+        return new TypeSafeMatcher<String>() {
             @Override
-            protected boolean matchesSafely(Employee employee) {
-                return employee.equals(employeeForTest);
+            protected boolean matchesSafely(String actualUrl) {
+                return actualUrl.equals("http://localhost:1999/");
             }
 
             @Override
             public void describeTo(Description description) {
-
             }
         };
     }

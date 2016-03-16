@@ -6,7 +6,6 @@ import com.googlecode.yatspec.junit.WithCustomResultListeners;
 import com.googlecode.yatspec.rendering.html.HtmlResultRenderer;
 import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
-import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.domain.Employee;
@@ -14,10 +13,13 @@ import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.TestContextManager;
 
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
 import static net.morpheus.MorpheusDataFixtures.someString;
 
@@ -53,12 +55,15 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
         };
     }
 
-    protected StateExtractor<Employee> theUser() {
-        return inputAndOutputs -> employeeForTest;
-    }
-
     protected ActionUnderTest theUserLogsIn() {
-        return (givens, capturedInputAndOutputs1) -> capturedInputAndOutputs1.add("User");
+        return (givens, capturedInputAndOutputs1) -> {
+            open("http://localhost:1999");
+
+            $(By.id("username")).setValue(employeeForTest.username());
+            $(By.id("password")).setValue(employeePassword);
+            $(By.id("submit")).click();
+            return capturedInputAndOutputs;
+        };
     }
 
     @Override
