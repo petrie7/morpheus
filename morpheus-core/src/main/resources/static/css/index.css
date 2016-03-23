@@ -106,3 +106,24 @@ body {
 #logout-button {
    margin-top: 10;
 }
+
+.img {
+    margin-left: 45px;
+}
+
+h4 {
+    margin-left: 70px;
+    font-weight: bold;
+}
+
+.junior {
+    background-color: #1abf9f;
+}
+
+.mid {
+    background-color: #2ecc71;
+}
+
+.senior {
+    background-color: #3498db;
+}

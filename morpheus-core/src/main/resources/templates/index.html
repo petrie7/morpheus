@@ -1,8 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Morpheus</title>
+    <script src="http://code.jquery.com/jquery-1.12.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css"/>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="css/index.css" rel="stylesheet"/>
 </head>
@@ -22,9 +27,6 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Profile</a></li>
                 <li>
                     <form action="logout" method="post">
                         <button type="submit" id="logout-button" class="btn">Log Out</button>
@@ -42,7 +44,14 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+                <div class="row placeholders">
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                             width="150" height="150" class="img" alt="Generic placeholder thumbnail"/>
+                        <h4>Graduate Developer</h4>
+                    </div>
+                </div>
+                <li class="active"><a href="#">Development Matrix<span class="sr-only">(current)</span></a></li>
                 <li><a href="#">Others..</a></li>
             </ul>
         </div>
@@ -51,7 +60,63 @@
                 <span th:text="${#authentication.name}"></span>
             </h1>
 
-            <h2 class="sub-header">PDP Grid</h2>
+            <table id="myTable" class="display">
+                <thead>
+                <tr>
+                <tr>
+                    <th></th>
+                    <th colspan="3" class="junior">Junior Dev</th>
+                    <th colspan="3" class="mid">Mid Dev</th>
+                    <th colspan="3" class="senior">Senior Dev</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th class="junior">Low</th>
+                    <th class="junior">Mid</th>
+                    <th class="junior">High</th>
+                    <th class="mid">Low</th>
+                    <th class="mid">Mid</th>
+                    <th class="mid">High</th>
+                    <th class="senior">Low</th>
+                    <th class="senior">Mid</th>
+                    <th class="senior">High</th>
+                </tr>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Technical Ability</td>
+                    <td class="junior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="junior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="junior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="mid"><input type="checkbox" class="checkbox"/></td>
+                    <td class="mid"><input type="checkbox" class="checkbox"/></td>
+                    <td class="mid"><input type="checkbox" class="checkbox"/></td>
+                    <td class="senior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="senior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="senior"><input type="checkbox" class="checkbox"/></td>
+                </tr>
+                <tr>
+                    <td>Communication</td>
+                    <td class="junior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="junior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="junior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="mid"><input type="checkbox" class="checkbox"/></td>
+                    <td class="mid"><input type="checkbox" class="checkbox"/></td>
+                    <td class="mid"><input type="checkbox" class="checkbox"/></td>
+                    <td class="senior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="senior"><input type="checkbox" class="checkbox"/></td>
+                    <td class="senior"><input type="checkbox" class="checkbox"/></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <script>
+                $(document).ready(function(){
+                    $('#myTable').DataTable();
+                });
+
+            </script>
         </div>
     </div>
 </div>
