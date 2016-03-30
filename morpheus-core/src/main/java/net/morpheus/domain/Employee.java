@@ -1,5 +1,6 @@
 package net.morpheus.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Map;
@@ -7,9 +8,11 @@ import java.util.Map;
 public class Employee {
 
     @Id
+    @JsonProperty
     private final String username;
-
+    @JsonProperty
     private Role role;
+    @JsonProperty
     private Map<String, Integer> skills;
 
     public Employee(String username, Role role, Map<String, Integer> skills) {

@@ -8,7 +8,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 public class EmployeeRepository {
 
-    public static final String PEOPLE_COLLECTION = "employee";
+    public static final String EMPLOYEE_COLLECTION = "employee";
     private MongoTemplate mongoTemplate;
 
     public EmployeeRepository(MongoTemplate mongoTemplate) {
@@ -16,18 +16,18 @@ public class EmployeeRepository {
     }
 
     public Employee findByName(String name) {
-        return mongoTemplate.findOne(new Query(where("_id").is(name)), Employee.class, PEOPLE_COLLECTION);
+        return mongoTemplate.findOne(new Query(where("_id").is(name)), Employee.class, EMPLOYEE_COLLECTION);
     }
 
     public void create(Employee employee) {
-        mongoTemplate.insert(employee, PEOPLE_COLLECTION);
+        mongoTemplate.insert(employee, EMPLOYEE_COLLECTION);
     }
 
     public void delete(Employee employee) {
-        mongoTemplate.remove(new Query(where("_id").is(employee.username())), PEOPLE_COLLECTION);
+        mongoTemplate.remove(new Query(where("_id").is(employee.username())), EMPLOYEE_COLLECTION);
     }
 
     public void update(Employee employee) {
-        mongoTemplate.save(employee, PEOPLE_COLLECTION);
+        mongoTemplate.save(employee, EMPLOYEE_COLLECTION);
     }
 }
