@@ -9,6 +9,7 @@ import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.domain.Employee;
+import net.morpheus.domain.Role;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +18,8 @@ import org.openqa.selenium.By;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.TestContextManager;
+
+import java.util.Collections;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -39,7 +42,7 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
 
         ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        employeeForTest = new Employee(someString());
+        employeeForTest = new Employee(someString(), Role.Developer, Collections.emptyMap());
         employeePassword = someString();
     }
 

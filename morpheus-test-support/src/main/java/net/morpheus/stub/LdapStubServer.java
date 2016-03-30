@@ -7,12 +7,15 @@ import com.unboundid.ldap.sdk.*;
 import com.unboundid.ldif.LDIFException;
 import com.unboundid.ldif.LDIFReader;
 import net.morpheus.domain.Employee;
+import net.morpheus.domain.Role;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.InputStream;
+import java.util.Collections;
 
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
+import static net.morpheus.domain.Role.Developer;
 
 public class LdapStubServer {
 
@@ -22,7 +25,7 @@ public class LdapStubServer {
     public static void main(String[] args) throws Exception {
         LdapStubServer ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        ldapStubServer.addEmployee(new Employee("a"), "a");
+        ldapStubServer.addEmployee(new Employee("a", Developer, Collections.emptyMap()), "a");
     }
 
     public LdapStubServer() throws Exception {
@@ -68,8 +71,8 @@ public class LdapStubServer {
         return format("uid=%s,ou=People,dc=isp,dc=company,dc=com", username);
     }
 
-    private String groupFor(String role) {
-        return format("cn=%s,ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com", role);
+    private String groupFor(Role role) {
+        return format("cn=%s,ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com", role.toString());
     }
 
     public LDAPConnection getConnection() {
