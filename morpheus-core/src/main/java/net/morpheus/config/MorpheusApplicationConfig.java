@@ -28,13 +28,13 @@ public class MorpheusApplicationConfig {
         EmployeeRepository employeeRepository = new EmployeeRepository(mongoTemplate);
 
         //Yikes! TODO: Remove this!
-        employeeRepository.delete(new Employee("a", Role.Developer, null));
+        employeeRepository.delete(new Employee("Developer", Role.Developer, null));
         HashMap<String, Integer> skills = new HashMap<>();
         skills.put("Functional Skills", 1);
         skills.put("Communication Skills", 3);
         skills.put("Haircut", 1);
         skills.put("Java", 8);
-        employeeRepository.create(new Employee("a", Role.Developer, skills));
+        employeeRepository.create(new Employee("Developer", Role.Developer, skills));
         //End Yikes!
 
         return employeeRepository;

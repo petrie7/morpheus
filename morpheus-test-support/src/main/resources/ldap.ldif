@@ -44,3 +44,8 @@ dn: cn=developer,ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com
 objectClass: groupOfNames
 objectClass: top
 cn: developer
+
+dn: cn=manager,ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: manager

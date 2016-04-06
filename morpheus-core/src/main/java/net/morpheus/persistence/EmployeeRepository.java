@@ -4,6 +4,8 @@ import net.morpheus.domain.Employee;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.List;
+
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 public class EmployeeRepository {
@@ -17,6 +19,10 @@ public class EmployeeRepository {
 
     public Employee findByName(String name) {
         return mongoTemplate.findOne(new Query(where("_id").is(name)), Employee.class, EMPLOYEE_COLLECTION);
+    }
+
+    public List<Employee> getAll() {
+        return mongoTemplate.findAll(Employee.class, EMPLOYEE_COLLECTION);
     }
 
     public void create(Employee employee) {

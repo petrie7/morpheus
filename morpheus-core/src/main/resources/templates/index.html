@@ -3,7 +3,7 @@
     <title>Morpheus</title>
     <script src="http://code.jquery.com/jquery-1.12.2.js"></script>
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
+    <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"/>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css"/>
@@ -45,47 +45,59 @@
                     <div class="col-xs-6 col-sm-3 placeholder">
                         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
                              width="150" height="150" class="img" alt="Generic placeholder thumbnail"/>
+                        <h4 th:text="${#authentication.name}"></h4>
                         <h4><span class="role"></span></h4>
                     </div>
                 </div>
                 <li class="active"><a href="#">Development Matrix<span class="sr-only">(current)</span></a></li>
+                <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+                    <a href="#">Create Employee</a>
+                </li>
                 <li><a href="#">Others..</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">
-                <span th:text="${#authentication.name}"></span>
-            </h1>
+            <div id="content">
+                <div class="input-group" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" id="search-bar">
+                    <input type="text" class="form-control" placeholder="Search for employee.." name="q" id="q"/>
 
-            <table id="myTable" class="display">
-                <thead>
-                <tr>
-                <tr>
-                    <th></th>
-                    <th colspan="3" class="junior">Junior Dev</th>
-                    <th colspan="3" class="mid">Mid Dev</th>
-                    <th colspan="3" class="senior">Senior Dev</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th class="junior">Low</th>
-                    <th class="junior">Mid</th>
-                    <th class="junior">High</th>
-                    <th class="mid">Low</th>
-                    <th class="mid">Mid</th>
-                    <th class="mid">High</th>
-                    <th class="senior">Low</th>
-                    <th class="senior">Mid</th>
-                    <th class="senior">High</th>
-                </tr>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+                    <div class="input-group-btn">
+                        <button id="search" class="btn btn-default" type="submit"><i
+                                class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
 
-            <script>
+                <table id="myTable" class="display">
+                    <thead>
+                    <tr>
+                    <tr>
+                        <th></th>
+                        <th colspan="3" class="junior">Junior Dev</th>
+                        <th colspan="3" class="mid">Mid Dev</th>
+                        <th colspan="3" class="senior">Senior Dev</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th class="junior">Low</th>
+                        <th class="junior">Mid</th>
+                        <th class="junior">High</th>
+                        <th class="mid">Low</th>
+                        <th class="mid">Mid</th>
+                        <th class="mid">High</th>
+                        <th class="senior">Low</th>
+                        <th class="senior">Mid</th>
+                        <th class="senior">High</th>
+                    </tr>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+
+            <script th:if="${#authorization.expression('hasRole(''ROLE_DEVELOPER'')')}">
                 $.get("employee", function (data) {
-                    $(".role").html(data.role);
                     for (var name in data.skills) {
                         console.log(name + "=" + data.skills[name]);
                         addRowToTable(name, data.skills[name]);
@@ -95,6 +107,7 @@
                         "info": false,
                         "searching": false
                     });
+                    $('#myTable').show();
                 });
 
                 function addRowToTable(property, value) {
@@ -102,19 +115,78 @@
                     $('#myTable').append(
                             '<tr id="' + idProperty + '">' +
                             '<td>' + property + '</td>' +
-                            '<td class="junior"><input type="checkbox" id="1" class="checkbox" /></td>' +
-                            '<td class="junior"><input type="checkbox" id="2" class="checkbox" /></td>' +
-                            '<td class="junior"><input type="checkbox" id="3" class="checkbox" /></td>' +
-                            '<td class="mid"><input type="checkbox" id="4" class="checkbox" /></td>' +
-                            '<td class="mid"><input type="checkbox" id="5" class="checkbox" /></td>' +
-                            '<td class="mid"><input type="checkbox" id="6" class="checkbox" /></td>' +
-                            '<td class="senior"><input type="checkbox" id="7" class="checkbox"/></td>' +
-                            '<td class="senior"><input type="checkbox" id="8" class="checkbox" /></td>' +
-                            '<td class="senior"><input type="checkbox" id="9" class="checkbox" /></td>' +
+                            '<td class="junior"><input type="radio" id="1" class="radio" disabled="true"/></td>' +
+                            '<td class="junior"><input type="radio" id="2" class="radio" disabled="true"/></td>' +
+                            '<td class="junior"><input type="radio" id="3" class="radio" disabled="true"/></td>' +
+                            '<td class="mid"><input type="radio" id="4" class="radio" disabled="true"/></td>' +
+                            '<td class="mid"><input type="radio" id="5" class="radio" disabled="true"/></td>' +
+                            '<td class="mid"><input type="radio" id="6" class="radio" disabled="true"/></td>' +
+                            '<td class="senior"><input type="radio" id="7" class="radio" disabled="true"/></td>' +
+                            '<td class="senior"><input type="radio" id="8" class="radio" disabled="true" /></td>' +
+                            '<td class="senior"><input type="radio" id="9" class="radio" disabled="true" /></td>' +
+                            '</tr>'
+                    );
+                    $('#' + idProperty).find('#' + value).prop("checked", true);
+                    $('#' + idProperty).find('#' + value).prop("disabled", false);
+                }
+
+            </script>
+
+            <script th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+                $.get("employee/all", function (data) {
+                employees = data;
+                var employeeNames = $.map(data, function(employee){
+                                     return employee.username;
+                                });
+                 $( "#q" ).autocomplete({
+                        source: employeeNames
+                  });
+                });
+
+                document.getElementById("search").addEventListener("click", function(data){
+                    var username = document.getElementById("q").value;
+                    var selectedEmployee = $.grep(employees, function(e){
+                        return e.username == username;
+                    });
+                    createTable(selectedEmployee[0]);
+                });
+            </script>
+
+            <script>
+                function createTable(data) {
+                    for (var name in data.skills) {
+                        console.log(name + "=" + data.skills[name]);
+                        addRowToTableForManager(name, data.skills[name]);
+                    }
+                    $('#myTable').DataTable({
+                        "paging": false,
+                        "info": false,
+                        "searching": false
+                    });
+                    $('#myTable').show();
+                }
+
+                function addRowToTableForManager(property, value) {
+                    var idProperty = property.replace(/\s+/g, '');
+                    $('#myTable').append(
+                            '<tr id="' + idProperty + '">' +
+                            '<td>' + property + '</td>' +
+                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="1" class="radio"/></td>' +
+                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="2" class="radio"/></td>' +
+                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="3" class="radio"/></td>' +
+                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="4" class="radio"/></td>' +
+                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="5" class="radio"/></td>' +
+                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="6" class="radio"/></td>' +
+                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="7" class="radio"/></td>' +
+                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="8" class="radio" /></td>' +
+                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="9" class="radio" /></td>' +
                             '</tr>'
                     );
                     $('#' + idProperty).find('#' + value).prop("checked", true);
                 }
+
+
+
             </script>
         </div>
     </div>

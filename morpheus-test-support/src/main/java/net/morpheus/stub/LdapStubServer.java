@@ -16,6 +16,7 @@ import java.util.Collections;
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
 import static net.morpheus.domain.Role.Developer;
+import static net.morpheus.domain.Role.Manager;
 
 public class LdapStubServer {
 
@@ -25,7 +26,8 @@ public class LdapStubServer {
     public static void main(String[] args) throws Exception {
         LdapStubServer ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        ldapStubServer.addEmployee(new Employee("a", Developer, Collections.emptyMap()), "a");
+        ldapStubServer.addEmployee(new Employee("Developer", Developer, Collections.emptyMap()), "a");
+        ldapStubServer.addEmployee(new Employee("Manager", Manager, Collections.emptyMap()), "m");
     }
 
     public LdapStubServer() throws Exception {

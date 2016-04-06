@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class EmployeeController {
@@ -19,5 +20,11 @@ public class EmployeeController {
     @ResponseBody
     public Employee read(Principal principal) {
         return employeeRepository.findByName(principal.getName());
+    }
+
+    @RequestMapping("/employee/all")
+    @ResponseBody
+    public List<Employee> readAll() {
+        return employeeRepository.getAll();
     }
 }
