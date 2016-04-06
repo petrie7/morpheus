@@ -43,22 +43,19 @@
             <ul class="nav nav-sidebar">
                 <div class="row placeholders">
                     <div class="col-xs-6 col-sm-3 placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                             width="150" height="150" class="img" alt="Generic placeholder thumbnail"/>
                         <h4 th:text="${#authentication.name}"></h4>
-                        <h4><span class="role"></span></h4>
                     </div>
                 </div>
                 <li class="active"><a href="#">Development Matrix<span class="sr-only">(current)</span></a></li>
                 <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                     <a href="#">Create Employee</a>
                 </li>
-                <li><a href="#">Others..</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div id="content">
-                <div class="input-group" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" id="search-bar">
+                <div class="input-group" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}"
+                     id="search-bar">
                     <input type="text" class="form-control" placeholder="Search for employee.." name="q" id="q"/>
 
                     <div class="input-group-btn">
@@ -93,7 +90,7 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-
+                <button type="submit" id="save-button" class="btn btn-success">Save</button>
             </div>
 
             <script th:if="${#authorization.expression('hasRole(''ROLE_DEVELOPER'')')}">
@@ -129,15 +126,12 @@
                     $('#' + idProperty).find('#' + value).prop("checked", true);
                     $('#' + idProperty).find('#' + value).prop("disabled", false);
                 }
-
             </script>
 
             <script th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                 $.get("employee/all", function (data) {
                 employees = data;
-                var employeeNames = $.map(data, function(employee){
-                                     return employee.username;
-                                });
+                var employeeNames = $.map(data, function(employee){return employee.username;});
                  $( "#q" ).autocomplete({
                         source: employeeNames
                   });
@@ -145,18 +139,29 @@
 
                 document.getElementById("search").addEventListener("click", function(data){
                     var username = document.getElementById("q").value;
-                    var selectedEmployee = $.grep(employees, function(e){
+                    selectedEmployee = $.grep(employees, function(e){
                         return e.username == username;
+                    })[0];
+                    createTable(selectedEmployee);
+                });
+
+                document.getElementById("save-button").addEventListener("click", function() {
+                    $.ajax({
+                        url: "employee",
+                        data: JSON.stringify(currentEmployee),
+                        dataType: 'json',
+                        type: 'post',
+                        contentType: 'application/json'
                     });
-                    createTable(selectedEmployee[0]);
                 });
             </script>
 
             <script>
-                function createTable(data) {
-                    for (var name in data.skills) {
-                        console.log(name + "=" + data.skills[name]);
-                        addRowToTableForManager(name, data.skills[name]);
+                function createTable(employee) {
+                    currentEmployee = employee;
+                    for (var name in employee.skills) {
+                        console.log(name + "=" + employee.skills[name]);
+                        addRowToTableForManager(name, employee.skills[name]);
                     }
                     $('#myTable').DataTable({
                         "paging": false,
@@ -171,22 +176,24 @@
                     $('#myTable').append(
                             '<tr id="' + idProperty + '">' +
                             '<td>' + property + '</td>' +
-                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="1" class="radio"/></td>' +
-                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="2" class="radio"/></td>' +
-                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="3" class="radio"/></td>' +
-                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="4" class="radio"/></td>' +
-                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="5" class="radio"/></td>' +
-                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="6" class="radio"/></td>' +
-                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="7" class="radio"/></td>' +
-                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="8" class="radio" /></td>' +
-                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="9" class="radio" /></td>' +
+                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="1" class="radio" onclick="updateSkill(\''+property+'\', 1)"/></td>' +
+                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="2" class="radio" onclick="updateSkill(\''+property+'\', 2)"/></td>' +
+                            '<td class="junior"><input type="radio" name="' + idProperty + '" id="3" class="radio" onclick="updateSkill(\''+property+'\', 3)" /></td>' +
+                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="4" class="radio" onclick="updateSkill(\''+property+'\', 4)" /></td>' +
+                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="5" class="radio" onclick="updateSkill(\''+property+'\', 5)" /></td>' +
+                            '<td class="mid"><input type="radio" name="' + idProperty + '" id="6" class="radio" onclick="updateSkill(\''+property+'\', 6)" /></td>' +
+                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="7" class="radio" onclick="updateSkill(\''+property+'\', 7)" /></td>' +
+                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="8" class="radio" onclick="updateSkill(\''+property+'\', 8)" /></td>' +
+                            '<td class="senior"><input type="radio" name="' + idProperty + '"  id="9" class="radio" onclick="updateSkill(\''+property+'\', 9)" /></td>' +
                             '</tr>'
                     );
                     $('#' + idProperty).find('#' + value).prop("checked", true);
+                    $('#save-button').show();
                 }
 
-
-
+                function updateSkill(property, value) {
+                    $(currentEmployee.skills).attr(property, value);
+                }
             </script>
         </div>
     </div>

@@ -135,3 +135,9 @@ h4 {
 #search-bar {
     margin-bottom: 10px;
 }
+
+#save-button {
+    display: none;
+    margin-top: 5px;
+    float: right;
+}
