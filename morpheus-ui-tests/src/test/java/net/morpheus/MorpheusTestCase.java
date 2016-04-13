@@ -19,7 +19,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.TestContextManager;
 
-import java.util.Collections;
+import java.util.ArrayList;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -42,7 +42,7 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
 
         ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        employeeForTest = new Employee(someString(), Role.Developer, Collections.emptyMap());
+        employeeForTest = new Employee(someString(), Role.Developer, new ArrayList<>());
         employeePassword = someString();
     }
 

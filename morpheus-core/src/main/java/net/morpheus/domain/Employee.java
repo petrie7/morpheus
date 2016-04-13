@@ -3,7 +3,9 @@ package net.morpheus.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Employee {
 
@@ -13,9 +15,9 @@ public class Employee {
     @JsonProperty
     private Role role;
     @JsonProperty
-    private Map<String, Integer> skills;
+    private ArrayList<Skill> skills = new ArrayList<>();
 
-    public Employee(String username, Role role, Map<String, Integer> skills) {
+    public Employee(String username, Role role, ArrayList<Skill> skills) {
         this.username = username;
         this.role = role;
         this.skills = skills;
@@ -33,11 +35,11 @@ public class Employee {
         this.role = role;
     }
 
-    public Map<String, Integer> skills() {
+    public List<Skill> skills() {
         return skills;
     }
 
-    public void addNewSkill(String skill, Integer score) {
-        skills.put(skill, score);
+    public void addNewSkill(Skill... listOfSkills) {
+        Collections.addAll(skills, listOfSkills);
     }
 }

@@ -11,7 +11,7 @@ import net.morpheus.domain.Role;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.InputStream;
-import java.util.Collections;
+import java.util.ArrayList;
 
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
@@ -26,8 +26,8 @@ public class LdapStubServer {
     public static void main(String[] args) throws Exception {
         LdapStubServer ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        ldapStubServer.addEmployee(new Employee("Developer", Developer, Collections.emptyMap()), "a");
-        ldapStubServer.addEmployee(new Employee("Manager", Manager, Collections.emptyMap()), "m");
+        ldapStubServer.addEmployee(new Employee("Developer", Developer, new ArrayList<>()), "a");
+        ldapStubServer.addEmployee(new Employee("Manager", Manager, new ArrayList<>()), "m");
     }
 
     public LdapStubServer() throws Exception {

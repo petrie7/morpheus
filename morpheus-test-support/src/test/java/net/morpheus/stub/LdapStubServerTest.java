@@ -5,12 +5,13 @@ import com.unboundid.ldif.LDIFException;
 import com.unboundid.util.LDAPSDKException;
 import net.morpheus.domain.Employee;
 import net.morpheus.domain.Role;
+import net.morpheus.domain.Skill;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.core.support.LdapContextSource;
 
-import java.util.Collections;
+import java.util.ArrayList;
 
 import static com.unboundid.ldap.sdk.Filter.createEqualityFilter;
 import static org.hamcrest.core.Is.is;
@@ -42,7 +43,7 @@ public class LdapStubServerTest {
 
     @Test
     public void canAddAUserToLdap() throws LDIFException, LDAPException {
-        ldapStubServer.addEmployee(new Employee("Employee 1", Role.Developer, Collections.emptyMap()), "Password");
+        ldapStubServer.addEmployee(new Employee("Employee 1", Role.Developer, new ArrayList<Skill>()), "Password");
 
         LdapContextSource contextSource = new LdapContextSource();
         contextSource.setUrl("ldap://" + HOSTNAME + ":" + PORT);

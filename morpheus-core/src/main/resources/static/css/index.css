@@ -129,7 +129,7 @@ h4 {
 }
 
 #myTable {
-    display:none;
+    display:block;
 }
 
 #search-bar {
