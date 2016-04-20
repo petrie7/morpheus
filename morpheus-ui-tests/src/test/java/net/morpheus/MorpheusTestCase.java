@@ -9,7 +9,7 @@ import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.domain.Employee;
-import net.morpheus.domain.Role;
+import net.morpheus.domain.Level;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.Before;
@@ -42,7 +42,7 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
 
         ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        employeeForTest = new Employee(someString(), Role.Developer, new ArrayList<>());
+        employeeForTest = Employee.developer(someString(), new ArrayList<>(), Level.JuniorDeveloper);
         employeePassword = someString();
     }
 

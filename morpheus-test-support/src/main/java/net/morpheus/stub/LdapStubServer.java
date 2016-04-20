@@ -7,6 +7,7 @@ import com.unboundid.ldap.sdk.*;
 import com.unboundid.ldif.LDIFException;
 import com.unboundid.ldif.LDIFReader;
 import net.morpheus.domain.Employee;
+import net.morpheus.domain.Level;
 import net.morpheus.domain.Role;
 import org.springframework.core.io.ClassPathResource;
 
@@ -15,8 +16,6 @@ import java.util.ArrayList;
 
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
-import static net.morpheus.domain.Role.Developer;
-import static net.morpheus.domain.Role.Manager;
 
 public class LdapStubServer {
 
@@ -26,8 +25,8 @@ public class LdapStubServer {
     public static void main(String[] args) throws Exception {
         LdapStubServer ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        ldapStubServer.addEmployee(new Employee("Developer", Developer, new ArrayList<>()), "a");
-        ldapStubServer.addEmployee(new Employee("Manager", Manager, new ArrayList<>()), "m");
+        ldapStubServer.addEmployee(Employee.developer("Laurence_Fishburne", new ArrayList<>(), Level.JuniorDeveloper), "a");
+        ldapStubServer.addEmployee(Employee.manager("Manager"), "m");
     }
 
     public LdapStubServer() throws Exception {

@@ -3,9 +3,7 @@ package net.morpheus.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.morpheus.controller.EmployeeController;
-import net.morpheus.domain.Employee;
-import net.morpheus.domain.Role;
-import net.morpheus.domain.Skill;
+import net.morpheus.domain.*;
 import net.morpheus.persistence.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -31,13 +29,13 @@ public class MorpheusApplicationConfig {
         EmployeeRepository employeeRepository = new EmployeeRepository(mongoTemplate);
 
         //Yikes! TODO: Remove this!
-        employeeRepository.delete(new Employee("Developer", Role.Developer, null));
+        employeeRepository.delete(Employee.developer("Laurence_Fishburne", null, Level.JuniorDeveloper));
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Skills", 1));
         skills.add(new Skill("Communication Skills", 3));
         skills.add(new Skill("Haircut", 1));
         skills.add(new Skill("Java", 8));
-        employeeRepository.create(new Employee("Developer", Role.Developer, skills));
+        employeeRepository.create(Employee.developer("Laurence_Fishburne", skills, Level.JuniorDeveloper));
         //End Yikes!
 
         return employeeRepository;

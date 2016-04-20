@@ -4,8 +4,7 @@ import com.unboundid.ldap.sdk.*;
 import com.unboundid.ldif.LDIFException;
 import com.unboundid.util.LDAPSDKException;
 import net.morpheus.domain.Employee;
-import net.morpheus.domain.Role;
-import net.morpheus.domain.Skill;
+import net.morpheus.domain.Level;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class LdapStubServerTest {
 
     @Test
     public void canAddAUserToLdap() throws LDIFException, LDAPException {
-        ldapStubServer.addEmployee(new Employee("Employee 1", Role.Developer, new ArrayList<Skill>()), "Password");
+        ldapStubServer.addEmployee(Employee.developer("Employee 1", new ArrayList<>(), Level.JuniorDeveloper), "Password");
 
         LdapContextSource contextSource = new LdapContextSource();
         contextSource.setUrl("ldap://" + HOSTNAME + ":" + PORT);

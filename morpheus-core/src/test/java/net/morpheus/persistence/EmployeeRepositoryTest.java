@@ -1,8 +1,6 @@
 package net.morpheus.persistence;
 
-import net.morpheus.domain.Employee;
-import net.morpheus.domain.Role;
-import net.morpheus.domain.Skill;
+import net.morpheus.domain.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -44,7 +42,7 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
     private void createEmployee() {
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 7));
-        employee = new Employee("Pedr", Developer, skills);
+        employee = Employee.developer("Pedr", skills, Level.JuniorDeveloper);
 
         employeeRepository.create(employee);
     }
