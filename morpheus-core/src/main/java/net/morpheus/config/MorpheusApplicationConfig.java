@@ -1,5 +1,7 @@
 package net.morpheus.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.morpheus.controller.EmployeeController;
 import net.morpheus.domain.Employee;
 import net.morpheus.domain.Role;
@@ -46,6 +48,15 @@ public class MorpheusApplicationConfig {
         TomcatEmbeddedServletContainerFactory servletFactory = new TomcatEmbeddedServletContainerFactory();
         servletFactory.setPort(1999);
         return servletFactory;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Employee.class, new EmployeeDeserializer());
+        objectMapper.registerModule(module);
+        return objectMapper;
     }
 
     @Bean

@@ -3,6 +3,7 @@ package net.morpheus.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Skill {
+
     @JsonProperty
     private String description;
     @JsonProperty

@@ -11,7 +11,7 @@ public class Employee {
 
     @Id
     @JsonProperty
-    private final String username;
+    private String username;
     @JsonProperty
     private Role role;
     @JsonProperty

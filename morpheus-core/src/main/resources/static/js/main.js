@@ -16,11 +16,11 @@ angular
         };
 
         $scope.performSearch = function() {
-            $http.get('employee/'+ document.getElementById("q").value)
+            $http.get('employee/'+ document.getElementById('q').value)
                     .success(function (data, status, headers, config) {
                         $scope.employee = data;
             });
-            var username = document.getElementById("q").value;
+            var username = document.getElementById('q').value;
             $scope.employee = $.grep($scope.employees, function(e){
                 return e.username == username;
             })[0];
@@ -29,8 +29,21 @@ angular
         $http.get('employee/all')
             .success(function (data, status, headers, config) {
                 $scope.employees = data;
-                $( "#q" ).autocomplete({
+                $( '#q' ).autocomplete({
                     source: $scope.employees
                 });
         });
+
+        $scope.persistSkills = function() {
+            $http.post('employee', $scope.employee)
+                .success(function (data, status, headers, config) {
+                    $("#success").fadeIn().delay(5000).fadeOut();
+                });
+        };
+
+        $scope.updateSkill = function(property, value) {
+            $scope.employee.skills.find(function (skill) {
+                return skill.description === property;
+            }).value = value;
+        };
     });

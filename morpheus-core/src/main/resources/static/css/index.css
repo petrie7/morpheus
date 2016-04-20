@@ -137,7 +137,19 @@ h4 {
 }
 
 #save-button {
-    display: none;
     margin-top: 5px;
     float: right;
+}
+
+#success {
+    display: none;
+    z-index: 10000;
+    position: absolute;
+    top: 0;
+    left: 25%;
+    width: 50%;
+    background-color: #428bca;
+    height: 20px;
+    text-align: center;
+    font-weight: bold;
 }
