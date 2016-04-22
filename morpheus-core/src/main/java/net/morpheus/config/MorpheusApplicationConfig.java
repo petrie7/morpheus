@@ -3,7 +3,10 @@ package net.morpheus.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.morpheus.controller.EmployeeController;
-import net.morpheus.domain.*;
+import net.morpheus.controller.TemplateController;
+import net.morpheus.domain.Employee;
+import net.morpheus.domain.Level;
+import net.morpheus.domain.Skill;
 import net.morpheus.persistence.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -60,6 +63,11 @@ public class MorpheusApplicationConfig {
     @Bean
     public EmployeeController employeeController() {
         return new EmployeeController();
+    }
+
+    @Bean
+    public TemplateController templateController() {
+        return new TemplateController();
     }
 
 }

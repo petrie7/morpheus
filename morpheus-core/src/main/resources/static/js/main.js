@@ -1,9 +1,45 @@
 angular
     .module('morpheusApp', [])
     .controller('EmployeeCtrl', function ($scope, $http) {
-        $http.get('employee')
+
+        $scope.skillsTemplate;
+
+        $scope.$watch('employee', function(newEmployee){
+            if(newEmployee) {
+                $scope.skillsTemplate = [];
+                $scope.template.forEach(function(skill){
+                $scope.skillsTemplate.push({
+                    description: skill,
+                    value: extractEmployeeSkillValues(newEmployee, skill)
+                })
+
+            })
+                $scope.employee.skills = $scope.skillsTemplate;
+            };
+        });
+
+
+        extractEmployeeSkillValues = function(newEmployee, skill) {
+            var result = $.grep(newEmployee.skills,
+                function(employeeSkill){
+                    return employeeSkill.description == skill;
+                })
+
+                if(result.length > 0) {
+                    return result[0].value
+                }
+
+                return 0;
+        }
+
+
+        $http.get('template')
         .success(function (data, status, headers, config) {
-            $scope.employee = data;
+            $scope.template = data;
+             $http.get('employee')
+             .success(function (data, status, headers, config) {
+                $scope.employee = data;
+             });
         });
 
         $scope.range = function(min, max, step) {

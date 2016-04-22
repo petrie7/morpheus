@@ -54,7 +54,7 @@
                 </div>
                 <li class="active"><a href="#">Development Matrix<span class="sr-only">(current)</span></a></li>
                 <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
-                    <a href="#">Create Employee</a>
+                    <a href="#" ng-click="showCreateEmployee($event)">Create Employee</a>
                 </li>
             </ul>
         </div>
@@ -100,7 +100,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="skill in employee.skills">
+                        <tr ng-repeat="skill in skillsTemplate">
                             <td>{{skill.description}}</td>
                             <td ng-repeat="n in range(0,8)">
                                 <div th:if="${#authorization.expression('hasRole(''ROLE_DEVELOPER'')')}">
