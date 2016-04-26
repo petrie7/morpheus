@@ -41,7 +41,6 @@ angular
         $scope.persistEmployee = function() {
             $http.post('employee/create', $scope.employee)
                 .success(function (data, status, headers, config) {
-                    debugger;
                     $("#create-success").fadeIn().delay(5000).fadeOut();
                 });
         }
@@ -111,12 +110,14 @@ angular
         }
 
         function extractEmployeeSkillValues(newEmployee, skill) {
+        if (newEmployee.skills) {
             var result = $.grep(newEmployee.skills,
                 function(employeeSkill){
                     return employeeSkill.description == skill;
-        })
+                })
+        }
 
-        if(result.length > 0) {
+        if(typeof result !== 'undefined' && result.length > 0) {
             return result[0].value
         }
             return 0;
