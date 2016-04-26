@@ -142,6 +142,7 @@ h5 {
 }
 
 #save-button {
+    display: none;
     margin-top: 5px;
     float: right;
 }
@@ -157,4 +158,17 @@ h5 {
     height: 20px;
     text-align: center;
     font-weight: bold;
+}
+
+#createEmployeeForm {
+    display: none;
+}
+
+#newUsername {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#roleSelect {
+    margin-bottom: 10px;
 }

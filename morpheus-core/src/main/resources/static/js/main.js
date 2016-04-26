@@ -4,43 +4,8 @@ angular
 
         $scope.skillsTemplate;
 
-        $scope.$watch('employee', function(newEmployee){
-            if(newEmployee) {
-                $scope.skillsTemplate = [];
-                $scope.template.forEach(function(skill){
-                $scope.skillsTemplate.push({
-                    description: skill,
-                    value: extractEmployeeSkillValues(newEmployee, skill)
-                })
-
-            })
-                $scope.employee.skills = $scope.skillsTemplate;
-            };
-        });
-
-
-        extractEmployeeSkillValues = function(newEmployee, skill) {
-            var result = $.grep(newEmployee.skills,
-                function(employeeSkill){
-                    return employeeSkill.description == skill;
-                })
-
-                if(result.length > 0) {
-                    return result[0].value
-                }
-
-                return 0;
-        }
-
-
-        $http.get('template')
-        .success(function (data, status, headers, config) {
-            $scope.template = data;
-             $http.get('employee')
-             .success(function (data, status, headers, config) {
-                $scope.employee = data;
-             });
-        });
+        watchEmployeeController();
+        getSkillsTemplateAndEmployee();
 
         $scope.range = function(min, max, step) {
             step = step || 1;
@@ -55,6 +20,8 @@ angular
             $http.get('employee/'+ document.getElementById('q').value)
                     .success(function (data, status, headers, config) {
                         $scope.employee = data;
+                        $("#skills-matrix").show();
+                        $("#save-button").show();
             });
             var username = document.getElementById('q').value;
             $scope.employee = $.grep($scope.employees, function(e){
@@ -82,4 +49,68 @@ angular
                 return skill.description === property;
             }).value = value;
         };
+
+        $scope.createEmployee = function() {
+            $("#createEmployeeForm").show();
+            $("#search-bar").hide();
+            $("#skills-matrix").show();
+
+
+            $scope.skillsTemplate = [];
+
+            $scope.template.forEach(function(skill){
+                $scope.skillsTemplate.push({
+                description: skill,
+                value: 0
+                })
+            })
+        }
+
+        $scope.reinitializeMatrix = function() {
+            $("#createEmployeeForm").hide();
+            $("#search-bar").show();
+            $("#skills-matrix").hide();
+            $("#save-button").hide();
+
+            watchEmployeeController();
+            getSkillsTemplateAndEmployee();
+        }
+
+        function watchEmployeeController() {
+        $scope.$watch('employee', function(newEmployee) {
+          if(newEmployee) {
+            $scope.skillsTemplate = [];
+            $scope.template.forEach(function(skill){
+            $scope.skillsTemplate.push({
+             description: skill,
+             value: extractEmployeeSkillValues(newEmployee, skill)
+            })
+          })
+          $scope.employee.skills = $scope.skillsTemplate;
+        };
+        });
+        }
+
+        function getSkillsTemplateAndEmployee() {
+          $http.get('template')
+          .success(function (data, status, headers, config) {
+            $scope.template = data;
+          $http.get('employee')
+          .success(function (data, status, headers, config) {
+            $scope.employee = data;
+          });
+        });
+        }
+
+        function extractEmployeeSkillValues(newEmployee, skill) {
+            var result = $.grep(newEmployee.skills,
+                function(employeeSkill){
+                    return employeeSkill.description == skill;
+        })
+
+        if(result.length > 0) {
+            return result[0].value
+        }
+            return 0;
+        }
     });
