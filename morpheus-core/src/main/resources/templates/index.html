@@ -52,8 +52,8 @@
                         <h5 th:if="${#authorization.expression('hasRole(''ROLE_DEVELOPER'')')}">{{employee.level}}</h5>
                     </div>
                 </div>
-                <li class="active"><a href="#" ng-click="reinitializeMatrix()">Development Matrix<span class="sr-only">(current)</span></a></li>
-                <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+                <li id="devMatrix" class="active"><a href="#" ng-click="reinitializeMatrix()">Development Matrix</a></li>
+                <li id="createEmployee" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                     <a href="#" ng-click="createEmployee()">Create Employee</a>
                 </li>
             </ul>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div id="createEmployeeForm">
-                    <input id="newUsername" type="text" name="Employee Name" ng-model="employee.username" placeholder="Enter new employee username"/>
+                    <input id="newUsername" class="form-control" type="text" name="Employee Name" ng-model="employee.username" placeholder="Enter new employee username.."/>
                     <select id="roleSelect" ng-model="employee.role">
                         <option value="Developer">Developer</option>
                         <option value="Team Lead">Team Lead</option>

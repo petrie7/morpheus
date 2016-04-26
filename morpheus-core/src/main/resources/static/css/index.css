@@ -104,7 +104,8 @@ body {
   border-radius: 50%;
 }
 #logout-button {
-   margin-top: 10;
+   margin-top: 10px;
+   margin-right:10px;
 }
 
 .img {
@@ -135,6 +136,10 @@ h5 {
 
 #myTable {
     display:block;
+}
+
+#skills-matrix {
+    display:none;
 }
 
 #search-bar {

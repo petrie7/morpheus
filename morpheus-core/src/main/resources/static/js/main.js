@@ -60,6 +60,8 @@ angular
 
             $scope.skillsTemplate = [];
 
+            resetEmployeeData();
+
             $scope.template.forEach(function(skill){
                 $scope.skillsTemplate.push({
                 description: skill,
@@ -68,6 +70,8 @@ angular
             })
 
             $scope.employee.skills = $scope.skillsTemplate;
+
+            setActiveTab('createEmployee');
         }
 
         $scope.reinitializeMatrix = function() {
@@ -81,6 +85,7 @@ angular
             getSkillsTemplateAndEmployee();
 
             retrieveAllEmployees();
+            setActiveTab("devMatrix");
         }
 
         function watchEmployeeController() {
@@ -131,5 +136,25 @@ angular
               source: $scope.employees
             });
           });
+        }
+
+        function setActiveTab(tabToBeActivated) {
+        var matrixTab = document.getElementById("devMatrix");
+        var createTab = document.getElementById("createEmployee");
+        if (tabToBeActivated === 'createEmployee') {
+            matrixTab.className = "inactive";
+            createTab.className = "active";
+        }
+
+        else {
+            matrixTab.className = "active";
+            createTab.className = "inactive";
+            }
+        }
+
+        function resetEmployeeData() {
+          $scope.employee.username = null;
+          $scope.employee.role = null;
+          $scope.employee.level = null;
         }
     });
