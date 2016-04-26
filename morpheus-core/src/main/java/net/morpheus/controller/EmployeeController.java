@@ -27,7 +27,7 @@ public class EmployeeController {
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
     public Employee getEmployee(@PathVariable String username) {
-            return employeeRepository.findByName(username);
+        return employeeRepository.findByName(username);
     }
 
     @RequestMapping(value = "/employee/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,6 +41,13 @@ public class EmployeeController {
     @RolesAllowed("ROLE_MANAGER")
     public void update(@RequestBody Employee employee) {
         employeeRepository.update(
+                employee
+        );
+    }
+
+    @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
+    public void create(@RequestBody Employee employee) {
+        employeeRepository.create(
                 employee
         );
     }

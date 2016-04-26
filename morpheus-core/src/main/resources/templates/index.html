@@ -72,10 +72,15 @@
                     </div>
                 </div>
                 <div id="createEmployeeForm">
-                    <input id="newUsername" type="text" name="Employee Name" placeholder="Enter new employee username"/>
-                    <select id="roleSelect">
+                    <input id="newUsername" type="text" name="Employee Name" ng-model="employee.username" placeholder="Enter new employee username"/>
+                    <select id="roleSelect" ng-model="employee.role">
                         <option value="Developer">Developer</option>
                         <option value="Team Lead">Team Lead</option>
+                    </select>
+                    <select id="levelSelect" ng-model="employee.level">
+                        <option value="JuniorDeveloper">Junior Developer</option>
+                        <option value="MidDeveloper">Mid Developer</option>
+                        <option value="SeniorDeveloper">Senior Developer</option>
                     </select>
                 </div>
 
@@ -125,6 +130,7 @@
             </div>
             <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                 <button type="submit" id="save-button" class="btn btn-success" ng-click="persistSkills()">Save</button>
+                <button type="submit" id="save-employee" class="btn btn-success" ng-click="persistEmployee()">Save</button>
             </div>
             <script>
                     $('#myTable').DataTable({
@@ -137,8 +143,12 @@
         </div>
     </div>
 
-    <div id="success">
+    <div id="update-success">
         Successfully updated skills
+    </div>
+
+    <div id="create-success">
+        Successfully created new employee
     </div>
 </div>
 </body>

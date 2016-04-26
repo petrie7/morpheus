@@ -6,6 +6,7 @@ angular
 
         watchEmployeeController();
         getSkillsTemplateAndEmployee();
+        retrieveAllEmployees();
 
         $scope.range = function(min, max, step) {
             step = step || 1;
@@ -22,6 +23,7 @@ angular
                         $scope.employee = data;
                         $("#skills-matrix").show();
                         $("#save-button").show();
+                        $("#save-employee").hide();
             });
             var username = document.getElementById('q').value;
             $scope.employee = $.grep($scope.employees, function(e){
@@ -29,20 +31,20 @@ angular
             })[0];
         };
 
-        $http.get('employee/all')
-            .success(function (data, status, headers, config) {
-                $scope.employees = data;
-                $( '#q' ).autocomplete({
-                    source: $scope.employees
-                });
-        });
-
         $scope.persistSkills = function() {
             $http.post('employee', $scope.employee)
                 .success(function (data, status, headers, config) {
-                    $("#success").fadeIn().delay(5000).fadeOut();
+                    $("#update-success").fadeIn().delay(5000).fadeOut();
                 });
         };
+
+        $scope.persistEmployee = function() {
+            $http.post('employee/create', $scope.employee)
+                .success(function (data, status, headers, config) {
+                    debugger;
+                    $("#create-success").fadeIn().delay(5000).fadeOut();
+                });
+        }
 
         $scope.updateSkill = function(property, value) {
             $scope.employee.skills.find(function (skill) {
@@ -54,7 +56,8 @@ angular
             $("#createEmployeeForm").show();
             $("#search-bar").hide();
             $("#skills-matrix").show();
-
+            $("#save-button").hide();
+            $("#save-employee").show();
 
             $scope.skillsTemplate = [];
 
@@ -64,6 +67,8 @@ angular
                 value: 0
                 })
             })
+
+            $scope.employee.skills = $scope.skillsTemplate;
         }
 
         $scope.reinitializeMatrix = function() {
@@ -71,9 +76,12 @@ angular
             $("#search-bar").show();
             $("#skills-matrix").hide();
             $("#save-button").hide();
+            $("#save-employee").hide();
 
             watchEmployeeController();
             getSkillsTemplateAndEmployee();
+
+            retrieveAllEmployees();
         }
 
         function watchEmployeeController() {
@@ -112,5 +120,15 @@ angular
             return result[0].value
         }
             return 0;
+        }
+
+        function retrieveAllEmployees() {
+          $http.get('employee/all')
+          .success(function (data, status, headers, config) {
+            $scope.employees = data;
+            $( '#q' ).autocomplete({
+              source: $scope.employees
+            });
+          });
         }
     });
