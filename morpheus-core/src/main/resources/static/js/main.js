@@ -77,9 +77,10 @@ angular
         $scope.reinitializeMatrix = function() {
             $("#createEmployeeForm").hide();
             $("#search-bar").show();
-            $("#skills-matrix").hide();
             $("#save-button").hide();
             $("#save-employee").hide();
+
+            $scope.skillsTemplate = [];
 
             watchEmployeeController();
             getSkillsTemplateAndEmployee();
