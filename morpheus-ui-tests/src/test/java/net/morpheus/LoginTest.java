@@ -1,6 +1,5 @@
 package net.morpheus;
 
-import com.codeborne.selenide.WebDriverRunner;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -19,7 +18,7 @@ public class LoginTest extends MorpheusTestCase {
     }
 
     private StateExtractor<String> theDisplayedPage() {
-        return capturedInputAndOutputs -> WebDriverRunner.getWebDriver().getCurrentUrl();
+        return capturedInputAndOutputs -> webDriver.getCurrentUrl();
     }
 
     private Matcher<String> isHome() {

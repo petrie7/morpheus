@@ -1,5 +1,6 @@
 package net.morpheus;
 
+import com.codeborne.selenide.WebDriverRunner;
 import com.googlecode.yatspec.junit.SpecResultListener;
 import com.googlecode.yatspec.junit.SpecRunner;
 import com.googlecode.yatspec.junit.WithCustomResultListeners;
@@ -15,8 +16,10 @@ import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -29,6 +32,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
 import static net.morpheus.MorpheusDataFixtures.someString;
 
+@Ignore
 @RunWith(SpecRunner.class)
 @SpringApplicationConfiguration(classes = MorpheusApplicationConfig.class)
 @WebIntegrationTest("spring.main.show_banner=false")
@@ -38,6 +42,8 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
     protected EmployeeRepository employeeRepository;
 
     private LdapStubServer ldapStubServer;
+
+    protected final WebDriver webDriver = WebDriverRunner.getWebDriver();
     protected Employee employeeForTest;
     private String employeePassword;
 
@@ -55,7 +61,8 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
     }
 
     @After
-    public void shutDownLdap() {
+    public void tearDown() {
+        logoutUser();
         ldapStubServer.stop();
     }
 
@@ -84,4 +91,7 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
                 .safeCast(SpecResultListener.class);
     }
 
+    private void logoutUser() {
+        webDriver.findElement(By.id("logout-button")).click();
+    }
 }

@@ -58,7 +58,7 @@ public class Employee {
         Collections.addAll(skills, listOfSkills);
     }
 
-    public Level getLevel() {
+    public Level level() {
         return level;
     }
 

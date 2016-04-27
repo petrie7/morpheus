@@ -1,13 +1,11 @@
 package net.morpheus;
 
-import com.codeborne.selenide.WebDriverRunner;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.domain.Skill;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +17,6 @@ import java.util.Optional;
 
 public class DeveloperTest extends MorpheusTestCase {
 
-    @Ignore
     @Test
     public void aDeveloperCanViewTheirSkills() throws Exception {
         given(anUserExists());
@@ -42,7 +39,6 @@ public class DeveloperTest extends MorpheusTestCase {
 
     private StateExtractor<List<WebElement>> theSkillsMatrix() {
         return capturedInputAndOutputs1 -> {
-            WebDriver webDriver = WebDriverRunner.getWebDriver();
             WebElement table = webDriver.findElements(By.id("myTable")).get(0);
             new WebDriverWait(webDriver, 7)
                     .until((WebDriver driver) -> table.findElements(By.tagName("tr")).size() > 3);

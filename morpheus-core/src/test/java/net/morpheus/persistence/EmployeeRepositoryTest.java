@@ -39,6 +39,18 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
         assertThat(retrievedEmployee.role(), is(TeamLead));
     }
 
+    @Test
+    public void canReadEmployee() {
+        createEmployee();
+
+        Employee readEmployee = employeeRepository.findByName(employee.username());
+
+        assertThat(readEmployee.username(), is(employee.username()));
+        assertThat(readEmployee.role(), is(employee.role()));
+        assertThat(readEmployee.skills().size(), is(employee.skills().size()));
+        assertThat(readEmployee.level(), is(employee.level()));
+    }
+
     private void createEmployee() {
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 7));
