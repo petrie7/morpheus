@@ -10,11 +10,14 @@ import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.domain.Employee;
 import net.morpheus.domain.Level;
+import net.morpheus.domain.Skill;
+import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.TestContextManager;
@@ -31,6 +34,9 @@ import static net.morpheus.MorpheusDataFixtures.someString;
 @WebIntegrationTest("spring.main.show_banner=false")
 public class MorpheusTestCase extends TestState implements WithCustomResultListeners {
 
+    @Autowired
+    protected EmployeeRepository employeeRepository;
+
     private LdapStubServer ldapStubServer;
     protected Employee employeeForTest;
     private String employeePassword;
@@ -42,7 +48,9 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
 
         ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        employeeForTest = Employee.developer(someString(), new ArrayList<>(), Level.JuniorDeveloper);
+        ArrayList<Skill> skills = new ArrayList<>();
+        skills.add(new Skill("Functional Skills", 7));
+        employeeForTest = Employee.developer(someString(), skills, Level.JuniorDeveloper);
         employeePassword = someString();
     }
 
