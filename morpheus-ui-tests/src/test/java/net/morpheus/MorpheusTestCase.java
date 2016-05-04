@@ -73,15 +73,33 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
         };
     }
 
+    protected GivensBuilder aManagerIsLoggedIn() {
+        return interestingGivens1 -> {
+            employeeForTest = Employee.manager("Tymbo");
+            ldapStubServer.addEmployee(employeeForTest, employeePassword);
+
+            openMorpheus();
+            loginUser();
+            return interestingGivens1;
+        };
+    }
+
     protected ActionUnderTest theUserLogsIn() {
         return (givens, capturedInputAndOutputs1) -> {
-            open("http://localhost:1999");
-
-            $(By.id("username")).setValue(employeeForTest.username());
-            $(By.id("password")).setValue(employeePassword);
-            $(By.id("submit")).click();
+            openMorpheus();
+            loginUser();
             return capturedInputAndOutputs;
         };
+    }
+
+    private void loginUser() {
+        $(By.id("username")).setValue(employeeForTest.username());
+        $(By.id("password")).setValue(employeePassword);
+        $(By.id("submit")).click();
+    }
+
+    private void openMorpheus() {
+        open("http://localhost:1999");
     }
 
     @Override

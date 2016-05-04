@@ -73,10 +73,13 @@
                 </div>
                 <div id="createEmployeeForm">
                     <input id="newUsername" class="form-control" type="text" name="Employee Name" ng-model="employee.username" placeholder="Enter new employee username.."/>
+                    <label id="roleLabel">Role</label>
                     <select id="roleSelect" ng-model="employee.role">
                         <option value="Developer">Developer</option>
-                        <option value="Team Lead">Team Lead</option>
+                        <option value="TeamLead">Team Lead</option>
                     </select>
+                    <br/>
+                    <label>Level</label>
                     <select id="levelSelect" ng-model="employee.level">
                         <option value="JuniorDeveloper">Junior Developer</option>
                         <option value="MidDeveloper">Mid Developer</option>

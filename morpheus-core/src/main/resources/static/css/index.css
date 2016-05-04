@@ -176,6 +176,11 @@ h5 {
     margin-bottom: 10px;
 }
 
-#roleSelect {
+#roleSelect, #levelSelect {
     margin-bottom: 10px;
+    width: 200px;
+}
+
+#roleLabel {
+    padding-right: 5px;
 }
