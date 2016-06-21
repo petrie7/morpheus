@@ -52,7 +52,8 @@
                         <h5 th:if="${#authorization.expression('hasRole(''ROLE_DEVELOPER'')')}">{{employee.level}}</h5>
                     </div>
                 </div>
-                <li id="devMatrix" class="active"><a href="#" ng-click="reinitializeMatrix()">Development Matrix</a></li>
+                <li id="devMatrix" class="active"><a href="#" ng-click="reinitializeMatrix()">Development Matrix</a>
+                </li>
                 <li id="createEmployee" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                     <a href="#" ng-click="createEmployee()">Create Employee</a>
                 </li>
@@ -72,7 +73,8 @@
                     </div>
                 </div>
                 <div id="createEmployeeForm">
-                    <input id="newUsername" class="form-control" type="text" name="Employee Name" ng-model="employee.username" placeholder="Enter new employee username.."/>
+                    <input id="newUsername" class="form-control" type="text" name="Employee Name"
+                           ng-model="employee.username" placeholder="Enter new employee username.."/>
                     <label id="roleLabel">Role</label>
                     <select id="roleSelect" ng-model="employee.role">
                         <option value="Developer">Developer</option>
@@ -110,6 +112,7 @@
                             <th class="senior">Low</th>
                             <th class="senior">Mid</th>
                             <th class="senior">High</th>
+                            <th class="comments">Comments</th>
                         </tr>
                         </tr>
                         </thead>
@@ -126,6 +129,11 @@
                                            name="{{skill.description}}" ng-click="updateSkill(skill.description, n)"/>
                                 </div>
                             </td>
+                            <td>
+                                <input name="commentText" type="text" ng-model="skill.comment" class="commentText"
+                                       readonly="readonly"/>
+                                <button class="button" ng-click="updateCommentDialog()">Edit</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -133,7 +141,8 @@
             </div>
             <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                 <button type="submit" id="save-button" class="btn btn-success" ng-click="persistSkills()">Save</button>
-                <button type="submit" id="save-employee" class="btn btn-success" ng-click="persistEmployee()">Save</button>
+                <button type="submit" id="save-employee" class="btn btn-success" ng-click="persistEmployee()">Save
+                </button>
             </div>
             <script>
                     $('#myTable').DataTable({
@@ -141,6 +150,8 @@
                         "info": false,
                         "searching": false
                     });
+
+
 
             </script>
         </div>
@@ -154,5 +165,12 @@
         Successfully created new employee
     </div>
 </div>
+
+<div id="updateCommentDialog" title="Update Comment">
+    <div>
+      <textarea id="commentTextArea"></textarea>
+    </div>
+</div>
+
 </body>
 </html>

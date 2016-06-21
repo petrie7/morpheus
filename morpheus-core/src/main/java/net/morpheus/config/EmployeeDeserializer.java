@@ -20,7 +20,7 @@ public class EmployeeDeserializer extends JsonDeserializer<Employee> {
 
         JsonNode skillsNode = node.get("skills");
         for (JsonNode jsonNode : skillsNode) {
-            skills.add(new Skill(jsonNode.get("description").textValue(), jsonNode.get("value").intValue()));
+            skills.add(new Skill(jsonNode.get("description").textValue(), jsonNode.get("value").intValue(), jsonNode.get("comment").textValue()));
         }
 
         switch (Role.valueOf(node.get("role").textValue())) {

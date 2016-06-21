@@ -4,10 +4,10 @@ import net.morpheus.config.MorpheusApplicationConfig;
 import org.springframework.boot.Banner;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-public class MorpheusRunner {
+public class Runner {
 
     public static void main(String[] args) {
-        new MorpheusRunner().startMorpheus();
+        new Runner().startMorpheus();
     }
 
     public void startMorpheus() {

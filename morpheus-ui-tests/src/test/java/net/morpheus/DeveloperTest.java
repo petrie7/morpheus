@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -18,19 +19,17 @@ import java.util.Optional;
 public class DeveloperTest extends MorpheusTestCase {
 
     @Test
-    public void aDeveloperCanViewTheirSkills() throws Exception {
+    public void aDeveloperCanViewTheirSkillsAndComments() throws Exception {
         given(anUserExists());
-        and(hasSomeSkills());
+        and(hasSomeSkillsWithComments());
 
         when(theUserLogsIn());
 
         then(theSkillsMatrix(), isDisplayed());
-        then(theSkillsMatrix(), containsAllEmployeeSkills());
-
-        //assert on skill values in the table
+        then(theSkillsMatrix(), containsAllEmployeesSkillsWithComments());
     }
 
-    private GivensBuilder hasSomeSkills() {
+    private GivensBuilder hasSomeSkillsWithComments() {
         return interestingGivens -> {
             employeeRepository.create(employeeForTest);
             return interestingGivens;
@@ -61,12 +60,14 @@ public class DeveloperTest extends MorpheusTestCase {
         };
     }
 
-    private Matcher<List<WebElement>> containsAllEmployeeSkills() {
+    private Matcher<List<WebElement>> containsAllEmployeesSkillsWithComments() {
         return new TypeSafeMatcher<List<WebElement>>() {
             @Override
             protected boolean matchesSafely(List<WebElement> rows) {
                 for (Skill skill : employeeForTest.skills()) {
-                    Optional<WebElement> matchingSkill = rows.stream().filter(r -> r.getText().contains(skill.description())).findFirst();
+                    Optional<WebElement> matchingSkill = rows.stream().filter(r -> r.getText().contains(skill.description())
+                            && ((RemoteWebElement) r).findElementByName("commentText").getAttribute("value").contains(skill.comment())
+                    ).findFirst();
                     if (!matchingSkill.isPresent()) {
                         return false;
                     }

@@ -2,6 +2,7 @@ angular
     .module('morpheusApp', [])
     .controller('EmployeeCtrl', function ($scope, $http) {
 
+        $('#updateCommentDialog').hide();
         $scope.skillsTemplate;
 
         watchEmployeeController();
@@ -29,6 +30,7 @@ angular
             $scope.employee = $.grep($scope.employees, function(e){
                 return e.username == username;
             })[0];
+
         };
 
         $scope.persistSkills = function() {
@@ -65,7 +67,7 @@ angular
             $scope.template.forEach(function(skill){
                 $scope.skillsTemplate.push({
                 description: skill,
-                value: 0
+                value: 0,
                 })
             })
 
@@ -89,6 +91,24 @@ angular
             setActiveTab("devMatrix");
         }
 
+        $scope.updateCommentDialog = function() {
+           debugger;
+           $("#updateCommentDialog").dialog({
+              resizable: false,
+              height: 300,
+              width: 300,
+              modal: true,
+              buttons: {
+                Confirm: function() {
+                   $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                   $( this ).dialog( "close" );
+                }
+              }
+            });
+        };
+
         function watchEmployeeController() {
         $scope.$watch('employee', function(newEmployee) {
           if(newEmployee) {
@@ -96,7 +116,8 @@ angular
             $scope.template.forEach(function(skill){
             $scope.skillsTemplate.push({
              description: skill,
-             value: extractEmployeeSkillValues(newEmployee, skill)
+             value: extractEmployeeSkillValues(newEmployee, skill),
+             comment: extractEmployeeSkillComments(newEmployee, skill)
             })
           })
           $scope.employee.skills = $scope.skillsTemplate;
@@ -127,6 +148,20 @@ angular
             return result[0].value
         }
             return 0;
+        }
+
+        function extractEmployeeSkillComments(newEmployee, skill) {
+        if (newEmployee.skills) {
+            var result = $.grep(newEmployee.skills,
+                function(employeeSkill){
+                    return employeeSkill.description == skill;
+                })
+        }
+
+        if(typeof result !== 'undefined' && result.length > 0) {
+            return result[0].comment
+        }
+            return "";
         }
 
         function retrieveAllEmployees() {

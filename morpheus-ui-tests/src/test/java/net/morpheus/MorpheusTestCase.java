@@ -55,7 +55,7 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
         ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
         ArrayList<Skill> skills = new ArrayList<>();
-        skills.add(new Skill("Functional Skills", 7));
+        skills.add(new Skill("Functional Skills", 7, "Always delivers on time"));
         employeeForTest = Employee.developer(someString(), skills, Level.JuniorDeveloper);
         employeePassword = someString();
     }

@@ -134,6 +134,16 @@ h5 {
     background-color: #2ecc71;
 }
 
+.comments {
+    width: 250px;
+    background-color: #3498db;
+}
+
+.commentText {
+    width: 220px;
+    margin-left: 10px;
+}
+
 #myTable {
     display:block;
 }
@@ -183,4 +193,22 @@ h5 {
 
 #roleLabel {
     padding-right: 5px;
+}
+
+.button {
+    background-color: #3498db;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 8px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#commentTextArea {
+   width: 260;
+   height: 175;
+   resize: none;
 }

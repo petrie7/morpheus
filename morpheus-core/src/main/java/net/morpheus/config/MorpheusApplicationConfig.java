@@ -34,10 +34,10 @@ public class MorpheusApplicationConfig {
         //Yikes! TODO: Remove this!
         employeeRepository.delete(Employee.developer("Laurence_Fishburne", null, Level.JuniorDeveloper));
         ArrayList<Skill> skills = new ArrayList<>();
-        skills.add(new Skill("Functional Skills", 1));
-        skills.add(new Skill("Communication Skills", 3));
-        skills.add(new Skill("Haircut", 1));
-        skills.add(new Skill("Java", 8));
+        skills.add(new Skill("Functional Skills", 1, "Always delivers on time"));
+        skills.add(new Skill("Communication Skills", 3, ""));
+        skills.add(new Skill("Haircut", 1, ""));
+        skills.add(new Skill("Java", 8, ""));
         employeeRepository.create(Employee.developer("Laurence_Fishburne", skills, Level.JuniorDeveloper));
         //End Yikes!
 
