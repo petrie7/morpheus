@@ -91,9 +91,9 @@ angular
             setActiveTab("devMatrix");
         }
 
-        $scope.updateCommentDialog = function() {
+        $scope.updateCommentDialog = function(skill) {
            debugger;
-           $("#updateCommentDialog").dialog({
+           $("#"+skill.value).dialog({
               resizable: false,
               height: 300,
               width: 300,

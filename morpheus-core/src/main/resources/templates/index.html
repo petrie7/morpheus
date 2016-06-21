@@ -132,7 +132,10 @@
                             <td>
                                 <input name="commentText" type="text" ng-model="skill.comment" class="commentText"
                                        readonly="readonly"/>
-                                <button class="button" ng-click="updateCommentDialog()">Edit</button>
+                                <button class="button" ng-click="updateCommentDialog(skill)">Edit</button>
+                                <div id="{{skill.value}}" title="Update comment" style="display: none">
+                                    <textarea id="commentTextArea" ng-model="skill.comment"></textarea>
+                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -150,9 +153,6 @@
                         "info": false,
                         "searching": false
                     });
-
-
-
             </script>
         </div>
     </div>
@@ -163,12 +163,6 @@
 
     <div id="create-success">
         Successfully created new employee
-    </div>
-</div>
-
-<div id="updateCommentDialog" title="Update Comment">
-    <div>
-      <textarea id="commentTextArea"></textarea>
     </div>
 </div>
 
