@@ -19,14 +19,14 @@ public class EmployeeController {
 
     @RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Employee read(Principal principal) {
+    public List<Employee> read(Principal principal) {
         return employeeRepository.findByName(principal.getName());
     }
 
     @RequestMapping(value = "/employee/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
-    public Employee getEmployee(@PathVariable String username) {
+    public List<Employee> getEmployee(@PathVariable String username) {
         return employeeRepository.findByName(username);
     }
 
@@ -40,7 +40,7 @@ public class EmployeeController {
     @RequestMapping(value = "/employee", method = RequestMethod.POST)
     @RolesAllowed("ROLE_MANAGER")
     public void update(@RequestBody Employee employee) {
-        employeeRepository.update(
+        employeeRepository.create(
                 employee
         );
     }

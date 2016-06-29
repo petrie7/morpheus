@@ -158,6 +158,14 @@ h5 {
     float: right;
 }
 
+#timemachine {
+    display: none;
+    margin-top: -50px;
+    margin-left: 20%;
+    float: left;
+    width: 30%;
+}
+
 #save-employee {
     display: none;
     margin-top: 5px;

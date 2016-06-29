@@ -3,7 +3,9 @@
     <title>Morpheus</title>
     <script src="http://code.jquery.com/jquery-1.12.2.js"></script>
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
     <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.css"/>
@@ -148,13 +150,20 @@
                 </button>
             </div>
             <script>
-                    $('#myTable').DataTable({
-                        "paging": false,
-                        "info": false,
-                        "searching": false
-                    });
+                $('#myTable').DataTable({
+                    "paging": false,
+                    "info": false,
+                    "searching": false
+                });
 
             </script>
+        </div>
+
+        <div id="timemachine">
+            <div id="slider-snap"></div>
+            <div id="date">
+
+            </div>
         </div>
     </div>
 

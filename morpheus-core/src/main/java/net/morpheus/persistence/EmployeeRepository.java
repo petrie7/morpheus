@@ -4,8 +4,11 @@ import net.morpheus.domain.Employee;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 public class EmployeeRepository {
@@ -17,23 +20,29 @@ public class EmployeeRepository {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public Employee findByName(String name) {
-        return mongoTemplate.findOne(new Query(where("_id").is(name)), Employee.class, EMPLOYEE_COLLECTION);
+    public List<Employee> findByName(String name) {
+        return mongoTemplate
+                .find(new Query(where("username").is(name)), Employee.class, EMPLOYEE_COLLECTION)
+                .stream()
+                .sorted((o1, o2) -> o2.date().compareTo(o1.date()))
+                .collect(toList());
     }
 
     public List<Employee> getAll() {
-        return mongoTemplate.findAll(Employee.class, EMPLOYEE_COLLECTION);
+        return mongoTemplate.findAll(Employee.class, EMPLOYEE_COLLECTION)
+                .stream()
+                .filter(employee -> employee.username() != null)
+                .distinct()
+                .collect(toList());
     }
 
     public void create(Employee employee) {
+        employee.setDate(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         mongoTemplate.insert(employee, EMPLOYEE_COLLECTION);
     }
 
     public void delete(Employee employee) {
-        mongoTemplate.remove(new Query(where("_id").is(employee.username())), EMPLOYEE_COLLECTION);
+        mongoTemplate.findAllAndRemove(new Query(where("username").is(employee.username())), Employee.class, EMPLOYEE_COLLECTION);
     }
 
-    public void update(Employee employee) {
-        mongoTemplate.save(employee, EMPLOYEE_COLLECTION);
-    }
 }
