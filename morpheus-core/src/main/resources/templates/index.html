@@ -126,11 +126,13 @@
                             <td>{{skill.description}}</td>
                             <td ng-repeat="n in range(0,8)">
                                 <div th:if="${#authorization.expression('hasRole(''ROLE_DEVELOPER'')')}">
-                                    <input type="radio" ng-disabled="{{skill.value === n ? 'false' : 'true'}}"
+                                    <input type="radio"
+                                           ng-disabled="{{skill.value === n ? 'false' : 'true' || !editable}}"
                                            ng-checked="{{skill.value === n ? 'true' : 'false'}}"/>
                                 </div>
                                 <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
-                                    <input type="radio" ng-checked="{{skill.value === n ? 'true' : 'false'}}"
+                                    <input type="radio" ng-disabled="{{!editable}}"
+                                           ng-checked="{{skill.value === n ? 'true' : 'false'}}"
                                            name="{{skill.description}}" ng-click="updateSkill(skill.description, n)"/>
                                 </div>
                             </td>
@@ -161,9 +163,7 @@
 
         <div id="timemachine">
             <div id="slider-snap"></div>
-            <div id="date">
-
-            </div>
+            <div id="date"></div>
         </div>
     </div>
 

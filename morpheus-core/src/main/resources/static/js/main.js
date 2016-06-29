@@ -2,6 +2,7 @@ angular
     .module('morpheusApp', [])
     .controller('EmployeeCtrl', function ($scope, $http) {
 
+        $scope.editable = true;
         $('#updateCommentDialog').hide();
         $scope.skillsTemplate;
 
@@ -21,26 +22,10 @@ angular
         $scope.performSearch = function () {
             $http.get('employee/' + document.getElementById('q').value)
                 .success(function (data, status, headers, config) {
+                    $scope.employeeRecords = data;
                     $scope.employee = data[0];
                     $("#skills-matrix").show();
                     $("#save-button").show();
-                    $("#timemachine").show();
-                    var date = new Date($scope.employee.lastUpdateDate);
-                    var snapSlider = document.getElementById('slider-snap');
-                    debugger;
-                    noUiSlider.create(snapSlider, {
-                        start: date.getTime(),
-                        snap: true,
-                        range: {
-                            'min': 0,
-                            'max': date.getTime()
-                        }
-                    });
-                    snapSlider.noUiSlider.on('update', function( vals, handle ) {
-                        var date = new Date(0);
-                        date.setUTCMilliseconds(vals[handle]);
-                        $('#date').html(date);
-                    });
                     $("#save-employee").hide();
                 });
             var username = document.getElementById('q').value;
@@ -140,6 +125,7 @@ angular
                         })
                     });
                     $scope.employee.skills = $scope.skillsTemplate;
+                    renderSlider();
                 }
             });
         }
@@ -150,6 +136,7 @@ angular
                     $scope.template = data;
                     $http.get('employee')
                         .success(function (data, status, headers, config) {
+                            $scope.employeeRecords = data;
                             $scope.employee = data[0];
                         });
                 });
@@ -212,4 +199,43 @@ angular
             $scope.employee.role = null;
             $scope.employee.level = null;
         }
+
+        function renderSlider() {
+            var date = new Date($scope.employee.lastUpdateDate);
+            $("#timemachine").show();
+            if ($scope.employeeRecords.length > 1) {
+                $("#slider-snap").show();
+                var snapSlider = document.getElementById('slider-snap');
+
+                noUiSlider.create(snapSlider, {
+                    start: date.getTime(),
+                    step: 1,
+                    range: createRange()
+                });
+
+                snapSlider.noUiSlider.on('update', function (vals, handle) {
+                    var position = $scope.employeeRecords.length - parseInt(vals[handle]);
+                    var record = $scope.employeeRecords[position > 0 ? position - 1 : position];
+                    $('#date').html(new Date(record.lastUpdateDate));
+                    $scope.employee = record;
+                    if($scope.employeeRecords[0] != record) {
+                        $scope.editable = false;
+                    } else {
+                        $scope.editable = true;
+                    }
+                    $scope.$apply();
+                });
+            }
+            else {
+                $('#date').html(date);
+            }
+        }
+
+        function createRange() {
+            return {
+                'min': 0,
+                'max': $scope.employeeRecords.length - 1
+            }
+        }
+
     });

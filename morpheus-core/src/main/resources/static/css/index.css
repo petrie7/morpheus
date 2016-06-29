@@ -159,11 +159,17 @@ h5 {
 }
 
 #timemachine {
+    position: absolute;
+    bottom: 0;
     display: none;
     margin-top: -50px;
     margin-left: 20%;
     float: left;
     width: 30%;
+}
+
+#slider-snap{
+    display: none;
 }
 
 #save-employee {
