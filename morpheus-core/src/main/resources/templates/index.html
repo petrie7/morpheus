@@ -57,6 +57,9 @@
                 <li id="createEmployee" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                     <a href="#" ng-click="createEmployee()">Create Employee</a>
                 </li>
+                <li id="" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+                    <a href="#" ng-click="createEmployee()">Edit Templates</a>
+                </li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -133,9 +136,6 @@
                                 <input name="commentText" type="text" ng-model="skill.comment" class="commentText"
                                        readonly="readonly"/>
                                 <button class="button" ng-click="updateCommentDialog(skill)">Edit</button>
-                                <div id="{{skill.value}}" title="Update comment" style="display: none">
-                                    <textarea id="commentTextArea" ng-model="skill.comment"></textarea>
-                                </div>
                             </td>
                         </tr>
                         </tbody>
@@ -153,6 +153,7 @@
                         "info": false,
                         "searching": false
                     });
+
             </script>
         </div>
     </div>
@@ -163,6 +164,10 @@
 
     <div id="create-success">
         Successfully created new employee
+    </div>
+
+    <div id="commentsBox" title="Update comment" style="display: none">
+        <textarea id="commentTextArea"></textarea>
     </div>
 </div>
 

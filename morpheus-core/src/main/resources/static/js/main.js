@@ -92,14 +92,17 @@ angular
         }
 
         $scope.updateCommentDialog = function(skill) {
-           debugger;
-           $("#"+skill.value).dialog({
+        debugger;
+           $('#commentTextArea').val(skill.comment);
+           $("#commentsBox").dialog({
               resizable: false,
               height: 300,
               width: 300,
               modal: true,
               buttons: {
                 Confirm: function() {
+                   skill.comment = $('#commentTextArea').val();
+                   $scope.$apply();
                    $( this ).dialog( "close" );
                 },
                 Cancel: function() {

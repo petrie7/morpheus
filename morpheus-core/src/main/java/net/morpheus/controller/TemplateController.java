@@ -13,13 +13,18 @@ public class TemplateController {
     @RequestMapping("template")
     public List<String> template() {
         return asList(
-                "Functional Skills",
-                "Communication Skills",
-                "Haircut",
+                "Functional Delivery",
+                "Quality Of Code",
+                "Patterns",
+                "Refactoring Practice",
+                "Refactoring Experience",
+                "Technical Debt",
+                "Estimating and Planning",
+                "Design",
+                "Solutions",
+                "TDD",
                 "Java",
-                "Pedro",
-                "Speaking to Pedro",
-                "Dancing with Pedro"
+                "Database Management Systems"
         );
     }
 }
