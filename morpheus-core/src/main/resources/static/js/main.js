@@ -55,6 +55,10 @@ angular
             }).value = value;
         };
 
+        $scope.managerCanSee = function(property, value){
+            return !$scope.editable && !(property === value);
+        };
+
         $scope.createEmployee = function () {
             $("#createEmployeeForm").show();
             $("#search-bar").hide();

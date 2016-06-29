@@ -131,7 +131,8 @@
                                            ng-checked="{{skill.value === n ? 'true' : 'false'}}"/>
                                 </div>
                                 <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
-                                    <input type="radio" ng-disabled="{{!editable}}"
+                                    <input type="radio"
+                                           ng-disabled="managerCanSee(skill.value, n)"
                                            ng-checked="{{skill.value === n ? 'true' : 'false'}}"
                                            name="{{skill.description}}" ng-click="updateSkill(skill.description, n)"/>
                                 </div>
