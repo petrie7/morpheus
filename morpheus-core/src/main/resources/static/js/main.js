@@ -55,7 +55,7 @@ angular
             }).value = value;
         };
 
-        $scope.managerCanSee = function(property, value){
+        $scope.managerCanSee = function (property, value) {
             return !$scope.editable && !(property === value);
         };
 
@@ -133,6 +133,10 @@ angular
                 }
             });
         }
+
+        $scope.$watch('employeeRecords', function () {
+            refreshSlider();
+        });
 
         function getSkillsTemplateAndEmployee() {
             $http.get('template')
@@ -217,12 +221,14 @@ angular
                     range: createRange()
                 });
 
+                $scope.slider = snapSlider;
+
                 snapSlider.noUiSlider.on('update', function (vals, handle) {
                     var position = $scope.employeeRecords.length - parseInt(vals[handle]);
                     var record = $scope.employeeRecords[position > 0 ? position - 1 : position];
                     $('#date').html(new Date(record.lastUpdateDate));
                     $scope.employee = record;
-                    if($scope.employeeRecords[0] != record) {
+                    if ($scope.employeeRecords[0] != record) {
                         $scope.editable = false;
                     } else {
                         $scope.editable = true;
@@ -233,6 +239,17 @@ angular
             else {
                 $('#date').html(date);
             }
+        }
+
+        function refreshSlider() {
+            console.log('refreshing slider');
+            $scope.slider.noUiSlider.updateOptions({
+                start: $scope.employeeRecords.length - 1,
+                range: {
+                    'min': 0,
+                    'max': $scope.employeeRecords.length - 1
+                }
+            });
         }
 
         function createRange() {
