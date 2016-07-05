@@ -33,7 +33,7 @@ public class AddNewEmployeeTest extends MorpheusTestCase {
     @Test
     public void canAddNewEmployee() throws Exception {
         given(anEmployeeIsInCauth());
-        given(aManagerIsLoggedIn());
+        and(aManagerIsLoggedIn());
 
         when(theUserNavigatesToCreateEmployee());
         when(entersNewEmployee(newEmployee));
