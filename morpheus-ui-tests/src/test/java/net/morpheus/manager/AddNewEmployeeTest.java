@@ -1,6 +1,8 @@
 package net.morpheus.manager;
 
 import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
+import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
+import com.googlecode.yatspec.state.givenwhenthen.InterestingGivens;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
 import net.morpheus.domain.Employee;
@@ -30,6 +32,7 @@ public class AddNewEmployeeTest extends MorpheusTestCase {
 
     @Test
     public void canAddNewEmployee() throws Exception {
+        given(anEmployeeIsInCauth());
         given(aManagerIsLoggedIn());
 
         when(theUserNavigatesToCreateEmployee());
@@ -37,6 +40,13 @@ public class AddNewEmployeeTest extends MorpheusTestCase {
 
         then(theNewEmployeeSuccessStatus(), isDisplayed());
 //        then(theEmployeeService(), isCalled(once()));
+    }
+
+    private GivensBuilder anEmployeeIsInCauth() {
+        return givens -> {
+            ldapStubServer.addEmployee(newEmployee, "password");
+            return givens;
+        };
     }
 
     private ActionUnderTest theUserNavigatesToCreateEmployee() {

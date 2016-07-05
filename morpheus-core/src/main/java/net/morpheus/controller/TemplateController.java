@@ -7,7 +7,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
-@RestController()
+@RestController
 public class TemplateController {
 
     @RequestMapping("template")

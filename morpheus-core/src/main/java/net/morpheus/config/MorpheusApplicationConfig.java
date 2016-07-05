@@ -3,6 +3,7 @@ package net.morpheus.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.morpheus.controller.EmployeeController;
+import net.morpheus.controller.GlobalControllerAdvice;
 import net.morpheus.controller.TemplateController;
 import net.morpheus.domain.Employee;
 import net.morpheus.domain.Level;
@@ -77,6 +78,11 @@ public class MorpheusApplicationConfig {
     @Bean
     public TemplateController templateController() {
         return new TemplateController();
+    }
+
+    @Bean
+    public GlobalControllerAdvice globalControllerAdvice() {
+        return new GlobalControllerAdvice();
     }
 
 }

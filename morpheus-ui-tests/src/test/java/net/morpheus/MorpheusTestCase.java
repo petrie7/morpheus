@@ -16,7 +16,6 @@ import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,18 +31,17 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
 import static net.morpheus.MorpheusDataFixtures.someString;
 
-@Ignore
 @RunWith(SpecRunner.class)
 @SpringApplicationConfiguration(classes = MorpheusApplicationConfig.class)
 @WebIntegrationTest("spring.main.show_banner=false")
-public class MorpheusTestCase extends TestState implements WithCustomResultListeners {
+public abstract class MorpheusTestCase extends TestState implements WithCustomResultListeners {
 
     @Autowired
     protected EmployeeRepository employeeRepository;
 
-    private LdapStubServer ldapStubServer;
+    protected LdapStubServer ldapStubServer;
 
-    protected final WebDriver webDriver = WebDriverRunner.getWebDriver();
+    protected WebDriver webDriver;
     protected Employee employeeForTest;
     private String employeePassword;
 
@@ -58,6 +56,7 @@ public class MorpheusTestCase extends TestState implements WithCustomResultListe
         skills.add(new Skill("Functional Delivery", 7, "Always delivers on time"));
         employeeForTest = Employee.developer(someString(), skills, Level.JuniorDeveloper);
         employeePassword = someString();
+        webDriver = WebDriverRunner.getWebDriver();
     }
 
     @After

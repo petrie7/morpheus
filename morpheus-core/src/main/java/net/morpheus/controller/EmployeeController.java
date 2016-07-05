@@ -2,10 +2,12 @@ package net.morpheus.controller;
 
 import net.morpheus.domain.Employee;
 import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
@@ -16,6 +18,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Resource
+    private NewUserAuthenticator newUserAuthenticator;
+
 
     @RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -47,6 +52,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
     public void create(@RequestBody Employee employee) {
+        newUserAuthenticator.validateUserExistsInCauth(employee.username());
         employeeRepository.create(
                 employee
         );

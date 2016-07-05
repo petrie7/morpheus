@@ -1,7 +1,9 @@
 package net.morpheus.config;
 
+import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,5 +43,14 @@ public class MorpheusSecurityConfig extends WebSecurityConfigurerAdapter {
         contextSource.setPassword("secret");
 
         return contextSource;
+    }
+
+    @Bean
+    public NewUserAuthenticator newUserAuthenticator() {
+        return new NewUserAuthenticator(ldapTemplate());
+    }
+
+    private LdapTemplate ldapTemplate() {
+        return new LdapTemplate(contextSource());
     }
 }
