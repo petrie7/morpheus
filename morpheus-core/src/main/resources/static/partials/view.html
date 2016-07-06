@@ -40,19 +40,21 @@
         <tr ng-repeat="skill in skillsTemplate">
             <td>{{skill.description}}</td>
             <td ng-repeat="n in range(0,8)">
+                <div data-tip="{{descriptionFor(skill.description, n)}}">
                 <input type="radio"
+                       class="pointer"
                        style="cursor:default"
-                       ng-attr-title="{{descriptionFor(skill.description, n)}}"
                        ng-show="!isManager()"
                        ng-disabled="{{skill.value === n ? 'false' : 'true' || !editable}}"
                        ng-checked="{{skill.value === n ? 'true' : 'false'}}"/>
                 <input type="radio"
+                       class="pointer"
                        style="cursor:default"
-                       ng-attr-title="{{descriptionFor(skill.description, n)}}"
                        ng-show="isManager()"
                        ng-disabled="managerCanSee(skill.value, n)"
                        ng-checked="{{skill.value === n ? 'true' : 'false'}}"
                        name="{{skill.description}}" ng-click="updateSkill(skill.description, n)"/>
+                </div>
             </td>
             <td>
                 <input name="commentText" type="text" ng-model="skill.comment" class="commentText"
