@@ -18,6 +18,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -114,10 +115,8 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         try {
             webDriver.findElement(By.className("growl-close")).click();
         } catch (Exception e) {
-
         }
-        new WebDriverWait(webDriver, 10)
-                .until(ExpectedConditions.elementToBeClickable(By.id("logout-button")));
-        webDriver.findElement(By.id("logout-button")).click();
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        js.executeScript("document.getElementById('logout-button').click();");
     }
 }

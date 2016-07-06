@@ -4,10 +4,10 @@ angular
         $scope.persistEmployee = function () {
             $http.post('employee/create', $scope.employee)
                 .success(function (data, status, headers, config) {
-                    $.growl.notice({message: $scope.employee.username + ' successfully created', location: 'br'});
+                    $.growl.notice({message: $scope.employee.username + ' successfully created'});
                 })
                 .error(function (data) {
-                    $.growl.error({message: data.message, location: 'br'});
+                    $.growl.error({message: data.message});
                 });
         };
     });
