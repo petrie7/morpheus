@@ -53,14 +53,14 @@
             <td>
                 <input name="commentText" type="text" ng-model="skill.comment" class="commentText"
                        readonly="readonly"/>
-                <button class="button" ng-click="updateCommentDialog(skill)">Edit</button>
+                <button class="button" ng-click="updateCommentDialog(skill)">{{isManager() && isEditable() ? 'Edit' : 'View'}}</button>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
-<div ng-show="isManager()">
-    <button type="submit" id="save-button" class="btn btn-success" ng-click="persistSkills()">Save</button>
+<div ng-show="isManager() && isEditable()">
+    <button type="submit" id="save-button" class="btn btn-success" ng-click="persistSkills()" ng-disabled="isDirty()">Save</button>
 </div>
 
 
@@ -74,6 +74,6 @@
 </div>
 
 
-<div id="commentsBox" title="Update comment" style="display: none">
-    <textarea id="commentTextArea"></textarea>
+<div id="commentsBox" title="Update comment" style="display: none" >
+    <textarea id="commentTextArea" ng-readonly="!isManager()"></textarea>
 </div>

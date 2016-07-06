@@ -29,6 +29,7 @@ angular
                 .success(function (data, status, headers, config) {
                     $scope.employeeRecords = data;
                     $scope.employee = data[0];
+                    $scope.originalEmployee = angular.copy($scope.employee);
                     $("#skills-matrix").show();
                     $("#save-button").show();
                     $("#save-employee").hide();
@@ -43,10 +44,10 @@ angular
         $scope.persistSkills = function () {
             $http.post('employee', $scope.employee)
                 .success(function (data, status, headers, config) {
+                    $scope.originalEmployee = angular.copy($scope.employee);
                     $("#update-success").fadeIn().delay(5000).fadeOut();
                 });
         };
-
 
         $scope.updateSkill = function (property, value) {
             $scope.employee.skills.find(function (skill) {
@@ -56,29 +57,6 @@ angular
 
         $scope.managerCanSee = function (property, value) {
             return !$scope.editable && !(property === value);
-        };
-
-        $scope.createEmployee = function () {
-            $("#createEmployeeForm").show();
-            $("#search-bar").hide();
-            $("#skills-matrix").show();
-            $("#save-button").hide();
-            $("#save-employee").show();
-
-            $scope.skillsTemplate = [];
-
-            resetEmployeeData();
-
-            $scope.template.forEach(function (skill) {
-                $scope.skillsTemplate.push({
-                    description: skill,
-                    value: 0
-                })
-            });
-
-            $scope.employee.skills = $scope.skillsTemplate;
-
-            setActiveTab('createEmployee');
         };
 
         $scope.reinitializeMatrix = function () {
@@ -96,8 +74,13 @@ angular
             setActiveTab("devMatrix");
         };
 
+        $scope.isDirty = function(){
+            return angular.equals($scope.employee, $scope.originalEmployee);
+        }
+
         $scope.updateCommentDialog = function (skill) {
             $('#commentTextArea').val(skill.comment);
+            if($scope.isManager() && $scope.isEditable()) {
             $("#commentsBox").dialog({
                 resizable: false,
                 height: 300,
@@ -114,6 +97,21 @@ angular
                     }
                 }
             });
+            }
+            else {
+            $("#commentsBox").dialog({
+                            resizable: false,
+                            height: 300,
+                            width: 300,
+                            modal: true,
+                            readonly: true,
+                            buttons: {
+                                Cancel: function () {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        });
+            }
         };
 
         function watchEmployeeController() {
@@ -260,6 +258,10 @@ angular
                 'min': 0,
                 'max': $scope.employeeRecords.length - 1
             }
+        }
+
+        $scope.isEditable = function() {
+            return $scope.editable;
         }
 }
 );
