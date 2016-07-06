@@ -292,6 +292,12 @@ angular
 
         $scope.isEditable = function() {
             return $scope.editable;
-        }
+        };
+
+        $("#q").keyup(function (e) {
+            if (e.keyCode == 13) {
+                $scope.performSearch();
+            }
+        });
 }
 );
