@@ -104,8 +104,15 @@ body {
   border-radius: 50%;
 }
 #logout-button {
+   width: 220px;
    margin-top: 10px;
    margin-right:10px;
+}
+
+.logout {
+    position: fixed;
+    bottom: 0;
+    left: 10;
 }
 
 .img {

@@ -53,7 +53,7 @@ angular
             $http.post('employee', $scope.employee)
                 .success(function (data, status, headers, config) {
                     $scope.originalEmployee = angular.copy($scope.employee);
-                    $("#update-success").fadeIn().delay(5000).fadeOut();
+                    $.growl.notice({message: $scope.employee.username + ' successfully updated'});
                 });
         };
 
