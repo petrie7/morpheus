@@ -92,7 +92,6 @@ angular
             var skill = $scope.template.fields.filter(function(field){
                 return field.fieldName === skill;
             });
-            debugger;
             var fieldLevel = skill[0].fieldLevelDescription.filter(function(fieldLevelDescription){
                 return fieldLevelDescription.level === level;
             });
@@ -183,7 +182,6 @@ angular
         }
 
         function extractEmployeeSkillValues(newEmployee, skill) {
-            debugger;
             if (newEmployee.skills) {
                 var result = $.grep(newEmployee.skills,
                     function (employeeSkill) {
