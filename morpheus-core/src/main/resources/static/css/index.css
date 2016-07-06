@@ -115,6 +115,16 @@ body {
     left: 10;
 }
 
+.footer {
+    position: fixed;
+    bottom: 0px;
+    height: 50;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
+    background-color: #ecf0f1
+}
+
 .img {
     margin-left: 45px;
 }
@@ -158,12 +168,14 @@ h5 {
 #save-button {
     display: none;
     margin-top: 5px;
+    margin-right: 20px;
     float: right;
 }
 
 #timemachine {
     display: none;
-    margin-top: 5px;
+    margin-top: 10px;
+    margin-left: 550px;
     float: left;
     width: 30%;
 }
