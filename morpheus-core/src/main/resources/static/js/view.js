@@ -76,7 +76,29 @@ angular
 
         $scope.isDirty = function(){
             return angular.equals($scope.employee, $scope.originalEmployee);
-        }
+        };
+
+        $scope.descriptionFor = function(skill, levelNumber){
+            var level = $scope.levelFor(levelNumber);
+            var skill = $scope.template.fields.filter(function(field){
+                return field.fieldName === skill;
+            });
+            debugger;
+            var fieldLevel = skill[0].fieldLevelDescription.filter(function(fieldLevelDescription){
+                return fieldLevelDescription.level === level;
+            });
+            return fieldLevel[0].description;
+        };
+
+        $scope.levelFor = function(number){
+            if(number < 3){
+                return 'JuniorDeveloper'
+            }
+            if(number < 6){
+                return 'MidDeveloper';
+            }
+            return 'SeniorDeveloper';
+        };
 
         $scope.updateCommentDialog = function (skill) {
             $('#commentTextArea').val(skill.comment);
@@ -118,9 +140,9 @@ angular
             $scope.$watch('employee', function (newEmployee) {
                 if (newEmployee) {
                     $scope.skillsTemplate = [];
-                    $scope.template.forEach(function (skill) {
+                    $scope.template.fields.forEach(function (skill) {
                         $scope.skillsTemplate.push({
-                            description: skill,
+                            description: skill.fieldName,
                             value: extractEmployeeSkillValues(newEmployee, skill),
                             comment: extractEmployeeSkillComments(newEmployee, skill)
                         })
@@ -152,10 +174,11 @@ angular
         }
 
         function extractEmployeeSkillValues(newEmployee, skill) {
+            debugger;
             if (newEmployee.skills) {
                 var result = $.grep(newEmployee.skills,
                     function (employeeSkill) {
-                        return employeeSkill.description == skill;
+                        return employeeSkill.description == skill.fieldName;
                     })
             }
 
@@ -169,7 +192,7 @@ angular
             if (newEmployee.skills) {
                 var result = $.grep(newEmployee.skills,
                     function (employeeSkill) {
-                        return employeeSkill.description == skill;
+                        return employeeSkill.description == skill.fieldName;
                     })
             }
 
@@ -243,7 +266,6 @@ angular
         }
 
         function refreshSlider() {
-            console.log('refreshing slider');
             $scope.slider.noUiSlider.updateOptions({
                 start: $scope.employeeRecords.length - 1,
                 range: {
