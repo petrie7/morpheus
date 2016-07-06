@@ -72,8 +72,8 @@ public class CreateEmployeeTest extends MorpheusTestCase {
     private StateExtractor<WebElement> theNewEmployeeSuccessStatus() {
         return capturedInputAndOutputs -> {
             new WebDriverWait(webDriver, 3)
-                    .until((WebDriver driver) -> webDriver.findElement(By.id("create-success")).isDisplayed());
-            return webDriver.findElement(By.id("create-success"));
+                    .until((WebDriver driver) -> webDriver.findElement(By.className("growl-notice")).isDisplayed());
+            return webDriver.findElement(By.className("growl-notice"));
         };
     }
 

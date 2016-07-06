@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -109,6 +111,13 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     }
 
     private void logoutUser() {
+        try {
+            webDriver.findElement(By.className("growl-close")).click();
+        } catch (Exception e) {
+
+        }
+        new WebDriverWait(webDriver, 10)
+                .until(ExpectedConditions.elementToBeClickable(By.id("logout-button")));
         webDriver.findElement(By.id("logout-button")).click();
     }
 }
