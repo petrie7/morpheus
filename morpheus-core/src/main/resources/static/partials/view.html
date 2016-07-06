@@ -1,0 +1,79 @@
+<div class="input-group" ng-show="isManager()"
+     id="search-bar">
+    <input type="text" class="form-control" placeholder="Search for employee.." name="q"
+           ng-model="searchValue" id="q"/>
+
+    <div class="input-group-btn">
+        <button id="search" class="btn btn-default" type="submit" ng-click="performSearch()">
+            <i class="glyphicon glyphicon-search"></i>
+        </button>
+    </div>
+</div>
+
+<div id="skills-matrix"
+     class="skills-matrix">
+    <table id="myTable" class="table">
+        <thead>
+        <tr>
+        <tr>
+            <th></th>
+            <th colspan="3" class="junior">Junior Dev</th>
+            <th colspan="3" class="mid">Mid Dev</th>
+            <th colspan="3" class="senior">Senior Dev</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th class="junior">Low</th>
+            <th class="junior">Mid</th>
+            <th class="junior">High</th>
+            <th class="mid">Low</th>
+            <th class="mid">Mid</th>
+            <th class="mid">High</th>
+            <th class="senior">Low</th>
+            <th class="senior">Mid</th>
+            <th class="senior">High</th>
+            <th class="comments">Comments</th>
+        </tr>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="skill in skillsTemplate">
+            <td>{{skill.description}}</td>
+            <td ng-repeat="n in range(0,8)">
+                <input type="radio"
+                       ng-show="!isManager()"
+                       ng-disabled="{{skill.value === n ? 'false' : 'true' || !editable}}"
+                       ng-checked="{{skill.value === n ? 'true' : 'false'}}"/>
+                <input type="radio"
+                       ng-show="isManager()"
+                       ng-disabled="managerCanSee(skill.value, n)"
+                       ng-checked="{{skill.value === n ? 'true' : 'false'}}"
+                       name="{{skill.description}}" ng-click="updateSkill(skill.description, n)"/>
+            </td>
+            <td>
+                <input name="commentText" type="text" ng-model="skill.comment" class="commentText"
+                       readonly="readonly"/>
+                <button class="button" ng-click="updateCommentDialog(skill)">Edit</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-show="isManager()">
+    <button type="submit" id="save-button" class="btn btn-success" ng-click="persistSkills()">Save</button>
+</div>
+
+
+<div id="timemachine">
+    <div id="slider-snap"></div>
+    <div id="date"></div>
+</div>
+
+<div id="update-success">
+    Successfully updated skills
+</div>
+
+
+<div id="commentsBox" title="Update comment" style="display: none">
+    <textarea id="commentTextArea"></textarea>
+</div>

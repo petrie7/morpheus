@@ -1,0 +1,23 @@
+<div id="createEmployeeForm">
+    <input id="newUsername" class="form-control" type="text" name="Employee Name"
+           ng-model="employee.username" placeholder="Enter new employee username.."/>
+    <label id="roleLabel">Role</label>
+    <select id="roleSelect" ng-init="employee.role = 'Developer'" ng-model="employee.role">
+        <option value="Developer">Developer</option>
+        <option value="TeamLead">Team Lead</option>
+    </select>
+    <br/>
+    <label>Level</label>
+    <select id="levelSelect" ng-init="employee.level = 'JuniorDeveloper'" ng-model="employee.level">
+        <option value="JuniorDeveloper">Junior Developer</option>
+        <option value="MidDeveloper">Mid Developer</option>
+        <option value="SeniorDeveloper">Senior Developer</option>
+    </select>
+
+    <button type="submit"
+            ng-disabled="!employee.username"
+            id="save-employee"
+            class="btn btn-success"
+            ng-click="persistEmployee()">Create Employee
+    </button>
+</div>

@@ -18,9 +18,11 @@ public class EmployeeDeserializer extends JsonDeserializer<Employee> {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         ArrayList<Skill> skills = new ArrayList<>();
 
-        JsonNode skillsNode = node.get("skills");
-        for (JsonNode jsonNode : skillsNode) {
-            skills.add(new Skill(jsonNode.get("description").textValue(), jsonNode.get("value").intValue(), jsonNode.get("comment").textValue()));
+        if (node.has("skills")) {
+            JsonNode skillsNode = node.get("skills");
+            for (JsonNode jsonNode : skillsNode) {
+                skills.add(new Skill(jsonNode.get("description").textValue(), jsonNode.get("value").intValue(), jsonNode.get("comment").textValue()));
+            }
         }
 
         switch (Role.valueOf(node.get("role").textValue())) {

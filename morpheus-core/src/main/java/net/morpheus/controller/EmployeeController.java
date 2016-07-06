@@ -57,4 +57,9 @@ public class EmployeeController {
                 employee
         );
     }
+
+    @RequestMapping(value = "/authenticated")
+    public Principal authenticatedUser(Principal principal) {
+        return principal;
+    }
 }

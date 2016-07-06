@@ -25,11 +25,17 @@ public class LoginTest extends MorpheusTestCase {
         return new TypeSafeMatcher<String>() {
             @Override
             protected boolean matchesSafely(String actualUrl) {
-                return actualUrl.equals("http://localhost:1999/");
+                return actualUrl.equals("http://localhost:1999/#/matrix");
             }
 
             @Override
             public void describeTo(Description description) {
+                description.appendText("http://localhost:1999/");
+            }
+
+            @Override
+            protected void describeMismatchSafely(String item, Description mismatchDescription) {
+                mismatchDescription.appendText(item);
             }
         };
     }

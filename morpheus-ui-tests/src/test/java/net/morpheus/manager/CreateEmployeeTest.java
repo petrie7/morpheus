@@ -2,7 +2,6 @@ package net.morpheus.manager;
 
 import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
-import com.googlecode.yatspec.state.givenwhenthen.InterestingGivens;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
 import net.morpheus.domain.Employee;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class AddNewEmployeeTest extends MorpheusTestCase {
+public class CreateEmployeeTest extends MorpheusTestCase {
 
     private Employee newEmployee;
 

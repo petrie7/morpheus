@@ -144,10 +144,6 @@ h5 {
     margin-left: 10px;
 }
 
-#myTable {
-    display:block;
-}
-
 #search-bar {
     margin-bottom: 10px;
 }
@@ -159,11 +155,8 @@ h5 {
 }
 
 #timemachine {
-    position: absolute;
-    bottom: 0;
     display: none;
-    margin-top: -50px;
-    margin-left: 20%;
+    margin-top: 5px;
     float: left;
     width: 30%;
 }
@@ -173,7 +166,6 @@ h5 {
 }
 
 #save-employee {
-    display: none;
     margin-top: 5px;
     float: right;
 }
@@ -189,10 +181,6 @@ h5 {
     height: 20px;
     text-align: center;
     font-weight: bold;
-}
-
-#createEmployeeForm {
-    display: none;
 }
 
 #newUsername {
