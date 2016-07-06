@@ -54,6 +54,7 @@ angular
                 .success(function (data, status, headers, config) {
                     $scope.originalEmployee = angular.copy($scope.employee);
                     $.growl.notice({message: $scope.employee.username + ' successfully updated'});
+                    $scope.performSearch();
                 });
         };
 
@@ -91,7 +92,6 @@ angular
             var skill = $scope.template.fields.filter(function(field){
                 return field.fieldName === skill;
             });
-            debugger;
             var fieldLevel = skill[0].fieldLevelDescription.filter(function(fieldLevelDescription){
                 return fieldLevelDescription.level === level;
             });
@@ -182,7 +182,6 @@ angular
         }
 
         function extractEmployeeSkillValues(newEmployee, skill) {
-            debugger;
             if (newEmployee.skills) {
                 var result = $.grep(newEmployee.skills,
                     function (employeeSkill) {
@@ -292,6 +291,12 @@ angular
 
         $scope.isEditable = function() {
             return $scope.editable;
-        }
+        };
+
+        $("#q").keyup(function (e) {
+            if (e.keyCode == 13) {
+                $scope.performSearch();
+            }
+        });
 }
 );
