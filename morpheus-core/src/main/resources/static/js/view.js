@@ -2,9 +2,17 @@ angular
 .module('morpheus.view', [])
 .controller('EmployeeCtrl', function ($scope, $http) {
 
+         var matrixTab = document.getElementById("devMatrix");
+         matrixTab.className = "active";
+
         $http.get('authenticated')
         .success(function (data, status, headers, config) {
             $scope.authenticatedUser = data;
+
+            if($scope.isManager()){
+              var createTab = document.getElementById("createEmployee");
+              createTab.className = "inactive";
+            }
         });
 
         $scope.editable = true;
