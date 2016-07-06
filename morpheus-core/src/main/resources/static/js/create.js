@@ -1,13 +1,13 @@
 angular
-.module('morpheus.create', [])
-.controller('CreateEmployeeCtrl', function($scope, $http){
-    $scope.persistEmployee = function() {
+    .module('morpheus.create', [])
+    .controller('CreateEmployeeCtrl', function ($scope, $http) {
+        $scope.persistEmployee = function () {
             $http.post('employee/create', $scope.employee)
                 .success(function (data, status, headers, config) {
-                    $("#create-success").fadeIn().delay(5000).fadeOut();
+                    $.growl.notice({message: $scope.employee.username + ' successfully created', location: 'br'});
                 })
-                .error(function () {
-                    alert('User does not exist in Cauth');
+                .error(function (data) {
+                    $.growl.error({message: data.message, location: 'br'});
                 });
-    };
-});
+        };
+    });

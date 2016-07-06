@@ -52,7 +52,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
     public void create(@RequestBody Employee employee) {
-        newUserAuthenticator.validateUserExistsInCauth(employee.username());
+        newUserAuthenticator.validateUserCanBeCreated(employee.username());
         employeeRepository.create(
                 employee
         );
