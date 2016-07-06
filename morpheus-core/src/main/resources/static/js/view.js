@@ -54,6 +54,7 @@ angular
                 .success(function (data, status, headers, config) {
                     $scope.originalEmployee = angular.copy($scope.employee);
                     $.growl.notice({message: $scope.employee.username + ' successfully updated'});
+                    $scope.performSearch();
                 });
         };
 
