@@ -9,5 +9,11 @@ angular
                 .error(function (data) {
                     $.growl.error({message: data.message});
                 });
-        };
-    });
+    };
+
+         var matrixTab = document.getElementById("devMatrix");
+         var createTab = document.getElementById("createEmployee");
+
+         matrixTab.className = "inactive";
+         createTab.className = "active";
+});
