@@ -122,7 +122,7 @@ body {
     left: 0px;
     right: 0px;
     overflow: hidden;
-    background-color: #ecf0f1
+    background-color: #f5f5f5
 }
 
 .img {
@@ -141,23 +141,35 @@ h5 {
 
 .junior {
     background-color: #1abf9f;
+    color: white;
+    font-weight: 200;
+    text-align: center;
 }
 
 .mid {
     background-color: #2cc36b;
+    color: white;
+    font-weight: 200;
+    text-align: center;
 }
 
 .senior {
     background-color: #2ecc71;
+    color: white;
+    font-weight: 200;
+    text-align: center;
 }
 
 .comments {
     width: 250px;
-    background-color: #3498db;
+    background-color: #428bca;
+    color: white;
+    font-weight: 200;
+    text-align: center;
 }
 
 .commentText {
-    width: 220px;
+    width: 300px;
     margin-left: 10px;
 }
 
@@ -217,14 +229,13 @@ h5 {
 }
 
 .button {
-    background-color: #3498db;
+    background-color: #428bca;
     border: none;
     color: white;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 8px;
-    margin: 4px 2px;
     cursor: pointer;
 }
 
