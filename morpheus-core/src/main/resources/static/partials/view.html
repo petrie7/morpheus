@@ -48,6 +48,7 @@
                        ng-checked="{{skill.value === n ? 'true' : 'false'}}"/>
                 <input type="radio"
                        style="cursor:default"
+                       ng-attr-title="{{descriptionFor(skill.description, n)}}"
                        ng-show="isManager()"
                        ng-disabled="managerCanSee(skill.value, n)"
                        ng-checked="{{skill.value === n ? 'true' : 'false'}}"
