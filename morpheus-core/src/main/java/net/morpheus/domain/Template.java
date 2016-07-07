@@ -7,10 +7,16 @@ import java.util.List;
 public class Template {
 
     @JsonProperty
-    private List<TemplateField> fields;
+    private final String templateName;
+    @JsonProperty
+    private final String templateClass;
+    @JsonProperty
+    private final List<TemplateField> fields;
 
-    public Template(List<TemplateField> templateFields) {
+    public Template(String templateName, List<TemplateField> templateFields) {
+        this.templateName = templateName;
         this.fields = templateFields;
+        this.templateClass = templateName.replaceAll(" ", "-").toLowerCase();
     }
 
 }
