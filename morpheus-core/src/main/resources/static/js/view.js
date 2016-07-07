@@ -6,7 +6,7 @@ angular
             matrixTab.className = "active";
 
             $http.get('authenticated')
-                .success(function (data, status, headers, config) {
+                .success(function (data) {
                     $scope.authenticatedUser = data;
 
                     if ($scope.isManager()) {
@@ -74,7 +74,6 @@ angular
                 $("#save-button").hide();
                 $("#save-employee").hide();
 
-                watchEmployeeController();
                 getSkillsTemplateAndEmployee();
 
                 retrieveAllEmployees();
@@ -121,6 +120,10 @@ angular
                         modal: true,
                         buttons: {
                             Confirm: function () {
+                                var employeeSkill = $scope.employee.skills.filter(function(s){
+                                    return s.description === skill.fieldName;
+                                })[0];
+                                employeeSkill.comment = $('#commentTextArea').val();
                                 skill.comment = $('#commentTextArea').val();
                                 $scope.$apply();
                                 $(this).dialog("close");
@@ -156,6 +159,7 @@ angular
                         });
                     });
                     renderSlider();
+                    $('.skills-matrix').show();
                 }
             });
 
