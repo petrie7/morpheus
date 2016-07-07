@@ -45,6 +45,8 @@ angular
                     return e == username;
                 })[0];
 
+                $scope.$apply();
+
             };
 
             $scope.persistSkills = function () {

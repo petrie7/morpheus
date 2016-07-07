@@ -21,7 +21,8 @@
     </ul>
 
     <div class="tab-content">
-        <div ng-repeat="template in templates" id="{{template.templateClass}}" class="{{$index === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}}">
+        <div ng-repeat="template in templates" id="{{template.templateClass}}"
+             class="{{$index === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}}">
                 <table class="table">
                     <thead>
                     <tr>
@@ -55,14 +56,15 @@
                                        class="pointer"
                                        style="cursor:default"
                                        ng-show="!isManager()"
-                                       ng-disabled="{{field.rating === n ? 'false' : 'true' || !editable}}"
-                                       ng-checked="{{field.rating === n ? 'true' : 'false'}}"/>
+                                       ng-model="field.rating"
+                                       ng-value="n"/>
                                 <input type="radio"
                                        class="pointer"
                                        style="cursor:default"
                                        ng-show="isManager()"
                                        ng-disabled="managerCanSee(field.rating, n)"
-                                       ng-checked="{{field.rating === n ? 'true' : 'false'}}"
+                                       ng-model="field.rating"
+                                       ng-value="n"
                                        ng-click="updateSkill(field.fieldName, n)"/>
                             </div>
                         </td>
