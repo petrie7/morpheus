@@ -35,7 +35,6 @@ angular
                     .success(function (data, status, headers, config) {
                         $scope.employeeRecords = data;
                         $scope.employee = data[0];
-                        $scope.originalEmployee = angular.copy($scope.employee);
                         $("#skills-matrix").show();
                         $("#save-button").show();
                         $("#save-employee").hide();
@@ -120,7 +119,7 @@ angular
                         modal: true,
                         buttons: {
                             Confirm: function () {
-                                var employeeSkill = $scope.employee.skills.filter(function(s){
+                                var employeeSkill = $scope.employee.skills.filter(function (s) {
                                     return s.description === skill.fieldName;
                                 })[0];
                                 employeeSkill.comment = $('#commentTextArea').val();
@@ -158,6 +157,7 @@ angular
                             skill['comment'] = extractEmployeeSkillComments(newEmployee, skill);
                         });
                     });
+                    $scope.originalEmployee = angular.copy(newEmployee);
                     renderSlider();
                     $('.skills-matrix').show();
                 }
@@ -193,8 +193,10 @@ angular
 
                 if (typeof result !== 'undefined' && result.length > 0) {
                     return result[0].value;
+                } else {
+                    newEmployee.skills.push({'description': skill.fieldName, 'comment': '', 'value': 0});
+                    return 0;
                 }
-                return 0;
             }
 
             function extractEmployeeSkillComments(newEmployee, skill) {
