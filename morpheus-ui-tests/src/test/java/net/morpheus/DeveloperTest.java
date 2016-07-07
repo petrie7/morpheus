@@ -37,7 +37,7 @@ public class DeveloperTest extends MorpheusTestCase {
 
     private StateExtractor<List<WebElement>> theSkillsMatrix() {
         return capturedInputAndOutputs1 -> {
-            WebElement table = webDriver.findElements(By.id("myTable")).get(0);
+            WebElement table = webDriver.findElements(By.className("myTable")).get(0);
             new WebDriverWait(webDriver, 7)
                     .until((WebDriver driver) -> table.findElements(By.tagName("tr")).size() > 3);
 
