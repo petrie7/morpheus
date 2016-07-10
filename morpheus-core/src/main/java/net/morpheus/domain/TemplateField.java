@@ -14,4 +14,8 @@ public class TemplateField {
         this.fieldName = fieldName;
         this.fieldLevelDescription = levelDescriptions;
     }
+
+    public TemplateField() {
+        //for serialization
+    }
 }

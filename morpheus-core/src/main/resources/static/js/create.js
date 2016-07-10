@@ -13,7 +13,9 @@ angular
 
          var matrixTab = document.getElementById("devMatrix");
          var createTab = document.getElementById("createEmployee");
+         var editTab = document.getElementById("editTemplates");
 
          matrixTab.className = "inactive";
+         editTab.className = "inactive";
          createTab.className = "active";
 });

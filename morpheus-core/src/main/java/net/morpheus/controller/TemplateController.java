@@ -1,6 +1,7 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.Template;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,11 +9,19 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
+@RequestMapping("/template")
 public class TemplateController {
 
-    @RequestMapping("template")
+    @RequestMapping(method = POST)
+    public void saveNewTemplates(@RequestBody List<Template> templates){
+        System.out.println(templates);
+    }
+
+    @RequestMapping(method = GET)
     public List<Template> template() {
         return asList(
                 new Template(

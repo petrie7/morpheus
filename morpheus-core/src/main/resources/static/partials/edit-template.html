@@ -1,0 +1,45 @@
+<ul class="nav nav-tabs">
+    <li ng-repeat="template in templates" class="{{$index === 0 ? 'active' : ''}}">
+        <a data-toggle="tab"
+           href="#{{template.templateClass}}" target="_self">
+            {{template.templateName}}
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div ng-repeat="template in templates" id="{{template.templateClass}}"
+         class="{{$index === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}}">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th class="junior">Junior</th>
+                <th class="mid">Mid</th>
+                <th class="senior">Senior</th>
+                <th class="action">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="field in template.fields">
+                <td>
+                    <div><p>{{field.fieldName}}</p></div>
+                </td>
+                <td ng-repeat="description in field.fieldLevelDescription">
+                    <div><textarea ng-model="description.description"/></p></div>
+                </td>
+                <td>
+                    Delete
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="footer">
+    <button type="submit" id="save-button" class="btn btn-success"
+            ng-show="true"
+            ng-disabled="isDirty()"
+            ng-click="persistTemplate()">
+        Save
+    </button>
+</div>
