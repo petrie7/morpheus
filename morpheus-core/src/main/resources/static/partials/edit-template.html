@@ -29,7 +29,9 @@
                     <div><textarea ng-model="description.description"/></p></div>
                 </td>
                 <td>
-                    Delete
+                    <a class="btn btn-danger" ng-click="deleteField(template, field)">
+                        <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i>
+                    </a>
                 </td>
             </tr>
         </table>
