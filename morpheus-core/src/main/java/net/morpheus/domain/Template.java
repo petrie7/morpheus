@@ -23,4 +23,8 @@ public class Template {
         //for serialization
     }
 
+    public String templateName() {
+        return templateName;
+    }
+
 }

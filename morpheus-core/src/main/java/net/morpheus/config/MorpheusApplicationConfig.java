@@ -8,7 +8,9 @@ import net.morpheus.controller.TemplateController;
 import net.morpheus.domain.Employee;
 import net.morpheus.domain.Level;
 import net.morpheus.domain.Skill;
+import net.morpheus.domain.Template;
 import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.SkillTemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -19,6 +21,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.ArrayList;
+
+import static java.util.Arrays.asList;
+import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
 
 @Configuration
 @EnableAutoConfiguration
@@ -52,6 +57,85 @@ public class MorpheusApplicationConfig {
         //End Yikes!
 
         return employeeRepository;
+    }
+
+    @Bean
+    public SkillTemplateRepository skillTemplateRepository() {
+        SkillTemplateRepository skillTemplateRepository = new SkillTemplateRepository(mongoTemplate);
+
+        // Probably not wise TODO
+        skillTemplateRepository.deleteAll();
+
+        // More Yikes TODO
+        skillTemplateRepository.persist(
+                asList(new Template(
+                                "Technical Skills",
+                                asList(
+                                        templateField()
+                                                .fieldName("Functional Delivery")
+                                                .descriptionForJunior("Should know what Pipeline is")
+                                                .descriptionForMid("Should have deployed using Pipeline")
+                                                .descriptionForSenior("Should be at one with Pipeline")
+                                                .build(),
+                                        templateField()
+                                                .fieldName("Quality Of Code")
+                                                .descriptionForJunior("Should be able to write some code")
+                                                .descriptionForMid("Should know what an If Condition is")
+                                                .descriptionForSenior("Should know who Uncle Bob is")
+                                                .build(),
+                                        templateField()
+                                                .fieldName("Patterns")
+                                                .descriptionForJunior("Knows the difference between a circle and a square")
+                                                .descriptionForMid("Knowing that JSON isn't a person")
+                                                .descriptionForSenior("Has read GOF Design Patterns cover to cover")
+                                                .build()
+                                )
+                        ),
+                        new Template(
+                                "Soft Skills",
+                                asList(
+                                        templateField()
+                                                .fieldName("Listening")
+                                                .descriptionForJunior("People talking without speaking")
+                                                .descriptionForMid("People hearing without listening")
+                                                .descriptionForSenior("People writing songs that voices never share")
+                                                .build(),
+                                        templateField()
+                                                .fieldName("Learning (How)")
+                                                .descriptionForJunior("Horton knows a How")
+                                                .descriptionForMid("Horton know a What")
+                                                .descriptionForSenior("Horton knows a Who")
+                                                .build(),
+                                        templateField()
+                                                .fieldName("Learning (What)")
+                                                .descriptionForJunior("What is this?")
+                                                .descriptionForMid("What is that?")
+                                                .descriptionForSenior("What is life?")
+                                                .build()
+                                )
+                        ),
+                        new Template(
+                                "Business Skills",
+                                asList(
+                                        templateField()
+                                                .fieldName("Functionality")
+                                                .descriptionForJunior("Likes Functionality")
+                                                .descriptionForMid("Loves Functionality")
+                                                .descriptionForSenior("Lives Functionality")
+                                                .build(),
+                                        templateField()
+                                                .fieldName("Business Language / Terminology")
+                                                .descriptionForJunior("Knows what stuff is")
+                                                .descriptionForMid("Knows what stuff does")
+                                                .descriptionForSenior("Knows the meaning of life, the universe and everything")
+                                                .build()
+                                )
+                        )
+                )
+        );
+        // Few
+
+        return skillTemplateRepository;
     }
 
     @Bean
