@@ -9,6 +9,7 @@ import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
+import net.morpheus.config.PersistenceConfig;
 import net.morpheus.domain.Employee;
 import net.morpheus.domain.Level;
 import net.morpheus.domain.Skill;
@@ -20,8 +21,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -35,7 +34,7 @@ import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
 import static net.morpheus.MorpheusDataFixtures.someString;
 
 @RunWith(SpecRunner.class)
-@SpringApplicationConfiguration(classes = MorpheusApplicationConfig.class)
+@SpringApplicationConfiguration(classes = {MorpheusApplicationConfig.class, PersistenceConfig.class})
 @WebIntegrationTest("spring.main.show_banner=false")
 public abstract class MorpheusTestCase extends TestState implements WithCustomResultListeners {
 
