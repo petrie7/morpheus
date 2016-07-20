@@ -17,8 +17,8 @@ public class SkillTemplateRepository {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void persist(List<Template> templates) {
-        mongoTemplate.insert(templates, TEMPLATE_COLLECTION);
+    public void saveOrUpdate(List<Template> templates) {
+        templates.forEach(template -> mongoTemplate.save(template, TEMPLATE_COLLECTION));
     }
 
     public Template findByTemplateName(String templateName) {

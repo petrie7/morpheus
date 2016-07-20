@@ -1,12 +1,14 @@
 package net.morpheus.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
 public class Template {
 
     @JsonProperty
+    @Id
     private String templateName;
     @JsonProperty
     private String templateClass;
@@ -27,4 +29,11 @@ public class Template {
         return templateName;
     }
 
+    public void updateFields(List<TemplateField> fields) {
+        this.fields = fields;
+    }
+
+    public List<TemplateField> fields() {
+        return fields;
+    }
 }

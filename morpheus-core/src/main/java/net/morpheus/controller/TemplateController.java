@@ -20,8 +20,8 @@ public class TemplateController {
     private SkillTemplateRepository skillTemplateRepository;
 
     @RequestMapping(method = POST)
-    public void saveNewTemplates(@RequestBody List<Template> templates) {
-        skillTemplateRepository.persist(templates);
+    public void saveOrUpdate(@RequestBody List<Template> templates) {
+            skillTemplateRepository.saveOrUpdate(templates);
     }
 
     @RequestMapping(method = GET)

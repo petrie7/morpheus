@@ -16,4 +16,12 @@ public class LevelDescription {
     public LevelDescription() {
         //for serialization
     }
+
+    public String description() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

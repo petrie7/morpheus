@@ -103,10 +103,11 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
 #logout-button {
-   width: 220px;
+   width: 100%;
    margin-top: 10px;
-   margin-right:10px;
+   margin-left:75%;
 }
 
 .logout {
@@ -158,6 +159,15 @@ h5 {
     color: white;
     font-weight: 200;
     text-align: center;
+}
+
+.action {
+    font-weight: 200;
+    text-align: center;
+}
+
+.btn btn-danger {
+    margin-top: 20px;
 }
 
 .comments {

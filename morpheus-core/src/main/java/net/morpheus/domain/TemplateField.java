@@ -18,4 +18,8 @@ public class TemplateField {
     public TemplateField() {
         //for serialization
     }
+
+    public List<LevelDescription> fieldLevelDescription() {
+        return fieldLevelDescription;
+    }
 }

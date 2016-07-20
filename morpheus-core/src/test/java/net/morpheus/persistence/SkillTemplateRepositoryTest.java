@@ -20,7 +20,7 @@ public class SkillTemplateRepositoryTest extends AbstractRepositoryTestCase {
     public void canPersistTemplate() {
         Template expectedTemplate = makeATemplateWithName("Some Template Title");
 
-        skillTemplateRepository.persist(singletonList(expectedTemplate));
+        skillTemplateRepository.saveOrUpdate(singletonList(expectedTemplate));
 
         Template actualTemplate = skillTemplateRepository.findByTemplateName(expectedTemplate.templateName());
 
@@ -28,11 +28,51 @@ public class SkillTemplateRepositoryTest extends AbstractRepositoryTestCase {
     }
 
     @Test
+    public void canUpdateTemplate() {
+        Template expectedTemplate = makeATemplateWithName("Some Template Title");
+
+        skillTemplateRepository.saveOrUpdate(singletonList(expectedTemplate));
+
+        expectedTemplate.fields().get(0).fieldLevelDescription().get(0).setDescription("Different Description");
+
+        skillTemplateRepository.saveOrUpdate(singletonList(expectedTemplate));
+
+        Template actualTemplate = skillTemplateRepository.findByTemplateName(expectedTemplate.templateName());
+
+        assertThat(expectedTemplate.fields().get(0).fieldLevelDescription().get(0).description(),
+                is(actualTemplate.fields().get(0).fieldLevelDescription().get(0).description()
+                ));
+    }
+
+    @Test
+    public void canUpdateMultipleTemplates() {
+        Template expectedTemplate = makeATemplateWithName("Some Template Title");
+        Template expectedTemplate2 = makeATemplateWithName("Some Other Template Title");
+
+        skillTemplateRepository.saveOrUpdate(asList(expectedTemplate, expectedTemplate2));
+
+        expectedTemplate.fields().get(0).fieldLevelDescription().get(0).setDescription("Different Description");
+        expectedTemplate2.fields().get(0).fieldLevelDescription().get(0).setDescription("Different Description");
+
+        skillTemplateRepository.saveOrUpdate(asList(expectedTemplate, expectedTemplate2));
+
+        Template actualTemplate = skillTemplateRepository.findByTemplateName(expectedTemplate.templateName());
+        Template actualTemplate2 = skillTemplateRepository.findByTemplateName(expectedTemplate2.templateName());
+
+        assertThat(expectedTemplate.fields().get(0).fieldLevelDescription().get(0).description(),
+                is(actualTemplate.fields().get(0).fieldLevelDescription().get(0).description()
+                ));
+        assertThat(expectedTemplate2.fields().get(0).fieldLevelDescription().get(0).description(),
+                is(actualTemplate2.fields().get(0).fieldLevelDescription().get(0).description()
+                ));
+    }
+
+    @Test
     public void canDeleteTemplates() {
         Template template1 = makeATemplateWithName("Some Template Title");
         Template template2 = makeATemplateWithName("Some Other Template Title");
 
-        skillTemplateRepository.persist(asList(template1, template2));
+        skillTemplateRepository.saveOrUpdate(asList(template1, template2));
         skillTemplateRepository.deleteAll();
 
         List<Template> result = skillTemplateRepository.readAll();
@@ -46,4 +86,5 @@ public class SkillTemplateRepositoryTest extends AbstractRepositoryTestCase {
         return new Template(templateName, singletonList(
                 new TemplateField("Some Field Name", levelDescriptions)));
     }
+
 }

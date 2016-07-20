@@ -67,7 +67,7 @@ public class MorpheusApplicationConfig {
         skillTemplateRepository.deleteAll();
 
         // More Yikes TODO
-        skillTemplateRepository.persist(
+        skillTemplateRepository.saveOrUpdate(
                 asList(new Template(
                                 "Technical Skills",
                                 asList(
