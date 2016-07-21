@@ -21,7 +21,7 @@ public class TemplateController {
 
     @RequestMapping(method = POST)
     public void saveOrUpdate(@RequestBody List<Template> templates) {
-            skillTemplateRepository.saveOrUpdate(templates);
+        skillTemplateRepository.saveOrUpdate(templates);
     }
 
     @RequestMapping(method = GET)
