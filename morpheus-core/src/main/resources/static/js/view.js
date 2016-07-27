@@ -40,6 +40,9 @@ angular
                         $("#skills-matrix").show();
                         $("#save-button").show();
                         $("#save-employee").hide();
+                    })
+                    .error(function (data) {
+                        $.growl.error({message: data.message});
                     });
                 var username = document.getElementById('q').value;
                 $scope.employee = $.grep($scope.employees, function (e) {

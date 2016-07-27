@@ -1,6 +1,7 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.Employee;
+import net.morpheus.exception.NoUserExistsException;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,12 @@ public class EmployeeController {
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
     public List<Employee> getEmployee(@PathVariable String username) {
-        return employeeRepository.findByName(username);
+        List<Employee> employees = employeeRepository.findByName(username);
+        if (!employees.isEmpty()) {
+            return employees;
+        } else {
+            throw new NoUserExistsException(username);
+        }
     }
 
     @RequestMapping(value = "/employee/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
