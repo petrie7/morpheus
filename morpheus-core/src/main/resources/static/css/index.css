@@ -187,9 +187,33 @@ h5 {
     margin-bottom: 10px;
 }
 
+#new-field-name {
+    margin-top: 8px;
+    float: left;
+    margin-left: 250px;
+}
+
+#new-template-name {
+    margin-top: 8px;
+    float: left;
+    margin-left: 20px;
+}
+
+#add-field-button {
+    margin-top: 8px;
+    float: left;
+    margin-left: 20px;
+}
+
+#add-template-button {
+    margin-top: 8px;
+    float: left;
+    margin-left: 20px;
+}
+
 #save-button {
     /* display: none; */
-    margin-top: 5px;
+    margin-top: 8px;
     margin-right: 20px;
     float: right;
 }

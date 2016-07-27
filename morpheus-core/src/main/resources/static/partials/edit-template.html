@@ -1,7 +1,8 @@
 <ul class="nav nav-tabs">
-    <li ng-repeat="template in templates" class="{{$index === 0 ? 'active' : ''}}">
+    <li id="templateTabs" ng-repeat="template in templates" class="{{$index === 0 ? 'active' : ''}}">
         <a data-toggle="tab"
-           href="#{{template.templateClass}}" target="_self">
+           href="#{{template.templateClass}}"
+           target="_self">
             {{template.templateName}}
         </a>
     </li>
@@ -10,7 +11,7 @@
 <div class="tab-content">
     <div ng-repeat="template in templates" id="{{template.templateClass}}"
          class="{{$index === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}}">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="templateFields">
             <thead>
             <tr>
                 <th></th>
@@ -29,7 +30,7 @@
                     <div><textarea ng-model="description.description"/></p></div>
                 </td>
                 <td>
-                    <a class="btn btn-danger" ng-click="deleteField(template, field)">
+                    <a id="delete-field-button" class="btn btn-danger" ng-click="deleteField(template, field)">
                         <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i>
                     </a>
                 </td>
@@ -38,6 +39,23 @@
     </div>
 </div>
 <div class="footer">
+
+    <span id="new-field-name">
+        <input type="text" ng-model="newField" placeholder="Field"/>
+        <select ng-model="selectedTemplateForNewField">
+            <option ng-repeat="template in templates">{{template.templateName}}</option>
+        </select>
+        <button type="submit"
+                class="btn btn-primary"
+                ng-disabled="!newField && selectedTemplateForNewField"
+                ng-click="addNewField()">Add Field
+        </button>
+    </span>
+
+    <input type="text" ng-model="newTemplate" id="new-template-name" placeholder="Template"/>
+    <button type="submit" id="add-template-button" class="btn btn-primary" ng-disabled="!newTemplate" ng-click="addNewTemplate()">Add Template
+    </button>
+
     <button type="submit" id="save-button" class="btn btn-success"
             ng-show="true"
             ng-disabled="isDirty()"
