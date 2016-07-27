@@ -21,7 +21,12 @@ public class EmployeeDeserializer extends JsonDeserializer<Employee> {
         if (node.has("skills")) {
             JsonNode skillsNode = node.get("skills");
             for (JsonNode jsonNode : skillsNode) {
-                skills.add(new Skill(jsonNode.get("description").textValue(), jsonNode.get("value").intValue(), jsonNode.get("comment").textValue()));
+                skills.add(
+                        new Skill(
+                                jsonNode.get("description").textValue(),
+                                jsonNode.get("value").asText().equals("null") ? null : jsonNode.get("value").intValue(),
+                                jsonNode.get("comment").textValue())
+                );
             }
         }
 

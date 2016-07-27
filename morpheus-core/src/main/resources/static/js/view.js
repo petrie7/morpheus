@@ -199,8 +199,8 @@ angular
                 if (typeof result !== 'undefined' && result.length > 0) {
                     return result[0].value;
                 } else {
-                    newEmployee.skills.push({'description': skill.fieldName, 'comment': '', 'value': 0});
-                    return 0;
+                    newEmployee.skills.push({'description': skill.fieldName, 'comment': '', 'value': null});
+                    return null;
                 }
             }
 
