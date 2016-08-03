@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import net.morpheus.domain.Employee;
+import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.domain.Level;
 import net.morpheus.domain.Role;
 import net.morpheus.domain.Skill;
@@ -12,9 +12,9 @@ import net.morpheus.domain.Skill;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class EmployeeDeserializer extends JsonDeserializer<Employee> {
+public class EmployeeDeserializer extends JsonDeserializer<EmployeeRecord> {
     @Override
-    public Employee deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    public EmployeeRecord deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         ArrayList<Skill> skills = new ArrayList<>();
 
@@ -32,18 +32,19 @@ public class EmployeeDeserializer extends JsonDeserializer<Employee> {
 
         switch (Role.valueOf(node.get("role").textValue())) {
             case Developer:
-                return Employee.developer(
+                return EmployeeRecord.developer(
                         node.get("username").textValue(),
                         skills,
-                        Level.valueOf(node.get("level").textValue())
+                        Level.valueOf(node.get("level").textValue()),
+                        false
                 );
             case TeamLead:
-                return Employee.teamLead(
+                return EmployeeRecord.teamLead(
                         node.get("username").textValue(),
-                        skills
-                );
+                        skills,
+                        false);
             case Manager:
-                return Employee.manager(
+                return EmployeeRecord.manager(
                         node.get("username").textValue()
                 );
             default:

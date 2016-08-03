@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.morpheus.controller.EmployeeController;
 import net.morpheus.controller.GlobalControllerAdvice;
 import net.morpheus.controller.TemplateController;
-import net.morpheus.domain.Employee;
+import net.morpheus.domain.EmployeeRecord;
+import net.morpheus.persistence.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -29,14 +31,15 @@ public class MorpheusApplicationConfig {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(Employee.class, new EmployeeDeserializer());
+        module.addDeserializer(EmployeeRecord.class, new EmployeeDeserializer());
         objectMapper.registerModule(module);
         return objectMapper;
     }
 
     @Bean
-    public EmployeeController employeeController() {
-        return new EmployeeController();
+    @Autowired
+    public EmployeeController employeeController(EmployeeRepository employeeRepository) {
+        return new EmployeeController(employeeRepository);
     }
 
     @Bean

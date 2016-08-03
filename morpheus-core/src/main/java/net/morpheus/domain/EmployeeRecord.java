@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
-public class Employee {
+public class EmployeeRecord {
 
     @Id
     private final String id = UUID.randomUUID().toString();
@@ -23,25 +23,28 @@ public class Employee {
     @JsonProperty
     private Level level;
     @JsonProperty
+    private boolean isWorkInProgress;
+    @JsonProperty
     private String lastUpdateDate;
 
-    public static Employee manager(String username) {
-        return new Employee(username, Role.Manager, new ArrayList<>(), Level.Manager);
+    public static EmployeeRecord manager(String username) {
+        return new EmployeeRecord(username, Role.Manager, new ArrayList<>(), Level.Manager, false);
     }
 
-    public static Employee developer(String username, ArrayList<Skill> skills, Level level) {
-        return new Employee(username, Role.Developer, skills, level);
+    public static EmployeeRecord developer(String username, ArrayList<Skill> skills, Level level, boolean isWorkInProgress) {
+        return new EmployeeRecord(username, Role.Developer, skills, level, isWorkInProgress);
     }
 
-    public static Employee teamLead(String username, ArrayList<Skill> skills) {
-        return new Employee(username, Role.TeamLead, skills, Level.SeniorDeveloper);
+    public static EmployeeRecord teamLead(String username, ArrayList<Skill> skills, boolean isWorkInProgress) {
+        return new EmployeeRecord(username, Role.TeamLead, skills, Level.SeniorDeveloper, isWorkInProgress);
     }
 
-    protected Employee(String username, Role role, ArrayList<Skill> skills, Level level) {
+    protected EmployeeRecord(String username, Role role, ArrayList<Skill> skills, Level level, boolean isWorkInProgress) {
         this.username = username;
         this.role = role;
         this.skills = skills;
         this.level = level;
+        this.isWorkInProgress = isWorkInProgress;
     }
 
     public String username() {
@@ -64,6 +67,10 @@ public class Employee {
         this.level = level;
     }
 
+    public boolean isWorkInProgress() {
+        return isWorkInProgress;
+    }
+
     public void setDate(String lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
@@ -74,8 +81,8 @@ public class Employee {
 
     @Override
     public boolean equals(Object obj) {
-        Employee employee = (Employee) obj;
-        return employee.username().equals(this.username);
+        EmployeeRecord employeeRecord = (EmployeeRecord) obj;
+        return employeeRecord.username().equals(this.username);
     }
 
     @Override

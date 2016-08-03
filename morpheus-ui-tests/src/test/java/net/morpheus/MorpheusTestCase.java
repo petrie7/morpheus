@@ -10,7 +10,7 @@ import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.config.PersistenceConfig;
-import net.morpheus.domain.Employee;
+import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.domain.Level;
 import net.morpheus.domain.Skill;
 import net.morpheus.domain.Template;
@@ -49,7 +49,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
 
     protected LdapStubServer ldapStubServer;
     protected WebDriver webDriver;
-    protected Employee employeeForTest;
+    protected EmployeeRecord employeeRecordForTest;
     private String employeePassword;
     private MongoStub mongoStub;
 
@@ -67,14 +67,14 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         ldapStubServer.start();
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 7, "Always delivers on time"));
-        employeeForTest = Employee.developer(someString(), skills, Level.JuniorDeveloper);
+        employeeRecordForTest = EmployeeRecord.developer(someString(), skills, Level.JuniorDeveloper, false);
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
     }
 
     private void employeeRepositoryTestData() {
         //Yikes! TODO: Remove this!
-        employeeRepository.delete(Employee.developer("Laurence_Fishburne", null, Level.JuniorDeveloper));
+        employeeRepository.delete(EmployeeRecord.developer("Laurence_Fishburne", null, Level.JuniorDeveloper, false));
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 5, "Shows Potential"));
         skills.add(new Skill("Quality Of Code", 5, "Fantastic"));
@@ -89,7 +89,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         skills.add(new Skill("Java", 5, "Continuously Improving"));
         skills.add(new Skill("Database Management Systems", 5, "Needs improving"));
 
-        employeeRepository.create(Employee.developer("Laurence_Fishburne", skills, Level.JuniorDeveloper));
+        employeeRepository.create(EmployeeRecord.developer("Laurence_Fishburne", skills, Level.JuniorDeveloper, false));
         //End Yikes!
     }
 
@@ -176,15 +176,15 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
 
     protected GivensBuilder anUserExists() {
         return givens -> {
-            ldapStubServer.addEmployee(employeeForTest, employeePassword);
+            ldapStubServer.addEmployee(employeeRecordForTest, employeePassword);
             return givens;
         };
     }
 
     protected GivensBuilder aManagerIsLoggedIn() {
         return interestingGivens1 -> {
-            employeeForTest = Employee.manager("Tymbo");
-            ldapStubServer.addEmployee(employeeForTest, employeePassword);
+            employeeRecordForTest = EmployeeRecord.manager("Tymbo");
+            ldapStubServer.addEmployee(employeeRecordForTest, employeePassword);
 
             openMorpheus();
             loginUser();
@@ -201,7 +201,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     }
 
     private void loginUser() {
-        $(By.id("username")).setValue(employeeForTest.username());
+        $(By.id("username")).setValue(employeeRecordForTest.username());
         $(By.id("password")).setValue(employeePassword);
         $(By.id("submit")).click();
     }

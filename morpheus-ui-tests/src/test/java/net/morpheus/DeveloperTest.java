@@ -30,7 +30,7 @@ public class DeveloperTest extends MorpheusTestCase {
 
     private GivensBuilder hasSomeSkillsWithComments() {
         return interestingGivens -> {
-            employeeRepository.create(employeeForTest);
+            employeeRepository.create(employeeRecordForTest);
             return interestingGivens;
         };
     }
@@ -63,7 +63,7 @@ public class DeveloperTest extends MorpheusTestCase {
         return new TypeSafeMatcher<List<WebElement>>() {
             @Override
             protected boolean matchesSafely(List<WebElement> rows) {
-                for (Skill skill : employeeForTest.skills()) {
+                for (Skill skill : employeeRecordForTest.skills()) {
                     Optional<WebElement> matchingSkill = rows.stream().filter(r -> r.getText().contains(skill.description())
                             && r.findElement(By.name("commentText")).getAttribute("value").contains(skill.comment())
                     ).findFirst();
@@ -76,7 +76,7 @@ public class DeveloperTest extends MorpheusTestCase {
 
             @Override
             public void describeTo(Description description) {
-                description.appendText("All " + employeeForTest.skills() + " were not present");
+                description.appendText("All " + employeeRecordForTest.skills() + " were not present");
             }
         };
     }
