@@ -27,19 +27,7 @@ public class EmployeeRecord {
     @JsonProperty
     private String lastUpdateDate;
 
-    public static EmployeeRecord manager(String username) {
-        return new EmployeeRecord(username, Role.Manager, new ArrayList<>(), Level.Manager, false);
-    }
-
-    public static EmployeeRecord developer(String username, ArrayList<Skill> skills, Level level, boolean isWorkInProgress) {
-        return new EmployeeRecord(username, Role.Developer, skills, level, isWorkInProgress);
-    }
-
-    public static EmployeeRecord teamLead(String username, ArrayList<Skill> skills, boolean isWorkInProgress) {
-        return new EmployeeRecord(username, Role.TeamLead, skills, Level.SeniorDeveloper, isWorkInProgress);
-    }
-
-    protected EmployeeRecord(String username, Role role, ArrayList<Skill> skills, Level level, boolean isWorkInProgress) {
+    public EmployeeRecord(String username, Role role, ArrayList<Skill> skills, Level level, boolean isWorkInProgress) {
         this.username = username;
         this.role = role;
         this.skills = skills;

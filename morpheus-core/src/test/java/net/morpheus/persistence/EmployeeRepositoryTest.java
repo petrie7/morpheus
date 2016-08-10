@@ -1,8 +1,8 @@
 package net.morpheus.persistence;
 
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.domain.Level;
 import net.morpheus.domain.Skill;
+import net.morpheus.domain.builder.EmployeeRecordBuilder;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -61,9 +61,9 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
     @Test
     public void returnsDistinctUsers() {
         List<EmployeeRecord> employeeRecords = new ArrayList<>();
-        employeeRecords.add(EmployeeRecord.developer("Pedr", new ArrayList<>(), Level.JuniorDeveloper, false));
-        employeeRecords.add(EmployeeRecord.developer("Pedr", new ArrayList<>(), Level.JuniorDeveloper, false));
-        employeeRecords.add(EmployeeRecord.developer("Boris", new ArrayList<>(), Level.JuniorDeveloper, false));
+        employeeRecords.add(EmployeeRecordBuilder.anEmployeeRecord().withUsername("Pedr").build());
+        employeeRecords.add(EmployeeRecordBuilder.anEmployeeRecord().withUsername("Pedr").build());
+        employeeRecords.add(EmployeeRecordBuilder.anEmployeeRecord().withUsername("Boris").build());
 
         employeeRecords.forEach(employeeRecord -> employeeRepository.create(employeeRecord));
 
@@ -75,7 +75,7 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
     private void createEmployee(int value) {
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", value, "Always delivers on time"));
-        employeeRecord = EmployeeRecord.developer("Pedr", skills, Level.JuniorDeveloper, false);
+        employeeRecord = EmployeeRecordBuilder.anEmployeeRecord().withUsername("Pedr").withSkills(skills).build();
 
         employeeRepository.create(employeeRecord);
     }

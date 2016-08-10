@@ -5,7 +5,7 @@ import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.domain.Level;
+import net.morpheus.domain.builder.EmployeeRecordBuilder;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -16,8 +16,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
-
 import static com.codeborne.selenide.Selenide.$;
 
 public class CreateEmployeeTest extends MorpheusTestCase {
@@ -26,7 +24,9 @@ public class CreateEmployeeTest extends MorpheusTestCase {
 
     @Before
     public void setup() {
-        newEmployeeRecord = EmployeeRecord.developer("Pedro", new ArrayList<>(), Level.JuniorDeveloper, false);
+        newEmployeeRecord = EmployeeRecordBuilder.anEmployeeRecord()
+                .withUsername("Pedro")
+                .build();
     }
 
     @Test

@@ -1,7 +1,5 @@
 package net.morpheus.service;
 
-import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.domain.Level;
 import net.morpheus.exception.UserNotInCauthException;
 import net.morpheus.persistence.EmployeeRepository;
 import org.junit.Before;
@@ -11,6 +9,7 @@ import org.springframework.ldap.core.LdapTemplate;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 import static net.morpheus.service.NewUserAuthenticator.DN_SEARCH_BASE;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -46,7 +45,7 @@ public class NewUserAuthenticatorTest {
     @Test(expected = UserNotInCauthException.class)
     public void throwsExceptionWhenUserExistsInCauthButAlreadyExistsInSystem() {
         String username = "someNonExistentUser";
-        when(employeeRepository.findByName(username)).thenReturn(asList(EmployeeRecord.developer(username, null, Level.JuniorDeveloper, false)));
+        when(employeeRepository.findByName(username)).thenReturn(asList(anEmployeeRecord().withUsername(username).withSkills(null).build()));
         when(ldapTemplate.list(String.format(DN_SEARCH_BASE, username))).thenReturn(emptyList());
         newUserAuthenticator.validateUserCanBeCreated(username);
     }

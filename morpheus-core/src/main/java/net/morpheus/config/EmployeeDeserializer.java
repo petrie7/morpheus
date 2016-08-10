@@ -12,6 +12,10 @@ import net.morpheus.domain.Skill;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static net.morpheus.domain.Level.SeniorDeveloper;
+import static net.morpheus.domain.Role.TeamLead;
+import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
+
 public class EmployeeDeserializer extends JsonDeserializer<EmployeeRecord> {
     @Override
     public EmployeeRecord deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
@@ -32,21 +36,24 @@ public class EmployeeDeserializer extends JsonDeserializer<EmployeeRecord> {
 
         switch (Role.valueOf(node.get("role").textValue())) {
             case Developer:
-                return EmployeeRecord.developer(
-                        node.get("username").textValue(),
-                        skills,
-                        Level.valueOf(node.get("level").textValue()),
-                        false
-                );
+                return anEmployeeRecord()
+                        .withUsername(node.get("username").textValue())
+                        .withLevel(Level.valueOf(node.get("level").textValue()))
+                        .withSkills(skills)
+                        .build();
             case TeamLead:
-                return EmployeeRecord.teamLead(
-                        node.get("username").textValue(),
-                        skills,
-                        false);
+                return anEmployeeRecord()
+                        .withUsername(node.get("username").textValue())
+                        .withRole(TeamLead)
+                        .withLevel(SeniorDeveloper)
+                        .withSkills(skills)
+                        .build();
             case Manager:
-                return EmployeeRecord.manager(
-                        node.get("username").textValue()
-                );
+                return anEmployeeRecord()
+                        .withUsername(node.get("username").textValue())
+                        .withLevel(Level.Manager)
+                        .withRole(Role.Manager)
+                        .build();
             default:
                 throw new IllegalArgumentException("Unrecognised role");
         }

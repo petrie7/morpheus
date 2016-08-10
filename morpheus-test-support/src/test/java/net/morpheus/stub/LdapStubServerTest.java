@@ -3,16 +3,13 @@ package net.morpheus.stub;
 import com.unboundid.ldap.sdk.*;
 import com.unboundid.ldif.LDIFException;
 import com.unboundid.util.LDAPSDKException;
-import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.domain.Level;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.core.support.LdapContextSource;
 
-import java.util.ArrayList;
-
 import static com.unboundid.ldap.sdk.Filter.createEqualityFilter;
+import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -42,7 +39,7 @@ public class LdapStubServerTest {
 
     @Test
     public void canAddAUserToLdap() throws LDIFException, LDAPException {
-        ldapStubServer.addEmployee(EmployeeRecord.developer("Employee 1", new ArrayList<>(), Level.JuniorDeveloper, false), "Password");
+        ldapStubServer.addEmployee(anEmployeeRecord().withUsername("Employee 1").build(), "Password");
 
         LdapContextSource contextSource = new LdapContextSource();
         contextSource.setUrl("ldap://" + HOSTNAME + ":" + PORT);

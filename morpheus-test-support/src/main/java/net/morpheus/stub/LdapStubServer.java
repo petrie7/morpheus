@@ -12,10 +12,10 @@ import net.morpheus.domain.Role;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
+import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 
 public class LdapStubServer {
 
@@ -25,8 +25,17 @@ public class LdapStubServer {
     public static void main(String[] args) throws Exception {
         LdapStubServer ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        ldapStubServer.addEmployee(EmployeeRecord.developer("Laurence_Fishburne", new ArrayList<>(), Level.JuniorDeveloper, false), "a");
-        ldapStubServer.addEmployee(EmployeeRecord.manager("Manager"), "m");
+        ldapStubServer.addEmployee(anEmployeeRecord()
+                        .withUsername("Laurence_Fishburne")
+                        .build(),
+                "a");
+
+        ldapStubServer.addEmployee(anEmployeeRecord()
+                        .withUsername("Manager")
+                        .withLevel(Level.Manager)
+                        .withRole(Role.Manager)
+                        .build(),
+                "m");
     }
 
     public LdapStubServer() throws Exception {
