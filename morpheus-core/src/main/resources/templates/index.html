@@ -32,7 +32,7 @@
           href="css/favicon.ico"/>
 </head>
 
-<body>
+<body id="main-content">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -47,7 +47,7 @@
         </div>
     </div>
 </nav>
-<div class="col-sm-3 col-md-2 sidebar">
+<div class="col-sm-3 col-md-2 sidebar" id="sidebar">
     <ul class="nav nav-sidebar">
         <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
@@ -65,7 +65,7 @@
         </li>
         <div class="logout">
             <form action="logout" method="post">
-                <button type="submit" id="logout-button" class="btn">Log Out</button>
+                <button class="btn btn-danger" type="submit" id="logout-button">Log Out</button>
             </form>
         </div>
     </ul>
