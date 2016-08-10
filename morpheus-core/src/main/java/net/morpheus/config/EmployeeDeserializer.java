@@ -40,6 +40,7 @@ public class EmployeeDeserializer extends JsonDeserializer<EmployeeRecord> {
                         .withUsername(node.get("username").textValue())
                         .withLevel(Level.valueOf(node.get("level").textValue()))
                         .withSkills(skills)
+                        .isWorkInProgress(node.get("isWorkInProgress") == null ? false : node.get("isWorkInProgress").asBoolean())
                         .build();
             case TeamLead:
                 return anEmployeeRecord()
@@ -47,6 +48,7 @@ public class EmployeeDeserializer extends JsonDeserializer<EmployeeRecord> {
                         .withRole(TeamLead)
                         .withLevel(SeniorDeveloper)
                         .withSkills(skills)
+                        .isWorkInProgress(node.get("isWorkInProgress") == null ? false : node.get("isWorkingInProgress").asBoolean())
                         .build();
             case Manager:
                 return anEmployeeRecord()
