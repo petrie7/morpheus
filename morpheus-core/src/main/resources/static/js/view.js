@@ -12,8 +12,11 @@ angular
                     if ($scope.isManager()) {
                         var createTab = document.getElementById("createEmployee");
                         var editTab = document.getElementById("editTemplates");
+                        var editTeamsTab = document.getElementById("editTeams");
+
                         createTab.className = "inactive";
                         editTab.className = "inactive";
+                        editTeamsTab.className = "inactive";
                     }
                 });
 

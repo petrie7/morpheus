@@ -1,5 +1,5 @@
 angular
-    .module('morpheusApp', ['ngRoute', 'morpheus.create', 'morpheus.view', 'morpheus.edit'])
+    .module('morpheusApp', ['ngRoute', 'morpheus.create', 'morpheus.view', 'morpheus.edit', 'morpheus.edit-teams'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/matrix', {
@@ -13,6 +13,10 @@ angular
             .when('/edit-template', {
                 templateUrl: '/partials/edit-template.html',
                 controller: 'EditTemplateCtrl'
+            })
+            .when('/edit-teams', {
+                templateUrl: '/partials/edit-teams.html',
+                controller: 'EditTeamsCtrl'
             })
             .otherwise({
                 redirectTo: '/matrix'

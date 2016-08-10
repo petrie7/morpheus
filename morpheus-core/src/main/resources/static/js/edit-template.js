@@ -5,10 +5,12 @@ angular
         var matrixTab = document.getElementById("devMatrix");
         var createTab = document.getElementById("createEmployee");
         var editTab = document.getElementById("editTemplates");
+        var editTeamsTab = document.getElementById("editTeams");
 
         editTab.className = "active";
         matrixTab.className = "inactive";
         createTab.className = "inactive";
+        editTeamsTab.className = "inactive";
 
         $http.get('template')
             .success(function (data) {

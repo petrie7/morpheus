@@ -9,13 +9,15 @@ angular
                 .error(function (data) {
                     $.growl.error({message: data.message});
                 });
-    };
+        };
 
-         var matrixTab = document.getElementById("devMatrix");
-         var createTab = document.getElementById("createEmployee");
-         var editTab = document.getElementById("editTemplates");
+        var matrixTab = document.getElementById("devMatrix");
+        var createTab = document.getElementById("createEmployee");
+        var editTab = document.getElementById("editTemplates");
+        var editTeamsTab = document.getElementById("editTeams");
 
-         matrixTab.className = "inactive";
-         editTab.className = "inactive";
-         createTab.className = "active";
-});
+        matrixTab.className = "inactive";
+        editTab.className = "inactive";
+        editTeamsTab.className = "inactive";
+        createTab.className = "active";
+    });
