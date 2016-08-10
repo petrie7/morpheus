@@ -1,6 +1,6 @@
 package net.morpheus.config;
 
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class MorpheusSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private EmployeeRepository employeeRepository;
+    private EmployeeRecordRepository employeeRecordRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,7 +55,7 @@ public class MorpheusSecurityConfig extends WebSecurityConfigurerAdapter {
     public NewUserAuthenticator newUserAuthenticator() {
         return new NewUserAuthenticator(
                 ldapTemplate(),
-                employeeRepository
+                employeeRecordRepository
         );
     }
 

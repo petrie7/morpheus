@@ -1,7 +1,7 @@
 package net.morpheus.service;
 
 import net.morpheus.exception.UserNotInCauthException;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -18,19 +18,19 @@ public class NewUserAuthenticatorTest {
 
     private LdapTemplate ldapTemplate;
     private NewUserAuthenticator newUserAuthenticator;
-    private EmployeeRepository employeeRepository;
+    private EmployeeRecordRepository employeeRecordRepository;
 
     @Before
     public void setUp() {
         ldapTemplate = mock(LdapTemplate.class);
-        employeeRepository = Mockito.mock(EmployeeRepository.class);
-        newUserAuthenticator = new NewUserAuthenticator(ldapTemplate, employeeRepository);
+        employeeRecordRepository = Mockito.mock(EmployeeRecordRepository.class);
+        newUserAuthenticator = new NewUserAuthenticator(ldapTemplate, employeeRecordRepository);
     }
 
     @Test
     public void validatesUserWhoExistsInCauthAndNotAlreadyInSystem() throws Exception {
         String username = "someUsername";
-        when(employeeRepository.findByName(username)).thenReturn(emptyList());
+        when(employeeRecordRepository.findByName(username)).thenReturn(emptyList());
         when(ldapTemplate.list(String.format(DN_SEARCH_BASE, username))).thenReturn(emptyList());
         newUserAuthenticator.validateUserCanBeCreated(username);
     }
@@ -45,7 +45,7 @@ public class NewUserAuthenticatorTest {
     @Test(expected = UserNotInCauthException.class)
     public void throwsExceptionWhenUserExistsInCauthButAlreadyExistsInSystem() {
         String username = "someNonExistentUser";
-        when(employeeRepository.findByName(username)).thenReturn(asList(anEmployeeRecord().withUsername(username).withSkills(null).build()));
+        when(employeeRecordRepository.findByName(username)).thenReturn(asList(anEmployeeRecord().withUsername(username).withSkills(null).build()));
         when(ldapTemplate.list(String.format(DN_SEARCH_BASE, username))).thenReturn(emptyList());
         newUserAuthenticator.validateUserCanBeCreated(username);
     }

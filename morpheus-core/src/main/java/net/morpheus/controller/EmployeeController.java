@@ -2,7 +2,7 @@ package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.exception.NoUserExistsException;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +20,16 @@ public class EmployeeController {
     @Resource
     private NewUserAuthenticator newUserAuthenticator;
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRecordRepository employeeRecordRepository;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeRecordRepository employeeRecordRepository) {
+        this.employeeRecordRepository = employeeRecordRepository;
     }
 
     @RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<EmployeeRecord> getEmployeeRecordsForLoggedInUser(Principal principal) {
-        return employeeRepository.findByName(principal.getName())
+        return employeeRecordRepository.findByName(principal.getName())
                 .stream()
                 .filter(employeeRecord -> !employeeRecord.isWorkInProgress())
                 .collect(toList());
@@ -39,12 +39,12 @@ public class EmployeeController {
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
     public List<EmployeeRecord> getAllEmployeeRecordsForUser(@PathVariable String username) {
-        List<EmployeeRecord> employeeRecords = employeeRepository.findByName(username);
+        List<EmployeeRecord> employeeRecords = employeeRecordRepository.findByName(username);
         if (!employeeRecords.isEmpty()) {
-            EmployeeRecord latestRecord = employeeRecords.get(employeeRecords.size() - 1);
+            EmployeeRecord latestRecord = employeeRecords.get(0);
             List<EmployeeRecord> filteredList = employeeRecords
                     .stream().filter(employeeRecord -> !employeeRecord.isWorkInProgress()).collect(toList());
-            filteredList.add(latestRecord);
+            filteredList.add(0, latestRecord);
             return filteredList;
         } else {
             throw new NoUserExistsException(username);
@@ -55,13 +55,13 @@ public class EmployeeController {
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
     public List<String> getAllUsernames() {
-        return employeeRepository.getAll().stream().map(EmployeeRecord::username).collect(toList());
+        return employeeRecordRepository.getAll().stream().map(EmployeeRecord::username).collect(toList());
     }
 
     @RequestMapping(value = "/employee", method = RequestMethod.POST)
     @RolesAllowed("ROLE_MANAGER")
     public void update(@RequestBody EmployeeRecord employeeRecord) {
-        employeeRepository.create(
+        employeeRecordRepository.create(
                 employeeRecord
         );
     }
@@ -69,7 +69,7 @@ public class EmployeeController {
     @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
     public void create(@RequestBody EmployeeRecord employeeRecord) {
         newUserAuthenticator.validateUserCanBeCreated(employeeRecord.username());
-        employeeRepository.create(
+        employeeRecordRepository.create(
                 employeeRecord
         );
     }

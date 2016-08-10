@@ -12,13 +12,13 @@ import static net.morpheus.domain.Role.Developer;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
+public class EmployeeRecordRepositoryTest extends AbstractRepositoryTestCase {
 
     @Test
     public void canCreateEmployee() {
         createEmployee(7);
 
-        EmployeeRecord employeeRecordByName = employeeRepository.findByName(employeeRecord.username()).get(0);
+        EmployeeRecord employeeRecordByName = employeeRecordRepository.findByName(employeeRecord.username()).get(0);
         assertThat(employeeRecordByName.username(), is("Pedr"));
         assertThat(employeeRecordByName.role(), is(Developer));
         assertThat(employeeRecordByName.skills().size(), is(1));
@@ -32,7 +32,7 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
         createEmployee(7);
         createEmployee(8);
 
-        List<EmployeeRecord> employeeRecords = employeeRepository.findByName(employeeRecord.username());
+        List<EmployeeRecord> employeeRecords = employeeRecordRepository.findByName(employeeRecord.username());
         assertThat(employeeRecords.size(), is(2));
 
         assertThat(employeeRecords.get(0).skills().size(), is(1));
@@ -50,7 +50,7 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
     public void canReadEmployee() {
         createEmployee(7);
 
-        EmployeeRecord readEmployeeRecord = employeeRepository.findByName(employeeRecord.username()).get(0);
+        EmployeeRecord readEmployeeRecord = employeeRecordRepository.findByName(employeeRecord.username()).get(0);
 
         assertThat(readEmployeeRecord.username(), is(employeeRecord.username()));
         assertThat(readEmployeeRecord.role(), is(employeeRecord.role()));
@@ -65,9 +65,9 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
         employeeRecords.add(EmployeeRecordBuilder.anEmployeeRecord().withUsername("Pedr").build());
         employeeRecords.add(EmployeeRecordBuilder.anEmployeeRecord().withUsername("Boris").build());
 
-        employeeRecords.forEach(employeeRecord -> employeeRepository.create(employeeRecord));
+        employeeRecords.forEach(employeeRecord -> employeeRecordRepository.create(employeeRecord));
 
-        List<EmployeeRecord> distinctUsernames = employeeRepository.getAll();
+        List<EmployeeRecord> distinctUsernames = employeeRecordRepository.getAll();
 
         assertThat(distinctUsernames.size(), is(2));
     }
@@ -77,6 +77,6 @@ public class EmployeeRepositoryTest extends AbstractRepositoryTestCase {
         skills.add(new Skill("Functional Delivery", value, "Always delivers on time"));
         employeeRecord = EmployeeRecordBuilder.anEmployeeRecord().withUsername("Pedr").withSkills(skills).build();
 
-        employeeRepository.create(employeeRecord);
+        employeeRecordRepository.create(employeeRecord);
     }
 }

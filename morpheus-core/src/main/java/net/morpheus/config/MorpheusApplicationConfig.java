@@ -6,7 +6,7 @@ import net.morpheus.controller.EmployeeController;
 import net.morpheus.controller.GlobalControllerAdvice;
 import net.morpheus.controller.TemplateController;
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -38,8 +38,8 @@ public class MorpheusApplicationConfig {
 
     @Bean
     @Autowired
-    public EmployeeController employeeController(EmployeeRepository employeeRepository) {
-        return new EmployeeController(employeeRepository);
+    public EmployeeController employeeController(EmployeeRecordRepository employeeRecordRepository) {
+        return new EmployeeController(employeeRecordRepository);
     }
 
     @Bean

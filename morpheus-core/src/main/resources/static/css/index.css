@@ -218,6 +218,20 @@ h5 {
     float: right;
 }
 
+#work-in-progress-label {
+    float: right;
+    margin-right: 20px;
+    margin-top: 15px;
+}
+
+#is-work-in-progress-save {
+    transform: scale(1.5);
+    float: right;
+    margin-right: 15px;
+    margin-top: 20px;
+}
+
+
 #timemachine {
     display: none;
     margin-top: 10px;

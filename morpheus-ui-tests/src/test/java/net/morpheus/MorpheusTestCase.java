@@ -11,7 +11,7 @@ import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.config.PersistenceConfig;
 import net.morpheus.domain.*;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
@@ -42,7 +42,7 @@ import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
 public abstract class MorpheusTestCase extends TestState implements WithCustomResultListeners {
 
     @Autowired
-    protected EmployeeRepository employeeRepository;
+    protected EmployeeRecordRepository employeeRecordRepository;
     @Autowired
     private SkillTemplateRepository skillTemplateRepository;
 
@@ -73,7 +73,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
 
     private void employeeRepositoryTestData() {
         //Yikes! TODO: Remove this!
-        employeeRepository.delete(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(null).build());
+        employeeRecordRepository.delete(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(null).build());
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 5, "Shows Potential"));
         skills.add(new Skill("Quality Of Code", 5, "Fantastic"));
@@ -88,7 +88,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         skills.add(new Skill("Java", 5, "Continuously Improving"));
         skills.add(new Skill("Database Management Systems", 5, "Needs improving"));
 
-        employeeRepository.create(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(skills).build());
+        employeeRecordRepository.create(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(skills).build());
         //End Yikes!
     }
 

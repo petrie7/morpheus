@@ -24,4 +24,5 @@ public class Skill {
     public Integer value() { return value; }
 
     public String comment() { return comment; }
+
 }

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
@@ -68,9 +69,16 @@ public class EmployeeRecord {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        EmployeeRecord employeeRecord = (EmployeeRecord) obj;
-        return employeeRecord.username().equals(this.username);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeeRecord that = (EmployeeRecord) o;
+        return isWorkInProgress == that.isWorkInProgress &&
+                Objects.equals(username, that.username) &&
+                role == that.role &&
+                Objects.equals(skills, that.skills) &&
+                level == that.level &&
+                Objects.equals(lastUpdateDate, that.lastUpdateDate);
     }
 
     @Override
@@ -78,5 +86,18 @@ public class EmployeeRecord {
         HashCodeBuilder builder = new HashCodeBuilder();
         builder.append(this.username);
         return builder.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeRecord{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", role=" + role +
+                ", skills=" + skills +
+                ", level=" + level +
+                ", isWorkInProgress=" + isWorkInProgress +
+                ", lastUpdateDate='" + lastUpdateDate + '\'' +
+                '}';
     }
 }

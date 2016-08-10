@@ -90,6 +90,8 @@
                 ng-disabled="isDirty()">
             Save
         </button>
+        <label id="work-in-progress-label">Is Work In Progress</label>
+        <input type="checkbox" id="is-work-in-progress-save" ng-disabled="isDirty()" ng-model="employee.isWorkInProgress"/>
     </div>
     <div id="timemachine">
         <div id="slider-snap"></div>

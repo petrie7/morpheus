@@ -17,6 +17,7 @@ public class EmployeeRecordBuilder {
     private Level level = JuniorDeveloper;
     private boolean isWorkInProgress = false;
     private ArrayList<Skill> skills = new ArrayList<>();
+    private String lastUpdateDate = null;
 
     private EmployeeRecordBuilder() {
     }
@@ -50,8 +51,15 @@ public class EmployeeRecordBuilder {
         return this;
     }
 
+    public EmployeeRecordBuilder withLastUpdatedDate(String lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+        return this;
+    }
+
     public EmployeeRecord build() {
-        return new EmployeeRecord(username, role, skills, level, isWorkInProgress);
+        EmployeeRecord employeeRecord = new EmployeeRecord(username, role, skills, level, isWorkInProgress);
+        employeeRecord.setDate(lastUpdateDate);
+        return employeeRecord;
     }
 
 }

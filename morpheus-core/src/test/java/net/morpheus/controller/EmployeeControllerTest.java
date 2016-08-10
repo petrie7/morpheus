@@ -1,7 +1,7 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,21 +10,22 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.time.LocalDateTime.now;
+import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class EmployeeControllerTest {
 
     private EmployeeController employeeController;
-    private EmployeeRepository repository;
+    private EmployeeRecordRepository repository;
 
     @Before
     public void setUp() {
-        repository = Mockito.mock(EmployeeRepository.class);
+        repository = Mockito.mock(EmployeeRecordRepository.class);
         employeeController = new EmployeeController(repository);
     }
 
@@ -43,16 +44,34 @@ public class EmployeeControllerTest {
 
     @Test
     public void aManagerCanSeeAllEmployeeRecordsAndMostRecentWorkInProgress() throws Exception {
+        EmployeeRecord expectedLatestWorkInProgress = anEmployeeRecord().withUsername("Pedr")
+                .withLastUpdatedDate(now().format(ISO_DATE_TIME))
+                .isWorkInProgress(true)
+                .build();
+
+        EmployeeRecord expectedLatestCompleteSave = anEmployeeRecord().withUsername("Pedr")
+                .withLastUpdatedDate(now().minusMinutes(5L).format(ISO_DATE_TIME))
+                .isWorkInProgress(false)
+                .build();
+
+        EmployeeRecord oldWorkInProgress = anEmployeeRecord().withUsername("Pedr")
+                .withLastUpdatedDate(now().minusMinutes(10L).format(ISO_DATE_TIME))
+                .isWorkInProgress(true)
+                .build();
+
         when(repository.findByName("Pedr")).thenReturn(Arrays.asList(
-                anEmployeeRecord().withUsername("Pedr").isWorkInProgress(true).build(),
-                anEmployeeRecord().withUsername("Pedr").isWorkInProgress(false).build(),
-                anEmployeeRecord().withUsername("Pedr").isWorkInProgress(true).build()
+                expectedLatestWorkInProgress,
+                expectedLatestCompleteSave,
+                oldWorkInProgress
         ));
         List<EmployeeRecord> actualRecords = employeeController.getAllEmployeeRecordsForUser("Pedr");
 
         assertThat(actualRecords.size(), is(2));
-        assertFalse(actualRecords.get(0).isWorkInProgress());
-        assertTrue(actualRecords.get(1).isWorkInProgress());
+
+        assertThat(actualRecords.get(0), is(expectedLatestWorkInProgress));
+        assertThat(actualRecords.get(0).date(), is(expectedLatestWorkInProgress.date()));
+
+        assertThat(actualRecords.get(1), is(expectedLatestCompleteSave));
     }
 
     @Test

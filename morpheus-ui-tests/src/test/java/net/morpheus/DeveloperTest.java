@@ -30,7 +30,7 @@ public class DeveloperTest extends MorpheusTestCase {
 
     private GivensBuilder hasSomeSkillsWithComments() {
         return interestingGivens -> {
-            employeeRepository.create(employeeRecordForTest);
+            employeeRecordRepository.create(employeeRecordForTest);
             return interestingGivens;
         };
     }

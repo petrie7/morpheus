@@ -23,7 +23,7 @@ public abstract class AbstractRepositoryTestCase {
 
     private static MongodProcess mongod;
 
-    protected EmployeeRepository employeeRepository;
+    protected EmployeeRecordRepository employeeRecordRepository;
     protected SkillTemplateRepository skillTemplateRepository;
     protected EmployeeRecord employeeRecord;
 
@@ -48,14 +48,14 @@ public abstract class AbstractRepositoryTestCase {
     @Before
     public void setup() throws IOException {
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
-        employeeRepository = new EmployeeRepository(mongoTemplate);
+        employeeRecordRepository = new EmployeeRecordRepository(mongoTemplate);
         skillTemplateRepository = new SkillTemplateRepository(mongoTemplate);
     }
 
     @After
     public void clear() {
         if (employeeRecord != null) {
-            employeeRepository.delete(employeeRecord);
+            employeeRecordRepository.delete(employeeRecord);
         }
     }
 
