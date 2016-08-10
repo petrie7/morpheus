@@ -67,10 +67,7 @@ public class EmployeeControllerTest {
         List<EmployeeRecord> actualRecords = employeeController.getAllEmployeeRecordsForUser("Pedr");
 
         assertThat(actualRecords.size(), is(2));
-
         assertThat(actualRecords.get(0), is(expectedLatestWorkInProgress));
-        assertThat(actualRecords.get(0).date(), is(expectedLatestWorkInProgress.date()));
-
         assertThat(actualRecords.get(1), is(expectedLatestCompleteSave));
     }
 
