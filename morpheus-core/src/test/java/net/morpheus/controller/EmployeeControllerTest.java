@@ -7,11 +7,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
+import static java.util.Arrays.asList;
 import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -31,7 +31,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void loggedInUserShouldNotSeeWorkInProgressRecords() throws Exception {
-        when(repository.findByName("Pedr")).thenReturn(Arrays.asList(
+        when(repository.findByName("Pedr")).thenReturn(asList(
                 anEmployeeRecord().withUsername("Pedr").isWorkInProgress(true).build(),
                 anEmployeeRecord().withUsername("Pedr").isWorkInProgress(false).build()));
         Principal principle = Mockito.mock(Principal.class);
@@ -59,7 +59,7 @@ public class EmployeeControllerTest {
                 .isWorkInProgress(true)
                 .build();
 
-        when(repository.findByName("Pedr")).thenReturn(Arrays.asList(
+        when(repository.findByName("Pedr")).thenReturn(asList(
                 expectedLatestWorkInProgress,
                 expectedLatestCompleteSave,
                 oldWorkInProgress
@@ -73,7 +73,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void aManagerCanRetrieveAllUsernames() throws Exception {
-        when(repository.getAll()).thenReturn(Arrays.asList(
+        when(repository.getAll()).thenReturn(asList(
                 anEmployeeRecord().withUsername("Pedr").isWorkInProgress(true).build(),
                 anEmployeeRecord().withUsername("Tymbo").isWorkInProgress(true).build(),
                 anEmployeeRecord().withUsername("Boris").isWorkInProgress(true).build()
@@ -81,6 +81,20 @@ public class EmployeeControllerTest {
         List<String> allUsernames = employeeController.getAllUsernames();
 
         assertThat(allUsernames.size(), is(3));
+    }
+
+    @Test
+    public void returnsAListOfCompleteSavesForAUser() {
+        String username = "Pedr";
+        when(repository.findByName(username)).thenReturn(asList(
+                anEmployeeRecord().withUsername(username).build(),
+                anEmployeeRecord().withUsername(username).build(),
+                anEmployeeRecord().withUsername(username).build()
+        ));
+
+        List<EmployeeRecord> allEmployeeRecordsForUser = employeeController.getAllEmployeeRecordsForUser(username);
+
+        assertThat(allEmployeeRecordsForUser.size(), is(3));
     }
 
 

@@ -44,7 +44,9 @@ public class EmployeeController {
             EmployeeRecord latestRecord = employeeRecords.get(0);
             List<EmployeeRecord> filteredList = employeeRecords
                     .stream().filter(employeeRecord -> !employeeRecord.isWorkInProgress()).collect(toList());
-            filteredList.add(0, latestRecord);
+            if (latestRecord.isWorkInProgress()) {
+                filteredList.add(0, latestRecord);
+            }
             return filteredList;
         } else {
             throw new NoUserExistsException(username);
