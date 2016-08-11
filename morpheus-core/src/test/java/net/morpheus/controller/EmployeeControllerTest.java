@@ -1,5 +1,6 @@
 package net.morpheus.controller;
 
+import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.Team;
 import net.morpheus.persistence.EmployeeRepository;
 import org.junit.Before;
@@ -28,15 +29,15 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void aManagerCanRetrieveAllUsernames() throws Exception {
+    public void aManagerCanRetrieveAllEmployees() throws Exception {
         when(repository.getAll()).thenReturn(asList(
                 anEmployee().withUsername("Pedr").build(),
                 anEmployee().withUsername("Tymbo").build(),
                 anEmployee().withUsername("Boris").build()
         ));
-        List<String> allUsernames = employeeController.getAllUsernames();
+        List<EmployeeDetails> allEmployees = employeeController.getAllEmployees();
 
-        assertThat(allUsernames.size(), is(3));
+        assertThat(allEmployees.size(), is(3));
     }
 
     @Ignore

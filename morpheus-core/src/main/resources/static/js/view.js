@@ -17,6 +17,7 @@ angular
                         editTab.className = "inactive";
                         editTeamsTab.className = "inactive";
                         retrieveAllEmployees();
+                        getTemplates();
                     } else {
                         getSkillsTemplateAndEmployee();
                     }
@@ -183,16 +184,24 @@ angular
             };
 
             function getSkillsTemplateAndEmployee() {
+                getTemplates(getEmployee);
+            }
+
+            function getEmployee() {
+                if (!$scope.isManager()) {
+                    $http.get('employee')
+                        .success(function (data, status, headers, config) {
+                            $scope.employeeRecords = data;
+                            $scope.employee = data[0];
+                        });
+                }
+            }
+
+            function getTemplates(callback) {
                 $http.get('template')
                     .success(function (data, status, headers, config) {
                         $scope.templates = data;
-                        if (!$scope.isManager()) {
-                            $http.get('employee')
-                                .success(function (data, status, headers, config) {
-                                    $scope.employeeRecords = data;
-                                    $scope.employee = data[0];
-                                });
-                        }
+                        typeof callback === 'function' && callback();
                     });
             }
 
@@ -229,7 +238,9 @@ angular
             function retrieveAllEmployees() {
                 $http.get('employee/all')
                     .success(function (data, status, headers, config) {
-                        $scope.employees = data;
+                        $scope.employees = data.map(function (employeeDetail) {
+                            return employeeDetail.username;
+                        });
                         $('#q').autocomplete({
                             source: $scope.employees
                         });
@@ -294,13 +305,15 @@ angular
             }
 
             function refreshSlider() {
-                $scope.slider.noUiSlider.updateOptions({
-                    start: $scope.employeeRecords.length - 1,
-                    range: {
-                        'min': 0,
-                        'max': $scope.employeeRecords.length - 1
-                    }
-                });
+                if ($scope.slider) {
+                    $scope.slider.noUiSlider.updateOptions({
+                        start: $scope.employeeRecords.length - 1,
+                        range: {
+                            'min': 0,
+                            'max': $scope.employeeRecords.length - 1
+                        }
+                    });
+                }
             }
 
             function createRange() {

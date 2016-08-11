@@ -12,8 +12,6 @@ import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 @RestController
 public class EmployeeController {
 
@@ -29,8 +27,8 @@ public class EmployeeController {
     @RequestMapping(value = "/employee/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
-    public List<String> getAllUsernames() {
-        return employeeRepository.getAll().stream().map(EmployeeDetails::username).collect(toList());
+    public List<EmployeeDetails> getAllEmployees() {
+        return employeeRepository.getAll();
     }
 
     @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
