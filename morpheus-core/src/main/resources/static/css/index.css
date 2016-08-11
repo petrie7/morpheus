@@ -118,14 +118,13 @@ table {
 }
 
 #logout-button {
-    width: 100%;
-    margin-top: 10px;
-    margin-left: 75%;
+    margin-left: 60px;
+    position: absolute;
 }
 
 .logout {
     position: fixed;
-    bottom: 0;
+    bottom: 27;
     left: 10;
 }
 
@@ -383,5 +382,21 @@ h5 {
 }
 
 .myTable > tbody > tr > td {
+    text-align:center;
+    vertical-align:middle;
     border: 0;
+}
+
+.table-bordered > tbody > tr > td {
+    text-align:center;
+    vertical-align:middle;
+    border: 0;
+}
+
+#template-field-name {
+    text-align: left;
+}
+
+#matrix-field-name  {
+    text-align: left;
 }

@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="field in template.fields">
-                        <td>{{field.fieldName}}</td>
+                        <td id="matrix-field-name">{{field.fieldName}}</td>
                         <td ng-repeat="n in range(0,8)">
                             <div data-tip="{{descriptionFor(field.fieldName, n)}}">
                                 <input type="radio"
