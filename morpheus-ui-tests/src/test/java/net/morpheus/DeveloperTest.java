@@ -1,5 +1,6 @@
 package net.morpheus;
 
+import com.google.common.base.Predicate;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.domain.Skill;
@@ -37,10 +38,14 @@ public class DeveloperTest extends MorpheusTestCase {
 
     private StateExtractor<List<WebElement>> theSkillsMatrix() {
         return capturedInputAndOutputs1 -> {
-            WebElement table = webDriver.findElements(By.className("myTable")).get(0);
-            new WebDriverWait(webDriver, 7)
-                    .until((WebDriver driver) -> table.findElements(By.tagName("tr")).size() > 3);
+            new WebDriverWait(webDriver, 10).until(new Predicate<WebDriver>() {
+                @Override
+                public boolean apply(WebDriver webDriver) {
+                    return webDriver.findElement(By.className("myTable")).isDisplayed();
+                }
+            });
 
+            WebElement table = webDriver.findElements(By.className("myTable")).get(0);
             return table.findElements(By.tagName("tr"));
         };
     }

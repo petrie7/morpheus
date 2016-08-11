@@ -33,7 +33,6 @@ public class EmployeeController {
         return employeeRepository.getAll().stream().map(EmployeeDetails::username).collect(toList());
     }
 
-
     @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
     public void create(@RequestBody EmployeeDetails employeeDetails) {
         newUserAuthenticator.validateUserCanBeCreated(employeeDetails.username());

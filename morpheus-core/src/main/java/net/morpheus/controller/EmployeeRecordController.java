@@ -1,16 +1,18 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.exception.NoUserExistsException;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
+import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 
 @RestController
 public class EmployeeRecordController {
@@ -24,10 +26,11 @@ public class EmployeeRecordController {
     @RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<EmployeeRecord> getEmployeeRecordsForLoggedInUser(Principal principal) {
-        return employeeRecordRepository.findByName(principal.getName())
+        List<EmployeeRecord> records = employeeRecordRepository.findByName(principal.getName())
                 .stream()
                 .filter(employeeRecord -> !employeeRecord.isWorkInProgress())
                 .collect(toList());
+        return records.isEmpty() ? emptyRecord(principal.getName()) : records;
     }
 
     @RequestMapping(value = "/employee/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,8 +47,15 @@ public class EmployeeRecordController {
             }
             return filteredList;
         } else {
-            throw new NoUserExistsException(username);
+            return emptyRecord(username);
         }
+    }
+
+    private List<EmployeeRecord> emptyRecord(@PathVariable String username) {
+        return singletonList(anEmployeeRecord()
+                .withUsername(username)
+                .withLastUpdatedDate(LocalDateTime.now().toString())
+                .build());
     }
 
     @RequestMapping(value = "/employee", method = RequestMethod.POST)

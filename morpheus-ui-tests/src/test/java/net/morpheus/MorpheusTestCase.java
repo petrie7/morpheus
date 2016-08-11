@@ -52,6 +52,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     protected LdapStubServer ldapStubServer;
 
     protected WebDriver webDriver;
+    protected EmployeeDetails employeeDetailsForTest;
     protected EmployeeRecord employeeRecordForTest;
     private EmployeeDetails employeeForTest;
     private String employeePassword;
@@ -75,6 +76,8 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         String username = someString();
         employeeForTest = anEmployee().withUsername(username).build();
         employeeRecordForTest = anEmployeeRecord().withUsername(username).withSkills(skills).build();
+        employeeDetailsForTest = new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, Team.Sonique);
+        employeeRepository.create(employeeDetailsForTest);
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
     }
