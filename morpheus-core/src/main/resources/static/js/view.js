@@ -183,11 +183,13 @@ angular
                 $http.get('template')
                     .success(function (data, status, headers, config) {
                         $scope.templates = data;
-                        $http.get('employee')
-                            .success(function (data, status, headers, config) {
-                                $scope.employeeRecords = data;
-                                $scope.employee = data[0];
-                            });
+                        if (!$scope.isManager()) {
+                            $http.get('employee')
+                                .success(function (data, status, headers, config) {
+                                    $scope.employeeRecords = data;
+                                    $scope.employee = data[0];
+                                });
+                        }
                     });
             }
 
@@ -252,9 +254,9 @@ angular
             }
 
             function renderSlider() {
-                var date = new Date($scope.employee.lastUpdateDate);
                 $("#timemachine").show();
                 if ($scope.employeeRecords.length > 1) {
+                    var date = new Date($scope.employee.lastUpdateDate);
                     $("#slider-snap").show();
                     var snapSlider = document.getElementById('slider-snap');
 
@@ -280,7 +282,11 @@ angular
                     });
                 }
                 else {
-                    $('#date').html(date);
+                    if ($scope.employee.lastUpdateDate) {
+                        $('#date').html(new Date($scope.employee.lastUpdateDate));
+                    } else {
+                        $('#date').html('There are no records to display');
+                    }
                 }
             }
 

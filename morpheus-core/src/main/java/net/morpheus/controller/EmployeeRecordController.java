@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
@@ -54,7 +53,6 @@ public class EmployeeRecordController {
     private List<EmployeeRecord> emptyRecord(@PathVariable String username) {
         return singletonList(anEmployeeRecord()
                 .withUsername(username)
-                .withLastUpdatedDate(LocalDateTime.now().toString())
                 .build());
     }
 
