@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.ldap.core.support.LdapContextSource;
 
 import static com.unboundid.ldap.sdk.Filter.createEqualityFilter;
-import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
+import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -39,7 +39,7 @@ public class LdapStubServerTest {
 
     @Test
     public void canAddAUserToLdap() throws LDIFException, LDAPException {
-        ldapStubServer.addEmployee(anEmployeeRecord().withUsername("Employee 1").build(), "Password");
+        ldapStubServer.addEmployee(anEmployee().withUsername("Employee 1").build(), "Password");
 
         LdapContextSource contextSource = new LdapContextSource();
         contextSource.setUrl("ldap://" + HOSTNAME + ":" + PORT);

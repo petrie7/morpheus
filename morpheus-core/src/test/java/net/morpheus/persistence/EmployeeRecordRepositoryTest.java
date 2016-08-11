@@ -8,19 +8,17 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.morpheus.domain.Role.Developer;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EmployeeRecordRepositoryTest extends AbstractRepositoryTestCase {
 
     @Test
-    public void canCreateEmployee() {
-        createEmployee(7);
+    public void canCreateEmployeeRecord() {
+        createEmployeeRecord(7);
 
         EmployeeRecord employeeRecordByName = employeeRecordRepository.findByName(employeeRecord.username()).get(0);
         assertThat(employeeRecordByName.username(), is("Pedr"));
-        assertThat(employeeRecordByName.role(), is(Developer));
         assertThat(employeeRecordByName.skills().size(), is(1));
         assertThat(employeeRecordByName.skills().get(0).value(), is(7));
         assertThat(employeeRecordByName.skills().get(0).description(), is("Functional Delivery"));
@@ -29,8 +27,8 @@ public class EmployeeRecordRepositoryTest extends AbstractRepositoryTestCase {
 
     @Test
     public void canUpdateEmployee() {
-        createEmployee(7);
-        createEmployee(8);
+        createEmployeeRecord(7);
+        createEmployeeRecord(8);
 
         List<EmployeeRecord> employeeRecords = employeeRecordRepository.findByName(employeeRecord.username());
         assertThat(employeeRecords.size(), is(2));
@@ -38,24 +36,20 @@ public class EmployeeRecordRepositoryTest extends AbstractRepositoryTestCase {
         assertThat(employeeRecords.get(0).skills().size(), is(1));
         assertThat(employeeRecords.get(0).skills().get(0).description(), is("Functional Delivery"));
         assertThat(employeeRecords.get(0).skills().get(0).value(), is(8));
-        assertThat(employeeRecords.get(0).role(), is(Developer));
 
         assertThat(employeeRecords.get(1).skills().size(), is(1));
         assertThat(employeeRecords.get(1).skills().get(0).description(), is("Functional Delivery"));
         assertThat(employeeRecords.get(1).skills().get(0).value(), is(7));
-        assertThat(employeeRecords.get(1).role(), is(Developer));
     }
 
     @Test
     public void canReadEmployee() {
-        createEmployee(7);
+        createEmployeeRecord(7);
 
         EmployeeRecord readEmployeeRecord = employeeRecordRepository.findByName(employeeRecord.username()).get(0);
 
         assertThat(readEmployeeRecord.username(), is(employeeRecord.username()));
-        assertThat(readEmployeeRecord.role(), is(employeeRecord.role()));
         assertThat(readEmployeeRecord.skills().size(), is(employeeRecord.skills().size()));
-        assertThat(readEmployeeRecord.level(), is(employeeRecord.level()));
     }
 
     @Test
@@ -72,7 +66,7 @@ public class EmployeeRecordRepositoryTest extends AbstractRepositoryTestCase {
         assertThat(distinctUsernames.size(), is(2));
     }
 
-    private void createEmployee(int value) {
+    private void createEmployeeRecord(int value) {
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", value, "Always delivers on time"));
         employeeRecord = EmployeeRecordBuilder.anEmployeeRecord().withUsername("Pedr").withSkills(skills).build();

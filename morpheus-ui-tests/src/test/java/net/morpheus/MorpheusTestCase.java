@@ -12,6 +12,7 @@ import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.config.PersistenceConfig;
 import net.morpheus.domain.*;
 import net.morpheus.persistence.EmployeeRecordRepository;
+import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
@@ -32,7 +33,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
 import static java.util.Arrays.asList;
 import static net.morpheus.MorpheusDataFixtures.someString;
-import static net.morpheus.domain.Level.Manager;
+import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
 
@@ -44,12 +45,17 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     @Autowired
     protected EmployeeRecordRepository employeeRecordRepository;
     @Autowired
-    private SkillTemplateRepository skillTemplateRepository;
+    private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private SkillTemplateRepository skillTemplateRepository;
     protected LdapStubServer ldapStubServer;
+
     protected WebDriver webDriver;
     protected EmployeeRecord employeeRecordForTest;
+    private EmployeeDetails employeeForTest;
     private String employeePassword;
+
     private MongoStub mongoStub;
 
     @Before
@@ -66,13 +72,16 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         ldapStubServer.start();
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 7, "Always delivers on time"));
-        employeeRecordForTest = anEmployeeRecord().withUsername(someString()).withSkills(skills).build();
+        String username = someString();
+        employeeForTest = anEmployee().withUsername(username).build();
+        employeeRecordForTest = anEmployeeRecord().withUsername(username).withSkills(skills).build();
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
     }
 
     private void employeeRepositoryTestData() {
         //Yikes! TODO: Remove this!
+        employeeRepository.delete(anEmployee().withUsername("Laurence_Fishburne").build());
         employeeRecordRepository.delete(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(null).build());
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 5, "Shows Potential"));
@@ -88,6 +97,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         skills.add(new Skill("Java", 5, "Continuously Improving"));
         skills.add(new Skill("Database Management Systems", 5, "Needs improving"));
 
+        employeeRepository.create(anEmployee().withUsername("Laurence_Fishburne").build());
         employeeRecordRepository.create(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(skills).build());
         //End Yikes!
     }
@@ -175,20 +185,19 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
 
     protected GivensBuilder anUserExists() {
         return givens -> {
-            ldapStubServer.addEmployee(employeeRecordForTest, employeePassword);
+            ldapStubServer.addEmployee(employeeForTest, employeePassword);
             return givens;
         };
     }
 
     protected GivensBuilder aManagerIsLoggedIn() {
         return interestingGivens -> {
-            employeeRecordForTest = anEmployeeRecord()
+            employeeForTest = anEmployee()
                     .withUsername("Tymbo")
-                    .withLevel(Manager)
                     .withRole(Role.Manager)
                     .build();
 
-            ldapStubServer.addEmployee(employeeRecordForTest, employeePassword);
+            ldapStubServer.addEmployee(employeeForTest, employeePassword);
 
             openMorpheus();
             loginUser();
@@ -205,7 +214,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     }
 
     private void loginUser() {
-        $(By.id("username")).setValue(employeeRecordForTest.username());
+        $(By.id("username")).setValue(employeeForTest.username());
         $(By.id("password")).setValue(employeePassword);
         $(By.id("submit")).click();
     }

@@ -15,7 +15,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 public class EmployeeRecordRepository {
 
-    public static final String EMPLOYEE_RECORD_COLLECTION = "employee";
+    public static final String EMPLOYEE_RECORD_COLLECTION = "employee_record";
     private MongoTemplate mongoTemplate;
 
     public EmployeeRecordRepository(MongoTemplate mongoTemplate) {

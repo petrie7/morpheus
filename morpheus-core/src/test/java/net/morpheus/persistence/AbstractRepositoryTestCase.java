@@ -8,6 +8,7 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
+import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.EmployeeRecord;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,7 +26,11 @@ public abstract class AbstractRepositoryTestCase {
 
     protected EmployeeRecordRepository employeeRecordRepository;
     protected SkillTemplateRepository skillTemplateRepository;
+    protected EmployeeRepository employeeDetailsRepository;
+
     protected EmployeeRecord employeeRecord;
+    protected EmployeeDetails employee;
+    protected EmployeeDetails employee2;
 
     @BeforeClass
     public static void startEmbeddedMongo() throws IOException {
@@ -49,11 +54,18 @@ public abstract class AbstractRepositoryTestCase {
     public void setup() throws IOException {
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
         employeeRecordRepository = new EmployeeRecordRepository(mongoTemplate);
+        employeeDetailsRepository = new EmployeeRepository(mongoTemplate);
         skillTemplateRepository = new SkillTemplateRepository(mongoTemplate);
     }
 
     @After
     public void clear() {
+        if (employee != null) {
+            employeeDetailsRepository.delete(employee);
+        }
+        if (employee2 != null) {
+            employeeDetailsRepository.delete(employee);
+        }
         if (employeeRecord != null) {
             employeeRecordRepository.delete(employeeRecord);
         }

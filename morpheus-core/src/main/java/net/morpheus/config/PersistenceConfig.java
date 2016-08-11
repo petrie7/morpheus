@@ -2,6 +2,7 @@ package net.morpheus.config;
 
 import com.mongodb.MongoClient;
 import net.morpheus.persistence.EmployeeRecordRepository;
+import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,15 +23,20 @@ public class PersistenceConfig {
 
     @Bean
     public static MongoDbFactory mongoDbFactory() throws UnknownHostException {
-        return  new SimpleMongoDbFactory(
+        return new SimpleMongoDbFactory(
                 new MongoClient("localhost", 27017),
                 "morpheus"
         );
     }
 
     @Bean
-    public EmployeeRecordRepository employeeRepository() throws UnknownHostException {
+    public EmployeeRecordRepository employeeRecordRepository() throws UnknownHostException {
         return new EmployeeRecordRepository(mongoTemplate());
+    }
+
+    @Bean
+    public EmployeeRepository employeeRepository() throws UnknownHostException {
+        return new EmployeeRepository(mongoTemplate());
     }
 
     @Bean

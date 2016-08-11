@@ -4,8 +4,7 @@ import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
-import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.domain.builder.EmployeeRecordBuilder;
+import net.morpheus.domain.EmployeeDetails;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -17,14 +16,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.codeborne.selenide.Selenide.$;
+import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 
 public class CreateEmployeeTest extends MorpheusTestCase {
 
-    private EmployeeRecord newEmployeeRecord;
+    private EmployeeDetails newEmployee;
 
     @Before
     public void setup() {
-        newEmployeeRecord = EmployeeRecordBuilder.anEmployeeRecord()
+        newEmployee = anEmployee()
                 .withUsername("Pedro")
                 .build();
     }
@@ -35,7 +35,7 @@ public class CreateEmployeeTest extends MorpheusTestCase {
         and(aManagerIsLoggedIn());
 
         when(theUserNavigatesToCreateEmployee());
-        when(entersNewEmployee(newEmployeeRecord));
+        when(entersNewEmployee(newEmployee));
 
         then(theNewEmployeeSuccessStatus(), isDisplayed());
 //        then(theEmployeeService(), isCalled(once()));
@@ -43,7 +43,7 @@ public class CreateEmployeeTest extends MorpheusTestCase {
 
     private GivensBuilder anEmployeeIsInCauth() {
         return givens -> {
-            ldapStubServer.addEmployee(newEmployeeRecord, "password");
+            ldapStubServer.addEmployee(newEmployee, "password");
             return givens;
         };
     }
@@ -55,10 +55,10 @@ public class CreateEmployeeTest extends MorpheusTestCase {
         };
     }
 
-    private ActionUnderTest entersNewEmployee(EmployeeRecord employeeRecord) {
+    private ActionUnderTest entersNewEmployee(EmployeeDetails employee) {
         return (givens, capturedInputAndOutputs) -> {
-            $(By.id("newUsername")).setValue(employeeRecord.username());
-            $(By.id("roleSelect")).selectOption(employeeRecord.role().toString());
+            $(By.id("newUsername")).setValue(employee.username());
+            $(By.id("roleSelect")).selectOption(employee.role().toString());
             $(By.id("levelSelect")).selectOption("Junior Developer");
             $(By.id("save-employee")).click();
             return capturedInputAndOutputs;

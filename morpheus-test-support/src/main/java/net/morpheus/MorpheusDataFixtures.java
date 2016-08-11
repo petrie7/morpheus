@@ -1,7 +1,11 @@
 package net.morpheus;
 
+import net.morpheus.domain.Team;
+
 import java.util.List;
 import java.util.Random;
+
+import static java.util.Arrays.asList;
 
 public class MorpheusDataFixtures {
 
@@ -24,5 +28,13 @@ public class MorpheusDataFixtures {
     public static <T> T pickOneOf(List<T> choices) {
         Random random = new Random();
         return choices.get(random.nextInt(choices.size()));
+    }
+
+    public static String someUsername() {
+        return someString();
+    }
+
+    public static Team someTeam() {
+        return pickOneOf(asList(Team.values()));
     }
 }

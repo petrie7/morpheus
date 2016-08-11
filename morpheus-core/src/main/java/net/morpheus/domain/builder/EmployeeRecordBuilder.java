@@ -1,23 +1,16 @@
 package net.morpheus.domain.builder;
 
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.domain.Level;
-import net.morpheus.domain.Role;
 import net.morpheus.domain.Skill;
 
 import java.util.ArrayList;
 
-import static net.morpheus.domain.Level.JuniorDeveloper;
-import static net.morpheus.domain.Role.Developer;
-
 public class EmployeeRecordBuilder {
 
-    private String username;
-    private Role role = Developer;
-    private Level level = JuniorDeveloper;
     private boolean isWorkInProgress = false;
     private ArrayList<Skill> skills = new ArrayList<>();
     private String lastUpdateDate = null;
+    private String username;
 
     private EmployeeRecordBuilder() {
     }
@@ -31,18 +24,8 @@ public class EmployeeRecordBuilder {
         return this;
     }
 
-    public EmployeeRecordBuilder withRole(Role role) {
-        this.role = role;
-        return this;
-    }
-
     public EmployeeRecordBuilder withSkills(ArrayList<Skill> skills) {
         this.skills = skills;
-        return this;
-    }
-
-    public EmployeeRecordBuilder withLevel(Level level) {
-        this.level = level;
         return this;
     }
 
@@ -57,9 +40,8 @@ public class EmployeeRecordBuilder {
     }
 
     public EmployeeRecord build() {
-        EmployeeRecord employeeRecord = new EmployeeRecord(username, role, skills, level, isWorkInProgress);
+        EmployeeRecord employeeRecord = new EmployeeRecord(username, skills, isWorkInProgress);
         employeeRecord.setDate(lastUpdateDate);
         return employeeRecord;
     }
-
 }

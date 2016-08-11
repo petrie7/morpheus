@@ -6,7 +6,7 @@ import com.unboundid.ldap.listener.InMemoryListenerConfig;
 import com.unboundid.ldap.sdk.*;
 import com.unboundid.ldif.LDIFException;
 import com.unboundid.ldif.LDIFReader;
-import net.morpheus.domain.EmployeeRecord;
+import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.Role;
 import org.springframework.core.io.ClassPathResource;
 
@@ -15,7 +15,7 @@ import java.io.InputStream;
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
 import static net.morpheus.domain.Level.Manager;
-import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
+import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 
 public class LdapStubServer {
 
@@ -25,12 +25,12 @@ public class LdapStubServer {
     public static void main(String[] args) throws Exception {
         LdapStubServer ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
-        ldapStubServer.addEmployee(anEmployeeRecord()
+        ldapStubServer.addEmployee(anEmployee()
                         .withUsername("Laurence_Fishburne")
                         .build(),
                 "a");
 
-        ldapStubServer.addEmployee(anEmployeeRecord()
+        ldapStubServer.addEmployee(anEmployee()
                         .withUsername("Manager")
                         .withLevel(Manager)
                         .withRole(Role.Manager)
@@ -58,22 +58,22 @@ public class LdapStubServer {
         directoryServer.shutDown(true);
     }
 
-    public void addEmployee(EmployeeRecord employeeRecord, String password) throws LDIFException, LDAPException {
+    public void addEmployee(EmployeeDetails employee, String password) throws LDIFException, LDAPException {
         connection.add(new AddRequest(
-                "dn:" + dnFor(employeeRecord.username()),
+                "dn:" + dnFor(employee.username()),
                 "objectClass: top",
                 "objectClass: inetOrgPerson",
                 "objectClass: organizationalPerson",
                 "objectClass: person",
-                "cn: " + employeeRecord.username(),
-                "sn: " + employeeRecord.username(),
-                "uid: " + employeeRecord.username(),
+                "cn: " + employee.username(),
+                "sn: " + employee.username(),
+                "uid: " + employee.username(),
                 "userPassword: " + password
         ));
 
         connection.modify(new ModifyRequest(
-                groupFor(employeeRecord.role()),
-                new Modification(ModificationType.ADD, "member", dnFor(employeeRecord.username()))
+                groupFor(employee.role()),
+                new Modification(ModificationType.ADD, "member", dnFor(employee.username()))
         ));
     }
 
