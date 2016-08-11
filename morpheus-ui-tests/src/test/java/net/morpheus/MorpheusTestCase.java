@@ -77,7 +77,6 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         employeeForTest = anEmployee().withUsername(username).build();
         employeeRecordForTest = anEmployeeRecord().withUsername(username).withSkills(skills).build();
         employeeDetailsForTest = new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, Team.Sonique);
-        employeeRepository.create(employeeDetailsForTest);
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
     }
@@ -189,6 +188,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     protected GivensBuilder anUserExists() {
         return givens -> {
             ldapStubServer.addEmployee(employeeForTest, employeePassword);
+            employeeRepository.create(employeeDetailsForTest);
             return givens;
         };
     }

@@ -8,7 +8,6 @@ angular
             $http.get('authenticated')
                 .success(function (data) {
                     $scope.authenticatedUser = data;
-
                     if ($scope.isManager()) {
                         var createTab = document.getElementById("createEmployee");
                         var editTab = document.getElementById("editTemplates");
@@ -17,14 +16,14 @@ angular
                         createTab.className = "inactive";
                         editTab.className = "inactive";
                         editTeamsTab.className = "inactive";
+                        retrieveAllEmployees();
+                    } else {
+                        getSkillsTemplateAndEmployee();
                     }
                 });
 
             $scope.editable = true;
             $('#updateCommentDialog').hide();
-
-            getSkillsTemplateAndEmployee();
-            retrieveAllEmployees();
 
             $scope.range = function (min, max, step) {
                 step = step || 1;
@@ -176,7 +175,11 @@ angular
             });
 
             $scope.isManager = function () {
-                return $scope.authenticatedUser.authorities[0].authority === 'ROLE_MANAGER';
+                if ($scope.authenticatedUser) {
+                    return $scope.authenticatedUser.authorities[0].authority === 'ROLE_MANAGER';
+                } else {
+                    return false;
+                }
             };
 
             function getSkillsTemplateAndEmployee() {

@@ -16,6 +16,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.equalTo;
+
+
 public class DeveloperTest extends MorpheusTestCase {
 
     @Test
@@ -29,6 +32,16 @@ public class DeveloperTest extends MorpheusTestCase {
         then(theSkillsMatrix(), containsAllEmployeesSkillsWithComments());
     }
 
+    @Test
+    public void noRecordsWhenNoRecordsExistForUser() throws Exception {
+        given(anUserExists());
+
+        when(theUserLogsIn());
+
+        then(theSkillsMatrix(), isDisplayed());
+        then(theTymMachineMessage(), equalTo("There are no records to display"));
+    }
+
     private GivensBuilder hasSomeSkillsWithComments() {
         return interestingGivens -> {
             employeeRecordRepository.create(employeeRecordForTest);
@@ -38,7 +51,7 @@ public class DeveloperTest extends MorpheusTestCase {
 
     private StateExtractor<List<WebElement>> theSkillsMatrix() {
         return capturedInputAndOutputs1 -> {
-            new WebDriverWait(webDriver, 10).until(new Predicate<WebDriver>() {
+            new WebDriverWait(webDriver, 30).until(new Predicate<WebDriver>() {
                 @Override
                 public boolean apply(WebDriver webDriver) {
                     return webDriver.findElement(By.className("myTable")).isDisplayed();
@@ -48,6 +61,10 @@ public class DeveloperTest extends MorpheusTestCase {
             WebElement table = webDriver.findElements(By.className("myTable")).get(0);
             return table.findElements(By.tagName("tr"));
         };
+    }
+
+    private StateExtractor<String> theTymMachineMessage() {
+        return inputAndOutputs -> webDriver.findElement(By.id("date")).getText();
     }
 
     private Matcher<List<WebElement>> isDisplayed() {
