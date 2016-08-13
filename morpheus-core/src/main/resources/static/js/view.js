@@ -9,11 +9,13 @@ angular
                 .success(function (data) {
                     $scope.authenticatedUser = data;
                     if ($scope.isManager()) {
-                        var createTab = document.getElementById("createEmployee");
+                        var createEmployeeTab = document.getElementById("createEmployee");
                         var editTab = document.getElementById("editTemplates");
                         var editTeamsTab = document.getElementById("editTeams");
+                        var createTeamTab = document.getElementById("createTeam");
 
-                        createTab.className = "inactive";
+                        createEmployeeTab.className = "inactive";
+                        createTeamTab.className = "inactive";
                         editTab.className = "inactive";
                         editTeamsTab.className = "inactive";
                         retrieveAllEmployees();

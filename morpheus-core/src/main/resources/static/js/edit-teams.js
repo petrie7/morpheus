@@ -1,6 +1,10 @@
 angular
     .module('morpheus.edit-teams', [])
     .controller('EditTeamsCtrl', function ($scope, $http) {
+        $http.get('team').success(function(data){
+            $scope.teams = data;
+        });
+
         dragula([
             document.querySelector('#sonique'),
             document.querySelector('#lando'),
@@ -10,12 +14,14 @@ angular
         });
 
         var matrixTab = document.getElementById("devMatrix");
-        var createTab = document.getElementById("createEmployee");
+        var createEmployeeTab = document.getElementById("createEmployee");
+        var createTeamTab = document.getElementById("createTeam");
         var editTab = document.getElementById("editTemplates");
         var editTeamsTab = document.getElementById("editTeams");
 
         editTeamsTab.className = "active";
         matrixTab.className = "inactive";
-        createTab.className = "inactive";
+        createEmployeeTab.className = "inactive";
+        createTeamTab.className = "inactive";
         editTab.className = "inactive";
     });

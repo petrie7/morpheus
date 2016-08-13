@@ -1,7 +1,6 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.domain.Team;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.http.MediaType;
@@ -32,15 +31,12 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
+    @RolesAllowed("ROLE_MANAGER")
     public void create(@RequestBody EmployeeDetails employeeDetails) {
         newUserAuthenticator.validateUserCanBeCreated(employeeDetails.username());
         employeeRepository.create(
                 employeeDetails
         );
-    }
-
-    public List<String> getEmployeesForTeam(Team team) {
-        return null;
     }
 
     @RequestMapping(value = "/authenticated")

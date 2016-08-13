@@ -14,6 +14,7 @@ import net.morpheus.domain.*;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
+import net.morpheus.persistence.TeamRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.Before;
@@ -33,6 +34,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
 import static java.util.Arrays.asList;
 import static net.morpheus.MorpheusDataFixtures.someString;
+import static net.morpheus.MorpheusDataFixtures.someTeam;
 import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
@@ -46,6 +48,8 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     protected EmployeeRecordRepository employeeRecordRepository;
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    protected TeamRepository teamRepository;
 
     @Autowired
     private SkillTemplateRepository skillTemplateRepository;
@@ -76,7 +80,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         String username = someString();
         employeeForTest = anEmployee().withUsername(username).build();
         employeeRecordForTest = anEmployeeRecord().withUsername(username).withSkills(skills).build();
-        employeeDetailsForTest = new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, Team.Sonique);
+        employeeDetailsForTest = new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, someTeam());
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
     }

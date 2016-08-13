@@ -1,28 +1,17 @@
 package net.morpheus.domain;
 
-public enum Team {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    NoTeam("No Team"),
-    Sonique("Sonique"),
-    Lando("Lando"),
-    FiveOh("Five Oh"),
-    Mongoose("Mongoose"),
-    Merkats("Merkats"),
-    Hiro("Hiro"),
-    Nim("Nim");
+public class Team {
 
-    private final String description;
+    @JsonProperty
+    private final String name;
 
-    Team(String description) {
-        this.description = description;
+    public Team(String name) {
+        this.name = name;
     }
 
-    public String description() {
-        return description;
-    }
-
-    @Override
-    public String toString() {
-        return description;
+    public String name() {
+        return name;
     }
 }

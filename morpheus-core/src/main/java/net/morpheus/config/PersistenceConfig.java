@@ -4,6 +4,7 @@ import com.mongodb.MongoClient;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
+import net.morpheus.persistence.TeamRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -42,6 +43,11 @@ public class PersistenceConfig {
     @Bean
     public SkillTemplateRepository skillTemplateRepository() throws UnknownHostException {
         return new SkillTemplateRepository(mongoTemplate());
+    }
+
+    @Bean
+    public TeamRepository teamRepository() throws UnknownHostException {
+        return new TeamRepository(mongoTemplate());
     }
 
 

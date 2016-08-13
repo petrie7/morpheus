@@ -13,9 +13,14 @@
         <option value="MidDeveloper">Mid Developer</option>
         <option value="SeniorDeveloper">Senior Developer</option>
     </select>
+    <br/>
+    <label>Team</label>
+    <select id="teamSelect" ng-model="employee.team">
+        <option ng-repeat="team in teams">{{team.name}}</option>
+    </select>
 
     <button type="submit"
-            ng-disabled="!employee.username"
+            ng-disabled="!employee.username || !employee.team"
             id="save-employee"
             class="btn btn-primary"
             ng-click="persistEmployee()">Create Employee

@@ -1,7 +1,6 @@
 package net.morpheus.persistence;
 
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.exception.NoUserExistsException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -23,15 +22,11 @@ public class EmployeeRepository {
         mongoTemplate.insert(employee, EMPLOYEE_COLLECTION);
     }
 
-    public EmployeeDetails findByName(String username) {
-        Optional<EmployeeDetails> employee = mongoTemplate
+    public Optional<EmployeeDetails> findByName(String username) {
+        return mongoTemplate
                 .find(new Query(where("username").is(username)), EmployeeDetails.class, EMPLOYEE_COLLECTION)
                 .stream()
                 .findFirst();
-        if (employee.isPresent()) {
-            return employee.get();
-        } else throw new NoUserExistsException(username);
-
     }
 
     public void delete(EmployeeDetails employee) {

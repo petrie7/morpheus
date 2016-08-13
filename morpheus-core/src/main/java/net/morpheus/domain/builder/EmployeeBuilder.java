@@ -10,7 +10,7 @@ public class EmployeeBuilder {
     private String username;
     private Role role = Role.Developer;
     private Level level = Level.JuniorDeveloper;
-    private Team team = Team.NoTeam;
+    private Team team = null;
 
     public static EmployeeBuilder anEmployee() {
         return new EmployeeBuilder();

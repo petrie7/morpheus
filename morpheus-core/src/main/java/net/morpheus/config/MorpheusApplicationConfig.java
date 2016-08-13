@@ -2,14 +2,12 @@ package net.morpheus.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import net.morpheus.controller.EmployeeController;
-import net.morpheus.controller.EmployeeRecordController;
-import net.morpheus.controller.GlobalControllerAdvice;
-import net.morpheus.controller.TemplateController;
+import net.morpheus.controller.*;
 import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -50,6 +48,12 @@ public class MorpheusApplicationConfig {
     @Autowired
     public EmployeeController employeeController(EmployeeRepository employeeRepository) {
         return new EmployeeController(employeeRepository);
+    }
+
+    @Bean
+    @Autowired
+    public TeamController teamController(TeamRepository teamRepository) {
+        return new TeamController(teamRepository);
     }
 
     @Bean

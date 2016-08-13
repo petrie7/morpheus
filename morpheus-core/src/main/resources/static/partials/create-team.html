@@ -1,0 +1,10 @@
+<div id="createTeamForm">
+    <input id="teamName" class="form-control" type="text" name="Team Name"
+           ng-model="team.name" placeholder="Enter new team name"/>
+    <button type="submit"
+            ng-disabled="!team.name"
+            id="save-employee"
+            class="btn btn-primary"
+            ng-click="persistTeam()">Create Team
+    </button>
+</div>

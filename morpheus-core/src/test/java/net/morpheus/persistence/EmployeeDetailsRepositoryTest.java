@@ -1,12 +1,15 @@
 package net.morpheus.persistence;
 
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.exception.NoUserExistsException;
 import org.junit.Test;
+
+import java.util.Optional;
 
 import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class EmployeeDetailsRepositoryTest extends AbstractRepositoryTestCase {
 
@@ -16,9 +19,10 @@ public class EmployeeDetailsRepositoryTest extends AbstractRepositoryTestCase {
 
         employeeDetailsRepository.create(employee);
 
-        EmployeeDetails actualEmployee = employeeDetailsRepository.findByName(employee.username());
+        Optional<EmployeeDetails> actualEmployee = employeeDetailsRepository.findByName(employee.username());
 
-        assertThat(employee, is(actualEmployee));
+        assertTrue(actualEmployee.isPresent());
+        assertThat(employee, is(actualEmployee.get()));
     }
 
     @Test
@@ -29,19 +33,20 @@ public class EmployeeDetailsRepositoryTest extends AbstractRepositoryTestCase {
         employeeDetailsRepository.create(employee);
         employeeDetailsRepository.create(employee2);
 
-        EmployeeDetails actualEmployee = employeeDetailsRepository.findByName(employee.username());
+        Optional<EmployeeDetails> actualEmployee = employeeDetailsRepository.findByName(employee.username());
 
-        assertThat(employee, is(actualEmployee));
+        assertThat(employee, is(actualEmployee.get()));
     }
 
-    @Test(expected = NoUserExistsException.class)
+    @Test
     public void deleteEmployee() {
         employee = anEmployeeWithUsername("Pedr");
 
         employeeDetailsRepository.create(employee);
         employeeDetailsRepository.delete(employee);
 
-        employeeDetailsRepository.findByName(employee.username());
+        Optional<EmployeeDetails> employeeDetails = employeeDetailsRepository.findByName(employee.username());
+        assertFalse(employeeDetails.isPresent());
     }
 
     private EmployeeDetails anEmployeeWithUsername(String username) {

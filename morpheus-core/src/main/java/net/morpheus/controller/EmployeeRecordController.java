@@ -50,17 +50,17 @@ public class EmployeeRecordController {
         }
     }
 
-    private List<EmployeeRecord> emptyRecord(@PathVariable String username) {
-        return singletonList(anEmployeeRecord()
-                .withUsername(username)
-                .build());
-    }
-
     @RequestMapping(value = "/employee", method = RequestMethod.POST)
     @RolesAllowed("ROLE_MANAGER")
     public void updateEmployeeRecord(@RequestBody EmployeeRecord employeeRecord) {
         employeeRecordRepository.create(
                 employeeRecord
         );
+    }
+
+    private List<EmployeeRecord> emptyRecord(@PathVariable String username) {
+        return singletonList(anEmployeeRecord()
+                .withUsername(username)
+                .build());
     }
 }

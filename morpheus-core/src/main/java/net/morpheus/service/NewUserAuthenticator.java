@@ -2,18 +2,18 @@ package net.morpheus.service;
 
 import net.morpheus.exception.UserAlreadyExistsException;
 import net.morpheus.exception.UserNotInCauthException;
-import net.morpheus.persistence.EmployeeRecordRepository;
+import net.morpheus.persistence.EmployeeRepository;
 import org.springframework.ldap.core.LdapTemplate;
 
 public class NewUserAuthenticator {
 
     public static final String DN_SEARCH_BASE = "uid=%s,ou=People,dc=isp,dc=company,dc=com";
     private LdapTemplate ldapTemplate;
-    private EmployeeRecordRepository employeeRecordRepository;
+    private EmployeeRepository employeeRepository;
 
-    public NewUserAuthenticator(LdapTemplate ldapTemplate, EmployeeRecordRepository employeeRecordRepository) {
+    public NewUserAuthenticator(LdapTemplate ldapTemplate, EmployeeRepository employeeRepository) {
         this.ldapTemplate = ldapTemplate;
-        this.employeeRecordRepository = employeeRecordRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public void validateUserCanBeCreated(String username) {
@@ -22,7 +22,7 @@ public class NewUserAuthenticator {
         } catch (Exception e) {
             throw new UserNotInCauthException(username);
         }
-        if (employeeRecordRepository.findByName(username).size() != 0) {
+        if (employeeRepository.findByName(username).isPresent()) {
             throw new UserAlreadyExistsException(username);
         }
     }

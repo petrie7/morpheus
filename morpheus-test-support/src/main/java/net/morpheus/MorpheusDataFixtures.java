@@ -5,8 +5,6 @@ import net.morpheus.domain.Team;
 import java.util.List;
 import java.util.Random;
 
-import static java.util.Arrays.asList;
-
 public class MorpheusDataFixtures {
 
     public static String someString() {
@@ -35,6 +33,6 @@ public class MorpheusDataFixtures {
     }
 
     public static Team someTeam() {
-        return pickOneOf(asList(Team.values()));
+        return new Team(someString());
     }
 }

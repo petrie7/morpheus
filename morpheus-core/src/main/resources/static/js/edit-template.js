@@ -3,14 +3,16 @@ angular
     .controller('EditTemplateCtrl', function ($scope, $http) {
         $scope.templates = [];
         var matrixTab = document.getElementById("devMatrix");
-        var createTab = document.getElementById("createEmployee");
+        var createEmployeeTab = document.getElementById("createEmployee");
+        var createTeamTab = document.getElementById("createTeam");
         var editTab = document.getElementById("editTemplates");
         var editTeamsTab = document.getElementById("editTeams");
 
         editTab.className = "active";
         matrixTab.className = "inactive";
-        createTab.className = "inactive";
+        createEmployeeTab.className = "inactive";
         editTeamsTab.className = "inactive";
+        createTeamTab.className = "inactive";
 
         $http.get('template')
             .success(function (data) {
