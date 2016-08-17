@@ -400,3 +400,7 @@ h5 {
 #matrix-field-name  {
     text-align: left;
 }
+
+#team-label, #level-label, #team-field, #level-field {
+    margin-right: 20px;
+}

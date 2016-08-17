@@ -1,6 +1,7 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeDetails;
+import net.morpheus.domain.Level;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.http.MediaType;
@@ -10,6 +11,8 @@ import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 @RestController
 public class EmployeeController {
@@ -37,6 +40,11 @@ public class EmployeeController {
         employeeRepository.create(
                 employeeDetails
         );
+    }
+
+    @RequestMapping(value = "/employee/levels", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Level> getAllLevels() {
+        return asList(Level.values());
     }
 
     @RequestMapping(value = "/authenticated")

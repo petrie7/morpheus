@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="third_party/css/jquery.dataTables.css"/>
     <script language="javascript" type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
     <script language="javascript" type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular-route.min.js"></script>
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular-route.min.js"></script>
     <script type="text/javascript" charset="utf8" src="third_party/js/jquery.dataTables.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="third_party/js/angular-route.js"></script>
@@ -30,7 +30,6 @@
     <script language="javascript" type="text/javascript" src="js/create-employee.js"></script>
     <script language="javascript" type="text/javascript" src="js/create-team.js"></script>
     <script language="javascript" type="text/javascript" src="js/edit-template.js"></script>
-    <script language="javascript" type="text/javascript" src="js/edit-employee.js"></script>
     <link href="css/index.css" rel="stylesheet"/>
 
     <link rel="shortcut icon"
@@ -70,9 +69,6 @@
             <a href="#/create-team">Create Team</a>
         </li>
         <h3 th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">Edit</h3>
-        <li id="editEmployee" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
-            <a href="#/edit-employee">Edit Employee</a>
-        </li>
         <li id="editTemplates" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
             <a href="#/edit-template">Edit Templates</a>
         </li>

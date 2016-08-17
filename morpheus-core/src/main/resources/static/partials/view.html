@@ -11,6 +11,16 @@
 </div>
 
 <div id="skills-matrix" class="skills-matrix">
+    <div id="employeeDetails">
+        <label id="team-label">Team</label>
+        <select id="team-field" ng-init="employee.team" ng-model="employee.team" ng-disabled="!isManager()"/>
+
+        <label id="level-label">Level</label>
+        <select id="level-field" ng-model="employee.level" ng-disabled="!isManager()">
+            <option ng-repeat="level in levels" value="{{level}}">{{level}}</option>
+        </select>
+    </div>
+
     <ul class="nav nav-tabs">
         <li ng-repeat="template in templates" class="{{$index === 0 ? 'active' : ''}}">
             <a data-toggle="tab"
@@ -23,64 +33,64 @@
     <div class="tab-content">
         <div ng-repeat="template in templates" id="{{template.templateClass}}"
              class="{{$index === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}}">
-                <table class="table myTable">
-                    <thead>
-                    <tr>
-                    <tr>
-                        <th></th>
-                        <th colspan="3" class="junior">Junior Dev</th>
-                        <th colspan="3" class="mid">Mid Dev</th>
-                        <th colspan="3" class="senior">Senior Dev</th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th class="junior">Low</th>
-                        <th class="junior">Mid</th>
-                        <th class="junior">High</th>
-                        <th class="mid">Low</th>
-                        <th class="mid">Mid</th>
-                        <th class="mid">High</th>
-                        <th class="senior">Low</th>
-                        <th class="senior">Mid</th>
-                        <th class="senior">High</th>
-                        <th class="comments">Comments</th>
-                    </tr>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="field in template.fields">
-                        <td id="matrix-field-name">{{field.fieldName}}</td>
-                        <td ng-repeat="n in range(0,8)">
-                            <div data-tip="{{descriptionFor(field.fieldName, n)}}">
-                                <input type="radio"
-                                       class="pointer"
-                                       style="cursor:default"
-                                       ng-show="!isManager()"
-                                       ng-disabled="field.rating != n"
-                                       ng-model="field.rating"
-                                       ng-value="n"/>
-                                <input type="radio"
-                                       class="pointer"
-                                       style="cursor:default"
-                                       ng-show="isManager()"
-                                       ng-disabled="managerCanSee(field.rating, n)"
-                                       ng-model="field.rating"
-                                       ng-value="n"
-                                       ng-click="updateSkill(field.fieldName, n)"/>
-                            </div>
-                        </td>
-                        <td>
-                            <input name="commentText" type="text" ng-model="field.comment" class="commentText"
-                                   readonly="readonly"/>
-                            <button class="button" ng-click="updateCommentDialog(field)">{{isManager() && isEditable() ?
-                                'Edit'
-                                :
-                                'View'}}
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <table class="table myTable">
+                <thead>
+                <tr>
+                <tr>
+                    <th></th>
+                    <th colspan="3" class="junior">Junior Dev</th>
+                    <th colspan="3" class="mid">Mid Dev</th>
+                    <th colspan="3" class="senior">Senior Dev</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th class="junior">Low</th>
+                    <th class="junior">Mid</th>
+                    <th class="junior">High</th>
+                    <th class="mid">Low</th>
+                    <th class="mid">Mid</th>
+                    <th class="mid">High</th>
+                    <th class="senior">Low</th>
+                    <th class="senior">Mid</th>
+                    <th class="senior">High</th>
+                    <th class="comments">Comments</th>
+                </tr>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="field in template.fields">
+                    <td id="matrix-field-name">{{field.fieldName}}</td>
+                    <td ng-repeat="n in range(0,8)">
+                        <div data-tip="{{descriptionFor(field.fieldName, n)}}">
+                            <input type="radio"
+                                   class="pointer"
+                                   style="cursor:default"
+                                   ng-show="!isManager()"
+                                   ng-disabled="field.rating != n"
+                                   ng-model="field.rating"
+                                   ng-value="n"/>
+                            <input type="radio"
+                                   class="pointer"
+                                   style="cursor:default"
+                                   ng-show="isManager()"
+                                   ng-disabled="managerCanSee(field.rating, n)"
+                                   ng-model="field.rating"
+                                   ng-value="n"
+                                   ng-click="updateSkill(field.fieldName, n)"/>
+                        </div>
+                    </td>
+                    <td>
+                        <input name="commentText" type="text" ng-model="field.comment" class="commentText"
+                               readonly="readonly"/>
+                        <button class="button" ng-click="updateCommentDialog(field)">{{isManager() && isEditable() ?
+                            'Edit'
+                            :
+                            'View'}}
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -91,7 +101,8 @@
             Save
         </button>
         <label id="work-in-progress-label">Is Work In Progress</label>
-        <input type="checkbox" id="is-work-in-progress-save" ng-disabled="isDirty()" ng-model="employee.isWorkInProgress"/>
+        <input type="checkbox" id="is-work-in-progress-save" ng-disabled="isDirty()"
+               ng-model="employee.isWorkInProgress"/>
     </div>
     <div id="timemachine">
         <div id="slider-snap"></div>

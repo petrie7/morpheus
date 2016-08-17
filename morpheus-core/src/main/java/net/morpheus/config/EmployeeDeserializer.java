@@ -34,12 +34,6 @@ public class EmployeeDeserializer extends JsonDeserializer<EmployeeDetails> {
                         .withLevel(SeniorDeveloper)
                         .withTeam(new Team(node.get("team").asText()))
                         .build();
-            case Manager:
-                return anEmployee()
-                        .withUsername(node.get("username").textValue())
-                        .withLevel(Level.Manager)
-                        .withRole(Role.Manager)
-                        .build();
             default:
                 throw new IllegalArgumentException("Unrecognised role");
         }

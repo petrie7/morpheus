@@ -8,10 +8,8 @@
     </select>
     <br/>
     <label>Level</label>
-    <select id="levelSelect" ng-init="employee.level = 'JuniorDeveloper'" ng-model="employee.level">
-        <option value="JuniorDeveloper">Junior Developer</option>
-        <option value="MidDeveloper">Mid Developer</option>
-        <option value="SeniorDeveloper">Senior Developer</option>
+    <select id="levelSelect" ng-model="employee.level">
+        <option ng-repeat="level in levels" value="level">{{level}}</option>
     </select>
     <br/>
     <label>Team</label>

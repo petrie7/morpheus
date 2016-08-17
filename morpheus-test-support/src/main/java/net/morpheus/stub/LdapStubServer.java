@@ -14,7 +14,6 @@ import java.io.InputStream;
 
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
-import static net.morpheus.domain.Level.Manager;
 import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 
 public class LdapStubServer {
@@ -32,8 +31,6 @@ public class LdapStubServer {
 
         ldapStubServer.addEmployee(anEmployee()
                         .withUsername("Manager")
-                        .withLevel(Manager)
-                        .withRole(Role.Manager)
                         .build(),
                 "m");
     }

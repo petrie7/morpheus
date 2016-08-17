@@ -4,6 +4,13 @@ angular
 
             var matrixTab = document.getElementById("devMatrix");
             matrixTab.className = "active";
+            $scope.teamIsEditable = false;
+            $scope.levelIsEditable = false;
+
+            $http.get('employee/levels')
+                .success(function(data) {
+                    $scope.levels = data;
+                })
 
             $http.get('authenticated')
                 .success(function (data) {
@@ -11,12 +18,10 @@ angular
                     if ($scope.isManager()) {
                         var createEmployeeTab = document.getElementById("createEmployee");
                         var createTeamTab = document.getElementById("createTeam");
-                        var editEmployeeTab = document.getElementById("editEmployee");
                         var editTemplatesTab = document.getElementById("editTemplates");
 
                         createEmployeeTab.className = "inactive";
                         createTeamTab.className = "inactive";
-                        editEmployeeTab.className = "inactive";
                         editTemplatesTab.className = "inactive";
                         retrieveAllEmployees();
                         getTemplates();
@@ -38,7 +43,7 @@ angular
             };
 
             $scope.performSearch = function () {
-                $http.get('employee/' + document.getElementById('q').value)
+                $http.get('employee/record/' + document.getElementById('q').value)
                     .success(function (data, status, headers, config) {
                         $scope.employeeRecords = data;
                         $scope.employee = data[0];
@@ -59,7 +64,7 @@ angular
             };
 
             $scope.persistSkills = function () {
-                $http.post('employee', $scope.employee)
+                $http.post('employee/record', $scope.employee)
                     .success(function (data, status, headers, config) {
                         $scope.originalEmployee = angular.copy($scope.employee);
                         $.growl.notice({message: $scope.employee.username + ' successfully updated'});
@@ -185,13 +190,21 @@ angular
                 }
             };
 
+            $scope.enableEditTeam = function() {
+                scope.teamIsEditable = true;
+            }
+
+            $scope.enableEditLevel = function() {
+                scope.levelIsEditable = true;
+            }
+
             function getSkillsTemplateAndEmployee() {
                 getTemplates(getEmployee);
             }
 
             function getEmployee() {
                 if (!$scope.isManager()) {
-                    $http.get('employee')
+                    $http.get('employee/record')
                         .success(function (data, status, headers, config) {
                             $scope.employeeRecords = data;
                             $scope.employee = data[0];

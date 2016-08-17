@@ -22,7 +22,7 @@ public class EmployeeRecordController {
         this.employeeRecordRepository = employeeRecordRepository;
     }
 
-    @RequestMapping(value = "/employee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/employee/record", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<EmployeeRecord> getEmployeeRecordsForLoggedInUser(Principal principal) {
         List<EmployeeRecord> records = employeeRecordRepository.findByName(principal.getName())
@@ -32,7 +32,7 @@ public class EmployeeRecordController {
         return records.isEmpty() ? emptyRecord(principal.getName()) : records;
     }
 
-    @RequestMapping(value = "/employee/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/employee/record/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
     public List<EmployeeRecord> getAllEmployeeRecordsForUser(@PathVariable String username) {
@@ -50,7 +50,7 @@ public class EmployeeRecordController {
         }
     }
 
-    @RequestMapping(value = "/employee", method = RequestMethod.POST)
+    @RequestMapping(value = "/employee/record", method = RequestMethod.POST)
     @RolesAllowed("ROLE_MANAGER")
     public void updateEmployeeRecord(@RequestBody EmployeeRecord employeeRecord) {
         employeeRecordRepository.create(

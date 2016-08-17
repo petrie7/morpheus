@@ -14,12 +14,10 @@ angular
         var matrixTab = document.getElementById("devMatrix");
         var createEmployeeTab = document.getElementById("createEmployee");
         var createTeamTab = document.getElementById("createTeam");
-        var editEmployeeTab = document.getElementById("editEmployee");
         var editTemplateTab = document.getElementById("editTemplates");
 
         matrixTab.className = "inactive";
         createEmployeeTab.className = "inactive";
         createTeamTab.className = "active";
-        editEmployeeTab.className = "inactive";
         editTemplateTab.className = "inactive";
     });

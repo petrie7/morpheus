@@ -3,7 +3,6 @@ angular
         'ngRoute',
         'morpheus.view',
         'morpheus.create-employee',
-        'morpheus.edit-employee',
         'morpheus.create-team',
         'morpheus.edit-template'
     ])
@@ -16,10 +15,6 @@ angular
             .when('/create-employee', {
                 templateUrl: '/partials/create-employee.html',
                 controller: 'CreateEmployeeCtrl'
-            })
-            .when('/edit-employee', {
-                templateUrl: '/partials/edit-employee.html',
-                controller: 'EditEmployeeCtrl'
             })
             .when('/create-team', {
                 templateUrl: '/partials/create-team.html',
