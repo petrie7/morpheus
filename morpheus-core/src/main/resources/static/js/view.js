@@ -10,14 +10,14 @@ angular
                     $scope.authenticatedUser = data;
                     if ($scope.isManager()) {
                         var createEmployeeTab = document.getElementById("createEmployee");
-                        var editTab = document.getElementById("editTemplates");
-                        var editTeamsTab = document.getElementById("editTeams");
                         var createTeamTab = document.getElementById("createTeam");
+                        var editEmployeeTab = document.getElementById("editEmployee");
+                        var editTemplatesTab = document.getElementById("editTemplates");
 
                         createEmployeeTab.className = "inactive";
                         createTeamTab.className = "inactive";
-                        editTab.className = "inactive";
-                        editTeamsTab.className = "inactive";
+                        editEmployeeTab.className = "inactive";
+                        editTemplatesTab.className = "inactive";
                         retrieveAllEmployees();
                         getTemplates();
                     } else {

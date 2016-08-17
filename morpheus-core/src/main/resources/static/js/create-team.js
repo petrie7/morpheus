@@ -11,15 +11,15 @@ angular
                 });
         };
 
-        var createTeamTab = document.getElementById("createTeam");
         var matrixTab = document.getElementById("devMatrix");
         var createEmployeeTab = document.getElementById("createEmployee");
-        var editTab = document.getElementById("editTemplates");
-        var editTeamsTab = document.getElementById("editTeams");
+        var createTeamTab = document.getElementById("createTeam");
+        var editEmployeeTab = document.getElementById("editEmployee");
+        var editTemplateTab = document.getElementById("editTemplates");
 
-        createTeamTab.className = "active";
         matrixTab.className = "inactive";
-        editTab.className = "inactive";
-        editTeamsTab.className = "inactive";
         createEmployeeTab.className = "inactive";
+        createTeamTab.className = "active";
+        editEmployeeTab.className = "inactive";
+        editTemplateTab.className = "inactive";
     });

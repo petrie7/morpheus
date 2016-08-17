@@ -30,7 +30,7 @@
     <script language="javascript" type="text/javascript" src="js/create-employee.js"></script>
     <script language="javascript" type="text/javascript" src="js/create-team.js"></script>
     <script language="javascript" type="text/javascript" src="js/edit-template.js"></script>
-    <script language="javascript" type="text/javascript" src="js/edit-teams.js"></script>
+    <script language="javascript" type="text/javascript" src="js/edit-employee.js"></script>
     <link href="css/index.css" rel="stylesheet"/>
 
     <link rel="shortcut icon"
@@ -70,11 +70,11 @@
             <a href="#/create-team">Create Team</a>
         </li>
         <h3 th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">Edit</h3>
+        <li id="editEmployee" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+            <a href="#/edit-employee">Edit Employee</a>
+        </li>
         <li id="editTemplates" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
             <a href="#/edit-template">Edit Templates</a>
-        </li>
-        <li id="editTeams" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
-            <a href="#/edit-teams">Edit Teams</a>
         </li>
         <div class="logout">
             <form action="logout" method="post">

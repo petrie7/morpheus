@@ -1,18 +1,18 @@
 angular
-    .module('morpheus.edit', [])
+    .module('morpheus.edit-template', [])
     .controller('EditTemplateCtrl', function ($scope, $http) {
         $scope.templates = [];
         var matrixTab = document.getElementById("devMatrix");
         var createEmployeeTab = document.getElementById("createEmployee");
         var createTeamTab = document.getElementById("createTeam");
-        var editTab = document.getElementById("editTemplates");
-        var editTeamsTab = document.getElementById("editTeams");
+        var editEmployeeTab = document.getElementById("editEmployee");
+        var editTemplateTab = document.getElementById("editTemplates");
 
-        editTab.className = "active";
         matrixTab.className = "inactive";
         createEmployeeTab.className = "inactive";
-        editTeamsTab.className = "inactive";
         createTeamTab.className = "inactive";
+        editEmployeeTab.className = "inactive";
+        editTemplateTab.className = "active";
 
         $http.get('template')
             .success(function (data) {

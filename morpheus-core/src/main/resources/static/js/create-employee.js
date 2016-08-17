@@ -1,6 +1,18 @@
 angular
     .module('morpheus.create-employee', [])
     .controller('CreateEmployeeCtrl', function ($scope, $http) {
+        var matrixTab = document.getElementById("devMatrix");
+        var createEmployeeTab = document.getElementById("createEmployee");
+        var createTeamTab = document.getElementById("createTeam");
+        var editEmployeeTab = document.getElementById("editEmployee");
+        var editTemplateTab = document.getElementById("editTemplates");
+
+        matrixTab.className = "inactive";
+        createEmployeeTab.className = "active";
+        createTeamTab.className = "inactive";
+        editTemplateTab.className = "inactive";
+        editEmployeeTab.className = "inactive";
+
         $http.get('team').success(function(data){
             $scope.teams = data;
         });
@@ -14,16 +26,4 @@ angular
                     $.growl.error({message: data.message});
                 });
         };
-
-        var matrixTab = document.getElementById("devMatrix");
-        var createEmployeeTab = document.getElementById("createEmployee");
-        var createTeamTab = document.getElementById("createTeam");
-        var editTab = document.getElementById("editTemplates");
-        var editTeamsTab = document.getElementById("editTeams");
-
-        createEmployeeTab.className = "active";
-        matrixTab.className = "inactive";
-        editTab.className = "inactive";
-        editTeamsTab.className = "inactive";
-        createTeamTab.className = "inactive";
     });

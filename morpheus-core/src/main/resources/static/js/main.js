@@ -1,11 +1,11 @@
 angular
     .module('morpheusApp', [
         'ngRoute',
-        'morpheus.create-employee',
-        'morpheus.create-team',
         'morpheus.view',
-        'morpheus.edit',
-        'morpheus.edit-teams'
+        'morpheus.create-employee',
+        'morpheus.edit-employee',
+        'morpheus.create-team',
+        'morpheus.edit-template'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -17,6 +17,10 @@ angular
                 templateUrl: '/partials/create-employee.html',
                 controller: 'CreateEmployeeCtrl'
             })
+            .when('/edit-employee', {
+                templateUrl: '/partials/edit-employee.html',
+                controller: 'EditEmployeeCtrl'
+            })
             .when('/create-team', {
                 templateUrl: '/partials/create-team.html',
                 controller: 'CreateTeamCtrl'
@@ -24,10 +28,6 @@ angular
             .when('/edit-template', {
                 templateUrl: '/partials/edit-template.html',
                 controller: 'EditTemplateCtrl'
-            })
-            .when('/edit-teams', {
-                templateUrl: '/partials/edit-teams.html',
-                controller: 'EditTeamsCtrl'
             })
             .otherwise({
                 redirectTo: '/matrix'
