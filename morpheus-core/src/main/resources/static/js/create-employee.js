@@ -11,6 +11,10 @@ angular
         createTeamTab.className = "inactive";
         editTemplateTab.className = "inactive";
 
+        $scope.employee = {
+            level: null
+        };
+
         $http.get('team').success(function(data){
             $scope.teams = data;
         });
@@ -18,8 +22,8 @@ angular
         $http.get('employee/levels')
             .success(function(data) {
                 $scope.levels = data;
-                $scope.employee.level = $scope.levels[0].value;
-        })
+                $scope.employee.level = $scope.levels[0];
+        });
 
         $scope.persistEmployee = function () {
             $http.post('employee/create', $scope.employee)
