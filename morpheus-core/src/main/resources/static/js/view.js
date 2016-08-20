@@ -1,18 +1,22 @@
 angular
     .module('morpheus.view', [])
-    .controller('EmployeeCtrl', function ($scope, $http) {
+    .controller('EmployeeCtrl', function ($scope, $http, $routeParams) {
+            console.log($routeParams.username);
 
             var matrixTab = document.getElementById("devMatrix");
             matrixTab.className = "active";
-            $scope.teamIsEditable = false;
-            $scope.levelIsEditable = false;
 
             $http.get('employee/levels')
-                .success(function(data) {
+                .success(function (data) {
                     $scope.levels = data;
-                })
+                });
 
-            $http.get('authenticated')
+            $http.get('team')
+                .success(function (data) {
+                    $scope.teams = data;
+                });
+
+            $http.get('employee/authenticated')
                 .success(function (data) {
                     $scope.authenticatedUser = data;
                     if ($scope.isManager()) {
@@ -43,10 +47,11 @@ angular
             };
 
             $scope.performSearch = function () {
-                $http.get('employee/record/' + document.getElementById('q').value)
+                $http.get('employee/' + document.getElementById('q').value)
                     .success(function (data, status, headers, config) {
-                        $scope.employeeRecords = data;
-                        $scope.employee = data[0];
+                        $scope.employeeDetails = data.employeeDetails;
+                        $scope.employeeRecords = data.employeeRecords;
+                        $scope.employee = $scope.employeeRecords[0];
                         $("#skills-matrix").show();
                         $("#save-button").show();
                         $("#save-employee").hide();
@@ -60,7 +65,6 @@ angular
                 })[0];
 
                 $scope.$apply();
-
             };
 
             $scope.persistSkills = function () {
@@ -82,20 +86,9 @@ angular
                 return !$scope.editable && !(property === value);
             };
 
-            $scope.reinitializeMatrix = function () {
-                $("#createEmployeeForm").hide();
-                $("#search-bar").show();
-                $("#save-button").hide();
-                $("#save-employee").hide();
-
-                getSkillsTemplateAndEmployee();
-
-                retrieveAllEmployees();
-                setActiveTab("devMatrix");
-            };
-
-            $scope.isDirty = function () {
-                return angular.equals($scope.employee, $scope.originalEmployee);
+            $scope.isNotDirty = function () {
+                return angular.equals($scope.employee, $scope.originalEmployee) &&
+                    angular.equals($scope.employeeDetails, $scope.originalEmployeeDetails);
             };
 
             $scope.descriptionFor = function (skill, levelNumber) {
@@ -173,6 +166,7 @@ angular
                         });
                     });
                     $scope.originalEmployee = angular.copy(newEmployee);
+                    $scope.originalEmployeeDetails = angular.copy($scope.employeeDetails);
                     renderSlider();
                     $('.skills-matrix').show();
                 }
@@ -190,24 +184,18 @@ angular
                 }
             };
 
-            $scope.enableEditTeam = function() {
-                scope.teamIsEditable = true;
-            }
-
-            $scope.enableEditLevel = function() {
-                scope.levelIsEditable = true;
-            }
-
             function getSkillsTemplateAndEmployee() {
                 getTemplates(getEmployee);
             }
 
             function getEmployee() {
                 if (!$scope.isManager()) {
-                    $http.get('employee/record')
+                    debugger;
+                    $http.get('employee')
                         .success(function (data, status, headers, config) {
-                            $scope.employeeRecords = data;
-                            $scope.employee = data[0];
+                            $scope.employeeDetails = data.employeeDetails;
+                            $scope.employeeRecords = data.employeeRecords;
+                            $scope.employee = $scope.employeeRecords[0];
                         });
                 }
             }
@@ -260,26 +248,6 @@ angular
                             source: $scope.employees
                         });
                     });
-            }
-
-            function setActiveTab(tabToBeActivated) {
-                var matrixTab = document.getElementById("devMatrix");
-                var createTab = document.getElementById("createEmployee");
-                if (tabToBeActivated === 'createEmployee') {
-                    matrixTab.className = "inactive";
-                    createTab.className = "active";
-                }
-
-                else {
-                    matrixTab.className = "active";
-                    createTab.className = "inactive";
-                }
-            }
-
-            function resetEmployeeData() {
-                $scope.employee.username = null;
-                $scope.employee.role = null;
-                $scope.employee.level = null;
             }
 
             function renderSlider() {

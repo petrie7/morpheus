@@ -14,6 +14,7 @@ import java.io.InputStream;
 
 import static com.unboundid.ldap.listener.InMemoryListenerConfig.createLDAPConfig;
 import static java.lang.String.format;
+import static net.morpheus.domain.Role.Manager;
 import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 
 public class LdapStubServer {
@@ -31,6 +32,7 @@ public class LdapStubServer {
 
         ldapStubServer.addEmployee(anEmployee()
                         .withUsername("Manager")
+                        .withRole(Manager)
                         .build(),
                 "m");
     }
@@ -79,7 +81,7 @@ public class LdapStubServer {
     }
 
     private String groupFor(Role role) {
-        return format("cn=%s,ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com", role.toString());
+        return format("cn=%s,ou=groups,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com", role.toString().toLowerCase());
     }
 
     public LDAPConnection getConnection() {

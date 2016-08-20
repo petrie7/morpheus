@@ -2,16 +2,12 @@ package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.persistence.EmployeeRecordRepository;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
-import java.security.Principal;
-import java.util.List;
-
-import static java.util.Collections.singletonList;
-import static java.util.stream.Collectors.toList;
-import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 
 @RestController
 public class EmployeeRecordController {
@@ -22,35 +18,7 @@ public class EmployeeRecordController {
         this.employeeRecordRepository = employeeRecordRepository;
     }
 
-    @RequestMapping(value = "/employee/record", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<EmployeeRecord> getEmployeeRecordsForLoggedInUser(Principal principal) {
-        List<EmployeeRecord> records = employeeRecordRepository.findByName(principal.getName())
-                .stream()
-                .filter(employeeRecord -> !employeeRecord.isWorkInProgress())
-                .collect(toList());
-        return records.isEmpty() ? emptyRecord(principal.getName()) : records;
-    }
-
-    @RequestMapping(value = "/employee/record/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    @RolesAllowed("ROLE_MANAGER")
-    public List<EmployeeRecord> getAllEmployeeRecordsForUser(@PathVariable String username) {
-        List<EmployeeRecord> employeeRecords = employeeRecordRepository.findByName(username);
-        if (!employeeRecords.isEmpty()) {
-            EmployeeRecord latestRecord = employeeRecords.get(0);
-            List<EmployeeRecord> filteredList = employeeRecords
-                    .stream().filter(employeeRecord -> !employeeRecord.isWorkInProgress()).collect(toList());
-            if (latestRecord.isWorkInProgress()) {
-                filteredList.add(0, latestRecord);
-            }
-            return filteredList;
-        } else {
-            return emptyRecord(username);
-        }
-    }
-
-    @RequestMapping(value = "/employee/record", method = RequestMethod.POST)
+    @RequestMapping(value = "employee/record", method = RequestMethod.POST)
     @RolesAllowed("ROLE_MANAGER")
     public void updateEmployeeRecord(@RequestBody EmployeeRecord employeeRecord) {
         employeeRecordRepository.create(
@@ -58,9 +26,4 @@ public class EmployeeRecordController {
         );
     }
 
-    private List<EmployeeRecord> emptyRecord(@PathVariable String username) {
-        return singletonList(anEmployeeRecord()
-                .withUsername(username)
-                .build());
-    }
 }

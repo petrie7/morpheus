@@ -46,8 +46,8 @@ public class MorpheusApplicationConfig {
 
     @Bean
     @Autowired
-    public EmployeeController employeeController(EmployeeRepository employeeRepository) {
-        return new EmployeeController(employeeRepository);
+    public EmployeeController employeeController(EmployeeRepository employeeRepository, EmployeeRecordRepository employeeRecordRepository) {
+        return new EmployeeController(employeeRepository, employeeRecordRepository);
     }
 
     @Bean

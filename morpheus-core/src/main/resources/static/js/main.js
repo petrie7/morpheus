@@ -12,6 +12,10 @@ angular
                 templateUrl: '/partials/view.html',
                 controller: 'EmployeeCtrl'
             })
+            .when('/matrix/:username', {
+                templateUrl: '/partials/view.html',
+                controller: 'EmployeeCtrl'
+            })
             .when('/create-employee', {
                 templateUrl: '/partials/create-employee.html',
                 controller: 'CreateEmployeeCtrl'

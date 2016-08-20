@@ -31,7 +31,6 @@ public class TeamController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    @RolesAllowed(value = "ROLE_MANAGER")
     public List<Team> retrieveAllTeams() {
         return teamRepository.getAll();
     }

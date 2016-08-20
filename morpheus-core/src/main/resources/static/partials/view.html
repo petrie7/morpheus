@@ -13,10 +13,12 @@
 <div id="skills-matrix" class="skills-matrix">
     <div id="employeeDetails">
         <label id="team-label">Team</label>
-        <select id="team-field" ng-init="employee.team" ng-model="employee.team" ng-disabled="!isManager()"/>
+        <select id="team-field" ng-model="employeeDetails.team" ng-disabled="!isManager()">
+            <option ng-repeat="team in teams" value="{{team.name}}">{{team.name}}</option>
+        </select>
 
         <label id="level-label">Level</label>
-        <select id="level-field" ng-model="employee.level" ng-disabled="!isManager()">
+        <select id="level-field" ng-model="employeeDetails.level" ng-disabled="!isManager()">
             <option ng-repeat="level in levels" value="{{level}}">{{level}}</option>
         </select>
     </div>
@@ -96,12 +98,16 @@
 </div>
 <div class="footer">
     <div ng-show="isManager() && isEditable()">
-        <button type="submit" id="save-button" class="btn btn-primary" ng-click="persistSkills()"
-                ng-disabled="isDirty()">
+        <button type="submit" id="save-button"
+                class="btn btn-primary"
+                ng-click="persistSkills()"
+                ng-disabled="isNotDirty()">
             Save
         </button>
         <label id="work-in-progress-label">Is Work In Progress</label>
-        <input type="checkbox" id="is-work-in-progress-save" ng-disabled="isDirty()"
+        <input type="checkbox"
+               id="is-work-in-progress-save"
+               ng-disabled="isNotDirty()"
                ng-model="employee.isWorkInProgress"/>
     </div>
     <div id="timemachine">

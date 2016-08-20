@@ -5,6 +5,7 @@ import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
 import net.morpheus.domain.EmployeeDetails;
+import net.morpheus.domain.Level;
 import net.morpheus.domain.Team;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -62,7 +63,7 @@ public class CreateEmployeeTest extends MorpheusTestCase {
         return (givens, capturedInputAndOutputs) -> {
             $(By.id("newUsername")).setValue(employee.username());
             $(By.id("roleSelect")).selectOption(employee.role().toString());
-            $(By.id("levelSelect")).selectOption("Junior Developer");
+            $(By.id("levelSelect")).selectOption(Level.JuniorDeveloper.name());
             $(By.id("teamSelect")).selectOption(team.name());
             $(By.id("save-employee")).click();
             return capturedInputAndOutputs;
