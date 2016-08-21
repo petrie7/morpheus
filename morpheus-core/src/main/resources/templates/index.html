@@ -72,6 +72,12 @@
         <li id="editTemplates" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
             <a href="#/edit-template">Edit Templates</a>
         </li>
+
+        <h3 th:if="${role} == 'TeamLead'">Team Dashboard</h3>
+        <li id="teamLeaderDashboard" th:if="${role} == 'TeamLead'">
+            <a href="#/team-leader-dashboard">View Team</a>
+        </li>
+
         <div class="logout">
             <form action="logout" method="post">
                 <button class="btn btn-danger" type="submit" id="logout-button">Log Out</button>
