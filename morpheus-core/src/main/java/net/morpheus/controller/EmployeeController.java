@@ -6,11 +6,9 @@ import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.domain.Level;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
-import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
@@ -23,9 +21,6 @@ import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord
 @RestController
 @RequestMapping(value = "/employee")
 public class EmployeeController {
-
-    @Resource
-    private NewUserAuthenticator newUserAuthenticator;
 
     private EmployeeRepository employeeRepository;
     private EmployeeRecordRepository employeeRecordRepository;
@@ -63,22 +58,6 @@ public class EmployeeController {
             return new Employee(employeeDetails, filteredList);
         }
         return new Employee(employeeDetails, emptyRecord(username));
-    }
-
-    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    @RolesAllowed("ROLE_MANAGER")
-    public List<EmployeeDetails> getAllEmployees() {
-        return employeeRepository.getAll();
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @RolesAllowed("ROLE_MANAGER")
-    public void create(@RequestBody EmployeeDetails employeeDetails) {
-        newUserAuthenticator.validateUserCanBeCreated(employeeDetails.username());
-        employeeRepository.create(
-                employeeDetails
-        );
     }
 
     @RequestMapping(value = "/levels", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

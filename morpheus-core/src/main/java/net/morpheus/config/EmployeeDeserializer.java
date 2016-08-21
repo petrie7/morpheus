@@ -19,20 +19,21 @@ public class EmployeeDeserializer extends JsonDeserializer<EmployeeDetails> {
     @Override
     public EmployeeDetails deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        String teamName = (node.has("team") && !node.get("team").has("name")) ? "" : node.get("team").get("name").asText();
 
         switch (Role.valueOf(node.get("role").textValue())) {
             case Developer:
                 return anEmployee()
                         .withUsername(node.get("username").textValue())
                         .withLevel(Level.valueOf(node.get("level").textValue()))
-                        .withTeam(new Team(node.get("team").asText()))
+                        .withTeam(new Team(teamName))
                         .build();
             case TeamLead:
                 return anEmployee()
                         .withUsername(node.get("username").textValue())
                         .withRole(TeamLead)
                         .withLevel(SeniorDeveloper)
-                        .withTeam(new Team(node.get("team").asText()))
+                        .withTeam(new Team(teamName))
                         .build();
             default:
                 throw new IllegalArgumentException("Unrecognised role");

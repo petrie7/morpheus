@@ -13,7 +13,7 @@
 <div id="skills-matrix" class="skills-matrix">
     <div id="employeeDetails">
         <label id="team-label">Team</label>
-        <select id="team-field" ng-model="employeeDetails.team" ng-disabled="!isManager()">
+        <select id="team-field" ng-model="employeeDetails.team.name" ng-disabled="!isManager()">
             <option ng-repeat="team in teams" value="{{team.name}}">{{team.name}}</option>
         </select>
 

@@ -22,6 +22,10 @@ public class EmployeeRepository {
         mongoTemplate.insert(employee, EMPLOYEE_COLLECTION);
     }
 
+    public void update(EmployeeDetails employeeDetails) {
+        mongoTemplate.save(employeeDetails, EMPLOYEE_COLLECTION);
+    }
+
     public Optional<EmployeeDetails> findByName(String username) {
         return mongoTemplate
                 .find(new Query(where("username").is(username)), EmployeeDetails.class, EMPLOYEE_COLLECTION)

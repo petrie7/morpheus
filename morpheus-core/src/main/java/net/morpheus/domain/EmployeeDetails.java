@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class EmployeeDetails {
 
     @Id
-    private final String id = UUID.randomUUID().toString();
     @JsonProperty
     private String username;
     @JsonProperty
@@ -42,14 +40,12 @@ public class EmployeeDetails {
         return team;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EmployeeDetails employee = (EmployeeDetails) o;
-        return Objects.equals(id, employee.id) &&
-                Objects.equals(username, employee.username) &&
+        return Objects.equals(username, employee.username) &&
                 level == employee.level &&
                 role == employee.role &&
                 team == employee.team;
@@ -57,6 +53,6 @@ public class EmployeeDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, level, role, team);
+        return Objects.hash(username, level, role, team);
     }
 }

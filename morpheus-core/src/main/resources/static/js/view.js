@@ -59,21 +59,25 @@ angular
                     .error(function (data) {
                         $.growl.error({message: data.message});
                     });
-                var username = document.getElementById('q').value;
-                $scope.employee = $.grep($scope.employees, function (e) {
-                    return e == username;
-                })[0];
-
-                $scope.$apply();
             };
 
             $scope.persistSkills = function () {
-                $http.post('employee/record', $scope.employee)
-                    .success(function (data, status, headers, config) {
-                        $scope.originalEmployee = angular.copy($scope.employee);
-                        $.growl.notice({message: $scope.employee.username + ' successfully updated'});
-                        $scope.performSearch();
-                    });
+                if ($scope.recordIsDirty()) {
+                    $http.post('employee/record', $scope.employee)
+                        .success(function () {
+                            $scope.originalEmployee = angular.copy($scope.employee);
+                            $.growl.notice({message: $scope.employee.username + ' successfully updated'});
+                            $scope.performSearch();
+                        });
+                }
+                if ($scope.detailIsDirty()) {
+                    $http.post('employee', $scope.employeeDetails)
+                        .success(function () {
+                            $scope.originalEmployeeDetails = angular.copy($scope.employeeDetails);
+                            $.growl.notice({message: $scope.employee.username + ' successfully updated'});
+                            $scope.performSearch();
+                        });
+                }
             };
 
             $scope.updateSkill = function (property, value) {
@@ -89,6 +93,14 @@ angular
             $scope.isNotDirty = function () {
                 return angular.equals($scope.employee, $scope.originalEmployee) &&
                     angular.equals($scope.employeeDetails, $scope.originalEmployeeDetails);
+            };
+
+            $scope.detailIsDirty = function () {
+                return !angular.equals($scope.employeeDetails, $scope.originalEmployeeDetails);
+            };
+
+            $scope.recordIsDirty = function () {
+                return !angular.equals($scope.employee, $scope.originalEmployee);
             };
 
             $scope.descriptionFor = function (skill, levelNumber) {
@@ -190,7 +202,6 @@ angular
 
             function getEmployee() {
                 if (!$scope.isManager()) {
-                    debugger;
                     $http.get('employee')
                         .success(function (data, status, headers, config) {
                             $scope.employeeDetails = data.employeeDetails;
