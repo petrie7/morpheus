@@ -59,8 +59,8 @@ public class MorpheusApplicationConfig {
 
     @Bean
     @Autowired
-    public TeamController teamController(TeamRepository teamRepository) {
-        return new TeamController(teamRepository);
+    public TeamController teamController(TeamRepository teamRepository, EmployeeRepository employeeRepository) {
+        return new TeamController(teamRepository, employeeRepository);
     }
 
     @Bean

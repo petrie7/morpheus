@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -20,6 +21,7 @@ public class TemplateController {
     private SkillTemplateRepository skillTemplateRepository;
 
     @RequestMapping(method = POST)
+    @RolesAllowed(value = "ROLE_MANAGER")
     public void saveOrUpdate(@RequestBody List<Template> templates) {
         skillTemplateRepository.saveOrUpdate(templates);
     }

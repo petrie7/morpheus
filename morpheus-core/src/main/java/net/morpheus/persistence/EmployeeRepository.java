@@ -40,4 +40,9 @@ public class EmployeeRepository {
     public List<EmployeeDetails> getAll() {
         return mongoTemplate.findAll(EmployeeDetails.class, EMPLOYEE_COLLECTION);
     }
+
+    public List<EmployeeDetails> findByTeam(String teamName) {
+        return mongoTemplate
+                .find(new Query(where("team.name").is(teamName)), EmployeeDetails.class, EMPLOYEE_COLLECTION);
+    }
 }

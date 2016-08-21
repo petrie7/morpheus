@@ -4,7 +4,8 @@ angular
         'morpheus.view',
         'morpheus.create-employee',
         'morpheus.create-team',
-        'morpheus.edit-template'
+        'morpheus.edit-template',
+        'morpheus.team-dashboard'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -27,6 +28,10 @@ angular
             .when('/edit-template', {
                 templateUrl: '/partials/edit-template.html',
                 controller: 'EditTemplateCtrl'
+            })
+            .when('/team-dashboard', {
+                templateUrl: '/partials/team-dashboard.html',
+                controller: 'TeamDashboardCtrl'
             })
             .otherwise({
                 redirectTo: '/matrix'
