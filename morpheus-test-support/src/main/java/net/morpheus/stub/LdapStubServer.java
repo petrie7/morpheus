@@ -31,6 +31,11 @@ public class LdapStubServer {
                 "a");
 
         ldapStubServer.addEmployee(anEmployee()
+                        .withUsername("Pedro")
+                        .build(),
+                "a");
+
+        ldapStubServer.addEmployee(anEmployee()
                         .withUsername("Manager")
                         .withRole(Manager)
                         .build(),
