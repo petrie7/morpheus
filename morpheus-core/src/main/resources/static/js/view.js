@@ -1,8 +1,6 @@
 angular
     .module('morpheus.view', [])
     .controller('EmployeeCtrl', function ($scope, $http, $routeParams) {
-            console.log($routeParams.username);
-
             var matrixTab = document.getElementById("devMatrix");
             matrixTab.className = "active";
 
@@ -29,8 +27,16 @@ angular
                         editTemplatesTab.className = "inactive";
                         retrieveAllEmployees();
                         getTemplates();
+                        if ($routeParams.username) {
+                            getEmployeeByUsername($routeParams.username);
+                        }
                     } else {
-                        getSkillsTemplateAndEmployee();
+                        debugger;
+                        if ($routeParams.username) {
+                            getSkillsTemplateAndEmployee(getEmployeeByUsername($routeParams.username));
+                        } else {
+                            getSkillsTemplateAndEmployee(getEmployee);
+                        }
                     }
                 });
 
@@ -170,7 +176,7 @@ angular
             };
 
             $scope.$watch('employee', function (newEmployee) {
-                if (newEmployee) {
+                if (newEmployee && $scope.templates) {
                     $scope.templates.forEach(function (template) {
                         template.fields.forEach(function (skill) {
                             skill['rating'] = extractEmployeeSkillValues(newEmployee, skill);
@@ -196,8 +202,9 @@ angular
                 }
             };
 
-            function getSkillsTemplateAndEmployee() {
-                getTemplates(getEmployee);
+            function getSkillsTemplateAndEmployee(callback) {
+                debugger;
+                getTemplates(callback);
             }
 
             function getEmployee() {
@@ -211,11 +218,23 @@ angular
                 }
             }
 
+            function getEmployeeByUsername(username) {
+                $http.get('employee/' + username)
+                    .success(function (data, status, headers, config) {
+                        $scope.employeeDetails = data.employeeDetails;
+                        $scope.employeeRecords = data.employeeRecords;
+                        $scope.employee = $scope.employeeRecords[0];
+                    });
+            }
+
             function getTemplates(callback) {
                 $http.get('template')
                     .success(function (data, status, headers, config) {
                         $scope.templates = data;
-                        typeof callback === 'function' && callback();
+
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
                     });
             }
 

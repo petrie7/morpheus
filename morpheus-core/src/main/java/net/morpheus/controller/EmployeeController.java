@@ -9,7 +9,6 @@ import net.morpheus.persistence.EmployeeRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
 
@@ -44,7 +43,6 @@ public class EmployeeController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @RolesAllowed("ROLE_MANAGER")
     public Employee getAllEmployeeRecordsForUser(@PathVariable String username) {
         EmployeeDetails employeeDetails = employeeRepository.findByName(username).get();
         List<EmployeeRecord> employeeRecords = employeeRecordRepository.findByName(username);
