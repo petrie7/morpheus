@@ -213,6 +213,9 @@ angular
                         $scope.employeeDetails = data.employeeDetails;
                         $scope.employeeRecords = data.employeeRecords;
                         $scope.employee = $scope.employeeRecords[0];
+                    })
+                    .error(function (data) {
+                        $.growl.error({message: data.message});
                     });
             }
 
