@@ -93,6 +93,7 @@ body {
 
 #main-content {
     background-image: url(content-pic.jpg);
+    background-size: cover;
 }
 
 table {

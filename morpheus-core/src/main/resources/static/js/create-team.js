@@ -10,14 +10,4 @@ angular
                     $.growl.error({message: data.message});
                 });
         };
-
-        var matrixTab = document.getElementById("devMatrix");
-        var createEmployeeTab = document.getElementById("createEmployee");
-        var createTeamTab = document.getElementById("createTeam");
-        var editTemplateTab = document.getElementById("editTemplates");
-
-        matrixTab.className = "inactive";
-        createEmployeeTab.className = "inactive";
-        createTeamTab.className = "active";
-        editTemplateTab.className = "inactive";
     });

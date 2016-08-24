@@ -1,8 +1,6 @@
 angular
     .module('morpheus.view', [])
     .controller('EmployeeCtrl', function ($scope, $http, $routeParams) {
-            var matrixTab = document.getElementById("devMatrix");
-            matrixTab.className = "active";
 
             $http.get('employee/levels')
                 .success(function (data) {
@@ -18,20 +16,12 @@ angular
                 .success(function (data) {
                     $scope.authenticatedUser = data;
                     if ($scope.isManager()) {
-                        var createEmployeeTab = document.getElementById("createEmployee");
-                        var createTeamTab = document.getElementById("createTeam");
-                        var editTemplatesTab = document.getElementById("editTemplates");
-
-                        createEmployeeTab.className = "inactive";
-                        createTeamTab.className = "inactive";
-                        editTemplatesTab.className = "inactive";
                         retrieveAllEmployees();
                         getTemplates();
                         if ($routeParams.username) {
                             getEmployeeByUsername($routeParams.username);
                         }
                     } else {
-                        debugger;
                         if ($routeParams.username) {
                             getSkillsTemplateAndEmployee(getEmployeeByUsername($routeParams.username));
                         } else {
@@ -203,7 +193,6 @@ angular
             };
 
             function getSkillsTemplateAndEmployee(callback) {
-                debugger;
                 getTemplates(callback);
             }
 

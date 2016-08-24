@@ -1,16 +1,6 @@
 angular
     .module('morpheus.create-employee', [])
     .controller('CreateEmployeeCtrl', function ($scope, $http) {
-        var matrixTab = document.getElementById("devMatrix");
-        var createEmployeeTab = document.getElementById("createEmployee");
-        var createTeamTab = document.getElementById("createTeam");
-        var editTemplateTab = document.getElementById("editTemplates");
-
-        matrixTab.className = "inactive";
-        createEmployeeTab.className = "active";
-        createTeamTab.className = "inactive";
-        editTemplateTab.className = "inactive";
-
         $scope.employee = {
             level: null
         };
