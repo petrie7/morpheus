@@ -23,7 +23,7 @@ angular
                         }
                     } else {
                         if ($routeParams.username) {
-                            getSkillsTemplateAndEmployee(getEmployeeByUsername($routeParams.username));
+                            getSkillsTemplateAndEmployee(getEmployeeByUsername);
                         } else {
                             getSkillsTemplateAndEmployee(getEmployee);
                         }
@@ -222,8 +222,13 @@ angular
                         $scope.templates = data;
 
                         if (typeof callback === 'function') {
-                            callback();
-                        }
+                            if ($routeParams.username) {
+                                callback($routeParams.username)
+                            }
+                            else {
+                            callback()
+                            }
+                         }
                     });
             }
 
