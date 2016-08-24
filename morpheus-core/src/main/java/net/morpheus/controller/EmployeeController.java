@@ -1,10 +1,13 @@
 package net.morpheus.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.morpheus.domain.*;
+import net.morpheus.domain.builder.EmployeeBuilder;
 import net.morpheus.exception.UnauthorisedAccessException;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -68,8 +71,9 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/authenticated")
-    public Principal authenticatedUser(Principal principal) {
-        return principal;
+    public EmployeePrincipal authenticatedUser(UsernamePasswordAuthenticationToken principal) {
+        EmployeeDetails employeeDetails = employeeRepository.findByName(principal.getName()).orElseGet(() -> EmployeeBuilder.anEmployee().withRole(Role.Manager).build());
+        return new EmployeePrincipal(principal, employeeDetails.role());
     }
 
     private List<EmployeeRecord> emptyRecord(String username) {
@@ -85,5 +89,22 @@ public class EmployeeController {
         } else {
             return true;
         }
+    }
+
+    private class EmployeePrincipal extends UsernamePasswordAuthenticationToken {
+
+        @JsonProperty
+        private final Role role;
+
+        public EmployeePrincipal(UsernamePasswordAuthenticationToken principal, Role role) {
+            super(principal.getPrincipal(), principal.getCredentials(), principal.getAuthorities());
+            this.role = role;
+        }
+
+        public Role role(){
+            return role;
+        }
+
+
     }
 }

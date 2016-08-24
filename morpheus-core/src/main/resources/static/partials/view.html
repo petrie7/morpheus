@@ -68,14 +68,14 @@
                             <input type="radio"
                                    class="pointer"
                                    style="cursor:default"
-                                   ng-show="!isManager()"
+                                   ng-show="!hasEditorPrivileges()"
                                    ng-disabled="field.rating != n"
                                    ng-model="field.rating"
                                    ng-value="n"/>
                             <input type="radio"
                                    class="pointer"
                                    style="cursor:default"
-                                   ng-show="isManager()"
+                                   ng-show="hasEditorPrivileges()"
                                    ng-disabled="managerCanSee(field.rating, n)"
                                    ng-model="field.rating"
                                    ng-value="n"
@@ -85,7 +85,7 @@
                     <td>
                         <input name="commentText" type="text" ng-model="field.comment" class="commentText"
                                readonly="readonly"/>
-                        <button class="button" ng-click="updateCommentDialog(field)">{{isManager() && isEditable() ?
+                        <button class="button" ng-click="updateCommentDialog(field)">{{hasEditorPrivileges() && isEditable() ?
                             'Edit'
                             :
                             'View'}}
@@ -98,7 +98,7 @@
     </div>
 </div>
 <div class="footer">
-    <div ng-show="isManager() && isEditable()">
+    <div ng-show="hasEditorPrivileges() && isEditable()">
         <button type="submit" id="save-button"
                 class="btn btn-primary"
                 ng-click="persistSkills()"
@@ -117,5 +117,5 @@
     </div>
 </div>
 <div id="commentsBox" title="Update comment" style="display: none">
-    <textarea id="commentTextArea" ng-readonly="!isManager()"></textarea>
+    <textarea id="commentTextArea" ng-readonly="!hasEditorPrivileges()"></textarea>
 </div>

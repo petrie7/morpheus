@@ -192,6 +192,18 @@ angular
                 }
             };
 
+            $scope.hasEditorPrivileges = function () {
+                return $scope.isManager() || $scope.isTeamLead();
+            }
+
+            $scope.isTeamLead = function() {
+                if($scope.authenticatedUser){
+                    return $scope.authenticatedUser.role === 'TeamLead'
+                } else {
+                    return false;
+                }
+            }
+
             function getSkillsTemplateAndEmployee(callback) {
                 getTemplates(callback);
             }
