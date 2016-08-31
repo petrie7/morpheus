@@ -9,23 +9,23 @@ public class EditTemplatesTest extends MorpheusTestCase {
 
     @Test
     public void canEditATemplate() throws Exception {
-        given(aManager.isLoggedIn());
+        given(theManager.isLoggedIn());
 
-        when(theUser.navigatesToEditTemplate());
-        when(theUser.entersANewSkill());
-        when(theUser.savesTheTemplate());
+        when(theManager.navigatesToEditTemplate());
+        when(theManager.entersANewSkill());
+        when(theManager.savesTheTemplate());
 
         then(aNotice.ofSuccess(), isDisplayed());
     }
 
     @Test
     public void canDeleteASkillFromATemplate() throws Exception {
-        given(aManager.isLoggedIn());
+        given(theManager.isLoggedIn());
 
-        when(theUser.navigatesToEditTemplate());
-        when(theUser.clicksDeleteSkill());
-        when(theUser.confirms());
-        when(theUser.savesTheTemplate());
+        when(theManager.navigatesToEditTemplate());
+        when(theManager.clicksDeleteSkill());
+        when(theManager.confirms());
+        when(theManager.savesTheTemplate());
 
         then(aNotice.ofSuccess(), isDisplayed());
     }

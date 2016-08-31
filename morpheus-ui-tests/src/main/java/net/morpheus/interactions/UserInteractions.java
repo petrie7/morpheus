@@ -1,18 +1,11 @@
 package net.morpheus.interactions;
 
-import com.codeborne.selenide.WebDriverRunner;
-import com.google.common.base.Predicate;
 import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.domain.Level;
-import net.morpheus.domain.Team;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static net.morpheus.MorpheusDataFixtures.someString;
 
 public class UserInteractions {
 
@@ -32,72 +25,6 @@ public class UserInteractions {
         };
     }
 
-    public ActionUnderTest navigatesToCreateTeam() {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("createTeam")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    public ActionUnderTest navigatesToCreateEmployee() {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("createEmployee")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    public ActionUnderTest navigatesToEditTemplate() {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("editTemplates")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    public ActionUnderTest entersATeamName() {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("teamName")).setValue(someString());
-            $(By.id("save-team")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    public ActionUnderTest enters(EmployeeDetails newEmployee, Team team) {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("newUsername")).setValue(newEmployee.username());
-            $(By.id("roleSelect")).selectOption(newEmployee.role().toString());
-            $(By.id("levelSelect")).selectOption(Level.JuniorDeveloper.name());
-            $(By.id("teamSelect")).selectOption(team.name());
-            $(By.id("save-employee")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    public ActionUnderTest entersANewSkill() {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("field-name-textbox")).setValue(someString());
-            $(By.id("submit-new-field")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    public ActionUnderTest savesTheTemplate() {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("save-button")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    public ActionUnderTest clicksDeleteSkill() {
-        return (interestingGivens, capturedInputAndOutputs) -> {
-            WebDriverRunner.getWebDriver();
-            WebDriverRunner.getWebDriver().findElements(
-                    By.xpath("//p[text()=\"Functional Delivery\"]/parent::div/parent::td/parent::tr/td")).get(4)
-                    .findElement(By.id("delete-field-button"))
-                    .click();
-            return capturedInputAndOutputs;
-        };
-    }
-
     private void loginUser() {
         $(By.id("username")).setValue(employeeForTest.username());
         $(By.id("password")).setValue(employeePassword);
@@ -106,18 +33,5 @@ public class UserInteractions {
 
     private void openMorpheus() {
         open("http://localhost:1999");
-    }
-
-    public ActionUnderTest confirms() {
-        return (givens, capturedInputAndOutputs) -> {
-            new WebDriverWait(WebDriverRunner.getWebDriver(), 3).until(new Predicate<WebDriver>() {
-                @Override
-                public boolean apply(WebDriver webDriver) {
-                    return webDriver.findElement(By.className("modal-footer")).isDisplayed();
-                }
-            });
-            $(By.className("modal-footer")).findElement(By.className("btn-primary")).click();
-            return capturedInputAndOutputs;
-        };
     }
 }
