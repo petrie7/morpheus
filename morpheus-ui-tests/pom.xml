@@ -16,7 +16,6 @@
             <groupId>net.wazim</groupId>
             <artifactId>morpheus-test-support</artifactId>
             <version>DEV-SNAPSHOT</version>
-            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>junit</groupId>
@@ -28,19 +27,16 @@
             <groupId>net.wazim</groupId>
             <artifactId>morpheus-core</artifactId>
             <version>DEV-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.googlecode.yatspec</groupId>
             <artifactId>yatspec</artifactId>
             <version>217</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
             <version>3.6</version>
-            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.mockito</groupId>

@@ -261,7 +261,7 @@ h5 {
     display: none;
 }
 
-#save-employee {
+#save-employee, #save-team {
     margin-top: 5px;
     float: right;
 }

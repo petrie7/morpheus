@@ -1,29 +1,21 @@
 package net.morpheus.manager;
 
-import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
-import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.domain.Level;
 import net.morpheus.domain.Team;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.codeborne.selenide.Selenide.$;
 import static net.morpheus.MorpheusDataFixtures.someTeam;
+import static net.morpheus.MorpheusDataFixtures.someUsername;
 import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
+import static net.morpheus.matchers.ElementMatchers.isDisplayed;
 
 public class CreateEmployeeTest extends MorpheusTestCase {
 
     private EmployeeDetails newEmployee;
+    private EmployeeDetails anotherEmployee;
     private Team team = someTeam();
 
     @Before
@@ -32,17 +24,34 @@ public class CreateEmployeeTest extends MorpheusTestCase {
         newEmployee = anEmployee()
                 .withUsername("Pedro")
                 .build();
+        anotherEmployee = anEmployee()
+                .withUsername(someUsername())
+                .build();
     }
 
     @Test
-    public void canAddNewEmployee() throws Exception {
+    public void canCreateEmployee() throws Exception {
         given(anEmployeeIsInCauth());
-        and(aManagerIsLoggedIn());
+        and(theManager.isLoggedIn());
 
-        when(theUserNavigatesToCreateEmployee());
-        when(entersNewEmployee(newEmployee));
+        when(theUser.navigatesToCreateEmployee());
+        when(theUser.enters(newEmployee, on(team)));
 
-        then(theNewEmployeeSuccessStatus(), isDisplayed());
+        then(aNotice.ofSuccess(), isDisplayed());
+    }
+
+    @Test
+    public void cannotCreateEmployeeThatDoesNotExistInCauth() throws Exception {
+        given(theManager.isLoggedIn());
+
+        when(theUser.navigatesToCreateEmployee());
+        when(theUser.enters(anotherEmployee, on(team)));
+
+        then(aNotice.ofError(), isDisplayed());
+    }
+
+    private Team on(Team team) {
+        return team;
     }
 
     private GivensBuilder anEmployeeIsInCauth() {
@@ -51,45 +60,4 @@ public class CreateEmployeeTest extends MorpheusTestCase {
             return givens;
         };
     }
-
-    private ActionUnderTest theUserNavigatesToCreateEmployee() {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("createEmployee")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    private ActionUnderTest entersNewEmployee(EmployeeDetails employee) {
-        return (givens, capturedInputAndOutputs) -> {
-            $(By.id("newUsername")).setValue(employee.username());
-            $(By.id("roleSelect")).selectOption(employee.role().toString());
-            $(By.id("levelSelect")).selectOption(Level.JuniorDeveloper.name());
-            $(By.id("teamSelect")).selectOption(team.name());
-            $(By.id("save-employee")).click();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    private StateExtractor<WebElement> theNewEmployeeSuccessStatus() {
-        return capturedInputAndOutputs -> {
-            new WebDriverWait(webDriver, 3)
-                    .until((WebDriver driver) -> webDriver.findElement(By.className("growl-notice")).isDisplayed());
-            return webDriver.findElement(By.className("growl-notice"));
-        };
-    }
-
-    private Matcher<WebElement> isDisplayed() {
-        return new TypeSafeMatcher<WebElement>() {
-            @Override
-            protected boolean matchesSafely(WebElement element) {
-                return element.isDisplayed();
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Web element to be present");
-            }
-        };
-    }
-
 }

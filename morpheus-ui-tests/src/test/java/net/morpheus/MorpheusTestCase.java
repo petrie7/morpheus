@@ -5,12 +5,14 @@ import com.googlecode.yatspec.junit.SpecResultListener;
 import com.googlecode.yatspec.junit.SpecRunner;
 import com.googlecode.yatspec.junit.WithCustomResultListeners;
 import com.googlecode.yatspec.rendering.html.HtmlResultRenderer;
-import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.config.PersistenceConfig;
 import net.morpheus.domain.*;
+import net.morpheus.interactions.ManagerInteractions;
+import net.morpheus.interactions.NoticeInteractions;
+import net.morpheus.interactions.UserInteractions;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
@@ -29,8 +31,6 @@ import org.springframework.test.context.TestContextManager;
 
 import java.util.ArrayList;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
 import static java.util.Arrays.asList;
 import static net.morpheus.MorpheusDataFixtures.someString;
@@ -62,6 +62,9 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     private String employeePassword;
 
     private MongoStub mongoStub;
+    protected ManagerInteractions theManager;
+    protected UserInteractions theUser;
+    protected NoticeInteractions aNotice;
 
     @Before
     public void setupTest() throws Exception {
@@ -75,6 +78,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
 
         ldapStubServer = new LdapStubServer();
         ldapStubServer.start();
+
         ArrayList<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Functional Delivery", 7, "Always delivers on time"));
         String username = someString();
@@ -83,6 +87,10 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         employeeDetailsForTest = new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, someTeam());
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
+
+        theManager = new ManagerInteractions(ldapStubServer, employeePassword);
+        theUser = new UserInteractions(employeeForTest, employeePassword);
+        aNotice = new NoticeInteractions(webDriver);
     }
 
     private void employeeRepositoryTestData() {
@@ -195,39 +203,6 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
             employeeRepository.create(employeeDetailsForTest);
             return givens;
         };
-    }
-
-    protected GivensBuilder aManagerIsLoggedIn() {
-        return interestingGivens -> {
-            employeeForTest = anEmployee()
-                    .withUsername("Tymbo")
-                    .withRole(Role.Manager)
-                    .build();
-
-            ldapStubServer.addEmployee(employeeForTest, employeePassword);
-
-            openMorpheus();
-            loginUser();
-            return interestingGivens;
-        };
-    }
-
-    protected ActionUnderTest theUserLogsIn() {
-        return (givens, capturedInputAndOutputs1) -> {
-            openMorpheus();
-            loginUser();
-            return capturedInputAndOutputs;
-        };
-    }
-
-    private void loginUser() {
-        $(By.id("username")).setValue(employeeForTest.username());
-        $(By.id("password")).setValue(employeePassword);
-        $(By.id("submit")).click();
-    }
-
-    private void openMorpheus() {
-        open("http://localhost:1999");
     }
 
     @Override

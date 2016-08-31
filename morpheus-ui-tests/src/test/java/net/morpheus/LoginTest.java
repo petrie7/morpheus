@@ -12,7 +12,7 @@ public class LoginTest extends MorpheusTestCase {
     public void userCanLogin() throws Exception {
         given(anUserExists());
 
-        when(theUserLogsIn());
+        when(theUser.logsIn());
 
         then(theDisplayedPage(), isHome());
     }
