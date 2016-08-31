@@ -32,7 +32,7 @@ public class CreateEmployeeTest extends MorpheusTestCase {
     @Test
     public void canCreateEmployee() throws Exception {
         given(anEmployeeIsInCauth());
-        and(theManager.isLoggedIn());
+        and(aManager.isLoggedIn());
 
         when(theUser.navigatesToCreateEmployee());
         when(theUser.enters(newEmployee, on(team)));
@@ -42,7 +42,7 @@ public class CreateEmployeeTest extends MorpheusTestCase {
 
     @Test
     public void cannotCreateEmployeeThatDoesNotExistInCauth() throws Exception {
-        given(theManager.isLoggedIn());
+        given(aManager.isLoggedIn());
 
         when(theUser.navigatesToCreateEmployee());
         when(theUser.enters(anotherEmployee, on(team)));

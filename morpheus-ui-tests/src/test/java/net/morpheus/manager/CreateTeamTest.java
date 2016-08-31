@@ -9,7 +9,7 @@ public class CreateTeamTest extends MorpheusTestCase {
 
     @Test
     public void canCreateTeam() throws Exception {
-        given(theManager.isLoggedIn());
+        given(aManager.isLoggedIn());
 
         when(theUser.navigatesToCreateTeam());
         when(theUser.entersATeamName());

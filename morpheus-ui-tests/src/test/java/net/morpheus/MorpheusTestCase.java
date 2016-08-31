@@ -62,7 +62,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     private String employeePassword;
 
     private MongoStub mongoStub;
-    protected ManagerInteractions theManager;
+    protected ManagerInteractions aManager;
     protected UserInteractions theUser;
     protected NoticeInteractions aNotice;
 
@@ -88,7 +88,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
 
-        theManager = new ManagerInteractions(ldapStubServer, employeePassword);
+        aManager = new ManagerInteractions(ldapStubServer, employeePassword);
         theUser = new UserInteractions(employeeForTest, employeePassword);
         aNotice = new NoticeInteractions(webDriver);
     }

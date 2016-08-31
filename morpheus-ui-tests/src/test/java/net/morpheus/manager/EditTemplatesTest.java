@@ -1,12 +1,32 @@
 package net.morpheus.manager;
 
-import org.junit.Ignore;
+import net.morpheus.MorpheusTestCase;
 import org.junit.Test;
 
-public class EditTemplatesTest {
+import static net.morpheus.matchers.ElementMatchers.isDisplayed;
 
-    @Ignore
+public class EditTemplatesTest extends MorpheusTestCase {
+
     @Test
-    public void canEditATemplate() {
+    public void canEditATemplate() throws Exception {
+        given(aManager.isLoggedIn());
+
+        when(theUser.navigatesToEditTemplate());
+        when(theUser.entersANewSkill());
+        when(theUser.savesTheTemplate());
+
+        then(aNotice.ofSuccess(), isDisplayed());
+    }
+
+    @Test
+    public void canDeleteASkillFromATemplate() throws Exception {
+        given(aManager.isLoggedIn());
+
+        when(theUser.navigatesToEditTemplate());
+        when(theUser.clicksDeleteSkill());
+        when(theUser.confirms());
+        when(theUser.savesTheTemplate());
+
+        then(aNotice.ofSuccess(), isDisplayed());
     }
 }
