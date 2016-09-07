@@ -55,4 +55,8 @@ public class EmployeeDetails {
     public int hashCode() {
         return Objects.hash(username, level, role, team);
     }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }

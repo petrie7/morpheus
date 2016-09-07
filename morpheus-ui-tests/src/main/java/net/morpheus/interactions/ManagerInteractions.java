@@ -44,6 +44,14 @@ public class ManagerInteractions {
         };
     }
 
+    public GivensBuilder isViewing(String username) {
+        return interestingGivens -> {
+            $(By.id("q")).setValue(username);
+            $(By.id("search")).click();
+            return interestingGivens;
+        };
+    }
+
     public ActionUnderTest navigatesToCreateTeam() {
         return (givens, capturedInputAndOutputs) -> {
             $(By.id("createTeam")).click();
@@ -119,6 +127,20 @@ public class ManagerInteractions {
                 }
             });
             $(By.className("modal-footer")).findElement(By.className("btn-primary")).click();
+            return capturedInputAndOutputs;
+        };
+    }
+
+    public ActionUnderTest editsTheLevelOfTheDeveloperTo(Level level) {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("level-field")).setValue(level.toString());
+            return capturedInputAndOutputs;
+        };
+    }
+
+    public ActionUnderTest editsTheTeamOfTheDeveloperTo(Team destinationTeam) {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("team-field")).setValue(destinationTeam.name());
             return capturedInputAndOutputs;
         };
     }

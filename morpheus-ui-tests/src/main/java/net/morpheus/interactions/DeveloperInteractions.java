@@ -7,12 +7,12 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
-public class UserInteractions {
+public class DeveloperInteractions {
 
     private EmployeeDetails employeeForTest;
     private String employeePassword;
 
-    public UserInteractions(EmployeeDetails employeeForTest, String employeePassword) {
+    public DeveloperInteractions(EmployeeDetails employeeForTest, String employeePassword) {
         this.employeeForTest = employeeForTest;
         this.employeePassword = employeePassword;
     }
@@ -33,5 +33,9 @@ public class UserInteractions {
 
     private void openMorpheus() {
         open("http://localhost:1999");
+    }
+
+    public EmployeeDetails getEmployeeForTest() {
+        return employeeForTest;
     }
 }

@@ -10,9 +10,9 @@ public class LoginTest extends MorpheusTestCase {
 
     @Test
     public void userCanLogin() throws Exception {
-        given(anUserExists());
+        given(anDeveloperExists());
 
-        when(theUser.logsIn());
+        when(theDeveloper.logsIn());
 
         then(theDisplayedPage(), isHome());
     }

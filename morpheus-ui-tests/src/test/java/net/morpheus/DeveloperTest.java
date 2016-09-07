@@ -32,10 +32,10 @@ public class DeveloperTest extends MorpheusTestCase {
 
     @Test
     public void aDeveloperCanViewTheirSkillsAndComments() throws Exception {
-        given(anUserExists());
+        given(anDeveloperExists());
         and(hasSomeSkillsWithComments());
 
-        when(theUser.logsIn());
+        when(theDeveloper.logsIn());
 
         then(theSkillsMatrix.entries(), areDisplayed());
         then(theSkillsMatrix.entries(), containsAllEmployeesSkillsWithComments());
@@ -43,9 +43,9 @@ public class DeveloperTest extends MorpheusTestCase {
 
     @Test
     public void noRecordsWhenNoRecordsExistForUser() throws Exception {
-        given(anUserExists());
+        given(anDeveloperExists());
 
-        when(theUser.logsIn());
+        when(theDeveloper.logsIn());
 
         then(theSkillsMatrix.entries(), areDisplayed());
         then(theTymMachine.message(), equalTo("There are no records to display"));

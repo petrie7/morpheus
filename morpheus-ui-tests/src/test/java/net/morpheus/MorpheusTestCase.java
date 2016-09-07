@@ -10,9 +10,9 @@ import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.MorpheusApplicationConfig;
 import net.morpheus.config.PersistenceConfig;
 import net.morpheus.domain.*;
+import net.morpheus.interactions.DeveloperInteractions;
 import net.morpheus.interactions.ManagerInteractions;
 import net.morpheus.interactions.NoticeInteractions;
-import net.morpheus.interactions.UserInteractions;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
@@ -63,8 +63,9 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
 
     private MongoStub mongoStub;
     protected ManagerInteractions theManager;
-    protected UserInteractions theUser;
+    protected DeveloperInteractions theDeveloper;
     protected NoticeInteractions aNotice;
+    protected Team theTeam = someTeam();
 
     @Before
     public void setupTest() throws Exception {
@@ -89,7 +90,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         webDriver = WebDriverRunner.getWebDriver();
 
         theManager = new ManagerInteractions(ldapStubServer, employeePassword);
-        theUser = new UserInteractions(employeeForTest, employeePassword);
+        theDeveloper = new DeveloperInteractions(employeeForTest, employeePassword);
         aNotice = new NoticeInteractions(webDriver);
     }
 
@@ -197,11 +198,18 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         // Few
     }
 
-    protected GivensBuilder anUserExists() {
+    protected GivensBuilder anDeveloperExists() {
         return givens -> {
             ldapStubServer.addEmployee(employeeForTest, employeePassword);
             employeeRepository.create(employeeDetailsForTest);
             return givens;
+        };
+    }
+
+    protected GivensBuilder aTeamExists() {
+        return interestingGivens -> {
+            teamRepository.create(theTeam);
+            return interestingGivens;
         };
     }
 
