@@ -11,10 +11,15 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static net.morpheus.MorpheusDataFixtures.someTeam;
 import static net.morpheus.domain.Level.MidDeveloper;
+import static net.morpheus.domain.Level.SeniorDeveloper;
 import static net.morpheus.domain.Role.TeamLead;
+import static net.morpheus.matchers.ElementMatchers.isDisabled;
+import static net.morpheus.matchers.ElementMatchers.isEnabled;
 
 public class EditEmployeeTest extends MorpheusTestCase {
 
@@ -25,17 +30,35 @@ public class EditEmployeeTest extends MorpheusTestCase {
         given(aTeamExists());
         and(anotherTeamExists());
         and(theManager.isLoggedIn());
-        and(anDeveloperExists());
+        and(anDeveloperExistsWithLevel(SeniorDeveloper));
         and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
 
+        when(theManager.editsTheRoleOfTheDeveloperTo(TeamLead));
         when(theManager.editsTheLevelOfTheDeveloperTo(MidDeveloper));
         when(theManager.editsTheTeamOfTheDeveloperTo(anotherTeam));
-        when(theManager.editsTheRoleOfTheDeveloperTo(TeamLead));
         when(theManager.savesTheTemplate());
 
         then(theDeveloper(), hasALevelOf(MidDeveloper));
         then(theDeveloper(), isOn(anotherTeam));
         then(theDeveloper(), hasARoleOf(TeamLead));
+    }
+
+    @Test
+    public void canOnlyEditDeveloperRoleOfASeniorDeveloper() throws Exception {
+        given(aTeamExists());
+        and(theManager.isLoggedIn());
+        and(anDeveloperExists());
+        and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
+
+        then(theEditRoleDropdown(), isDisabled());
+
+        when(theManager.editsTheLevelOfTheDeveloperTo(Level.MidDeveloper));
+
+        then(theEditRoleDropdown(), isDisabled());
+
+        when(theManager.editsTheLevelOfTheDeveloperTo(Level.SeniorDeveloper));
+
+        then(theEditRoleDropdown(), isEnabled());
     }
 
     private GivensBuilder anotherTeamExists() {
@@ -48,6 +71,10 @@ public class EditEmployeeTest extends MorpheusTestCase {
 
     private StateExtractor<EmployeeDetails> theDeveloper() {
         return capturedInputAndOutputs -> employeeRepository.findByName(employeeDetailsForTest.username()).get();
+    }
+
+    private StateExtractor<WebElement> theEditRoleDropdown() {
+        return capturedInputAndOutputs -> webDriver.findElement(By.id("role-field"));
     }
 
     private Matcher<EmployeeDetails> hasALevelOf(Level expectedLevel) {

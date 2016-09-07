@@ -206,6 +206,15 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         };
     }
 
+    protected GivensBuilder anDeveloperExistsWithLevel(Level level) {
+        return givens -> {
+            employeeDetailsForTest.setLevel(level);
+            ldapStubServer.addEmployee(employeeForTest, employeePassword);
+            employeeRepository.create(employeeDetailsForTest);
+            return givens;
+        };
+    }
+
     protected GivensBuilder aTeamExists() {
         return interestingGivens -> {
             teamRepository.create(theTeam);

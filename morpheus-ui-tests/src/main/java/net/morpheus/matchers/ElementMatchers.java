@@ -36,4 +36,32 @@ public class ElementMatchers {
             }
         };
     }
+
+    public static Matcher<WebElement> isDisabled() {
+        return new TypeSafeMatcher<WebElement>() {
+            @Override
+            protected boolean matchesSafely(WebElement element) {
+                return !element.isEnabled();
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Web element to be disabled");
+            }
+        };
+    }
+
+    public static Matcher<WebElement> isEnabled() {
+        return new TypeSafeMatcher<WebElement>() {
+            @Override
+            protected boolean matchesSafely(WebElement element) {
+                return element.isEnabled();
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Web element to be disabled");
+            }
+        };
+    }
 }

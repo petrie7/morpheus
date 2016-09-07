@@ -24,7 +24,7 @@
         </select>
 
         <label id="role-label">Role</label>
-        <select id="role-field" ng-model="employeeDetails.role" ng-disabled="employeeDetails.level == 'SeniorDeveloper' && !isManager()">
+        <select id="role-field" ng-model="employeeDetails.role" ng-disabled="((employeeDetails.level != 'SeniorDeveloper') || (!isManager()))">
             <option value="Developer">Developer</option>
             <option value="TeamLead">TeamLead</option>
         </select>

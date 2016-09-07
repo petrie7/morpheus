@@ -32,6 +32,10 @@ public class EmployeeDetails {
         return level;
     }
 
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
     public Role role() {
         return role;
     }
@@ -54,9 +58,5 @@ public class EmployeeDetails {
     @Override
     public int hashCode() {
         return Objects.hash(username, level, role, team);
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 }
