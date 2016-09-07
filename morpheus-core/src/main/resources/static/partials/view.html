@@ -22,6 +22,12 @@
         <select id="level-field" ng-model="employeeDetails.level" ng-disabled="!isManager()">
             <option ng-repeat="level in levels" value="{{level}}">{{level}}</option>
         </select>
+
+        <label id="role-label">Role</label>
+        <select id="role-field" ng-model="employeeDetails.role" ng-disabled="employeeDetails.level == 'SeniorDeveloper' && !isManager()">
+            <option value="Developer">Developer</option>
+            <option value="TeamLead">TeamLead</option>
+        </select>
     </div>
 
     <ul class="nav nav-tabs">

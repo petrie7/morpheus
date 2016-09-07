@@ -133,7 +133,7 @@ public class ManagerInteractions {
 
     public ActionUnderTest editsTheLevelOfTheDeveloperTo(Level level) {
         return (interestingGivens, capturedInputAndOutputs) -> {
-            $(By.id("level-field")).setValue(level.toString());
+            $(By.id("level-field")).setValue(level.name());
             return capturedInputAndOutputs;
         };
     }
@@ -141,6 +141,13 @@ public class ManagerInteractions {
     public ActionUnderTest editsTheTeamOfTheDeveloperTo(Team destinationTeam) {
         return (interestingGivens, capturedInputAndOutputs) -> {
             $(By.id("team-field")).setValue(destinationTeam.name());
+            return capturedInputAndOutputs;
+        };
+    }
+
+    public ActionUnderTest editsTheRoleOfTheDeveloperTo(Role role) {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("role-field")).setValue(role.name());
             return capturedInputAndOutputs;
         };
     }

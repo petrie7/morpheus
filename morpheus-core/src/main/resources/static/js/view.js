@@ -9,7 +9,6 @@ angular
 
             $http.get('team')
                 .success(function (data) {
-                debugger;
                     $scope.teams = data;
                 });
 

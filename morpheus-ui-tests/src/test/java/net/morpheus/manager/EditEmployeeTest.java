@@ -5,6 +5,7 @@ import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
 import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.Level;
+import net.morpheus.domain.Role;
 import net.morpheus.domain.Team;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -13,6 +14,7 @@ import org.junit.Test;
 
 import static net.morpheus.MorpheusDataFixtures.someTeam;
 import static net.morpheus.domain.Level.MidDeveloper;
+import static net.morpheus.domain.Role.TeamLead;
 
 public class EditEmployeeTest extends MorpheusTestCase {
 
@@ -28,10 +30,12 @@ public class EditEmployeeTest extends MorpheusTestCase {
 
         when(theManager.editsTheLevelOfTheDeveloperTo(MidDeveloper));
         when(theManager.editsTheTeamOfTheDeveloperTo(anotherTeam));
+        when(theManager.editsTheRoleOfTheDeveloperTo(TeamLead));
         when(theManager.savesTheTemplate());
 
         then(theDeveloper(), hasALevelOf(MidDeveloper));
         then(theDeveloper(), isOn(anotherTeam));
+        then(theDeveloper(), hasARoleOf(TeamLead));
     }
 
     private GivensBuilder anotherTeamExists() {
@@ -73,4 +77,19 @@ public class EditEmployeeTest extends MorpheusTestCase {
             }
         };
     }
+
+    private Matcher<EmployeeDetails> hasARoleOf(Role expectedRole) {
+        return new TypeSafeMatcher<EmployeeDetails>() {
+            @Override
+            protected boolean matchesSafely(EmployeeDetails employeeDetails) {
+                return employeeDetails.role().name().equals(expectedRole.name());
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("employee role of: " + expectedRole);
+            }
+        };
+    }
+
 }
