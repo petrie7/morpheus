@@ -47,7 +47,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     @Autowired
     protected EmployeeRecordRepository employeeRecordRepository;
     @Autowired
-    private EmployeeRepository employeeRepository;
+    protected EmployeeRepository employeeRepository;
     @Autowired
     protected TeamRepository teamRepository;
 
@@ -91,6 +91,13 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         theManager = new ManagerInteractions(ldapStubServer, employeePassword);
         theUser = new UserInteractions(employeeForTest, employeePassword);
         aNotice = new NoticeInteractions(webDriver);
+    }
+
+    @After
+    public void tearDown() {
+        logoutUser();
+        ldapStubServer.stop();
+        mongoStub.stop();
     }
 
     private void employeeRepositoryTestData() {
@@ -190,26 +197,12 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         // Few
     }
 
-    @After
-    public void tearDown() {
-        logoutUser();
-        ldapStubServer.stop();
-        mongoStub.stop();
-    }
-
     protected GivensBuilder anUserExists() {
         return givens -> {
             ldapStubServer.addEmployee(employeeForTest, employeePassword);
             employeeRepository.create(employeeDetailsForTest);
             return givens;
         };
-    }
-
-    @Override
-    public Iterable<SpecResultListener> getResultListeners() throws Exception {
-        return sequence(
-                new HtmlResultRenderer())
-                .safeCast(SpecResultListener.class);
     }
 
     private void logoutUser() {
@@ -219,5 +212,12 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         }
         JavascriptExecutor js = (JavascriptExecutor) webDriver;
         js.executeScript("document.getElementById('logout-button').click();");
+    }
+
+    @Override
+    public Iterable<SpecResultListener> getResultListeners() throws Exception {
+        return sequence(
+                new HtmlResultRenderer())
+                .safeCast(SpecResultListener.class);
     }
 }

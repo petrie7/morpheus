@@ -65,9 +65,9 @@ public class ManagerInteractions {
         };
     }
 
-    public ActionUnderTest entersATeamName() {
+    public ActionUnderTest entersATeamNameOf(Team teamName) {
         return (givens, capturedInputAndOutputs) -> {
-            $(By.id("teamName")).setValue(someString());
+            $(By.id("teamName")).setValue(teamName.name());
             $(By.id("save-team")).click();
             return capturedInputAndOutputs;
         };

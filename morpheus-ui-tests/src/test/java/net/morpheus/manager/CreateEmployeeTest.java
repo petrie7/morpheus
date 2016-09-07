@@ -22,7 +22,7 @@ public class CreateEmployeeTest extends MorpheusTestCase {
     public void setup() {
         teamRepository.create(team);
         newEmployee = anEmployee()
-                .withUsername("Pedro")
+                .withUsername(someUsername())
                 .build();
         anotherEmployee = anEmployee()
                 .withUsername(someUsername())
@@ -50,6 +50,18 @@ public class CreateEmployeeTest extends MorpheusTestCase {
         then(aNotice.ofError(), isDisplayed());
     }
 
+    @Test
+    public void canNotCreateEmployeeThatAlreadyExists() throws Exception {
+        given(anEmployeeIsInCauth());
+        and(theEmployeeExistsInMorpheus());
+        and(theManager.isLoggedIn());
+
+        when(theManager.navigatesToCreateEmployee());
+        when(theManager.enters(newEmployee, on(team)));
+
+        then(aNotice.ofError(), isDisplayed());
+    }
+
     private Team on(Team team) {
         return team;
     }
@@ -57,6 +69,13 @@ public class CreateEmployeeTest extends MorpheusTestCase {
     private GivensBuilder anEmployeeIsInCauth() {
         return givens -> {
             ldapStubServer.addEmployee(newEmployee, "password");
+            return givens;
+        };
+    }
+
+    private GivensBuilder theEmployeeExistsInMorpheus() {
+        return givens -> {
+            employeeRepository.create(newEmployee);
             return givens;
         };
     }
