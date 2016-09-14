@@ -248,7 +248,7 @@ h5 {
 #timemachine {
     display: none;
     margin-top: 10px;
-    margin-left: 19%;
+    margin-left: 18%;
     float: left;
     width: 30%;
 }
@@ -302,6 +302,12 @@ h5 {
     display: inline-block;
     font-size: 8px;
     cursor: pointer;
+}
+
+.delete-dev {
+    margin: 0px 0px 0px 0px;
+    float: right;
+    display: none;
 }
 
 #commentTextArea {

@@ -180,6 +180,7 @@ angular
                     $scope.originalEmployeeDetails = angular.copy($scope.employeeDetails);
                     renderSlider();
                     $('.skills-matrix').show();
+                    $('.delete-dev').show();
                 }
             });
 
@@ -205,6 +206,14 @@ angular
                 } else {
                     return false;
                 }
+            }
+
+            $scope.deleteDeveloper = function() {
+              bootbox.confirm("Are you sure you want to delete me?", function (result) {
+                if (result === true) {
+                    $.growl.notice({message: $scope.employee.username + ' successfully deleted'});
+                }
+            });
             }
 
             function getSkillsTemplateAndEmployee(callback) {

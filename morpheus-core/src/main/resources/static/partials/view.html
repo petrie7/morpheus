@@ -24,10 +24,14 @@
         </select>
 
         <label id="role-label">Role</label>
-        <select id="role-field" ng-model="employeeDetails.role" ng-disabled="((employeeDetails.level != 'SeniorDeveloper') || (!isManager()))">
+        <select id="role-field" ng-model="employeeDetails.role"
+                ng-disabled="((employeeDetails.level != 'SeniorDeveloper') || (!isManager()))">
             <option value="Developer">Developer</option>
             <option value="TeamLead">TeamLead</option>
         </select>
+        <div class="delete-dev" ng-show="isManager()">
+            <button class="btn btn-danger" type="submit" ng-click="deleteDeveloper()">Delete Developer</button>
+        </div>
     </div>
 
     <ul class="nav nav-tabs">
@@ -91,7 +95,8 @@
                     <td>
                         <input name="commentText" type="text" ng-model="field.comment" class="commentText"
                                readonly="readonly"/>
-                        <button class="button" ng-click="updateCommentDialog(field)">{{hasEditorPrivileges() && isEditable() ?
+                        <button class="button" ng-click="updateCommentDialog(field)">{{hasEditorPrivileges() &&
+                            isEditable() ?
                             'Edit'
                             :
                             'View'}}

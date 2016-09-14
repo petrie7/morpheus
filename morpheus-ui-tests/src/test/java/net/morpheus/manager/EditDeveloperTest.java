@@ -18,7 +18,7 @@ import static net.morpheus.domain.Level.SeniorDeveloper;
 import static net.morpheus.domain.Role.TeamLead;
 import static net.morpheus.matchers.ElementMatchers.*;
 
-public class EditEmployeeTest extends MorpheusTestCase {
+public class EditDeveloperTest extends MorpheusTestCase {
 
     private Team anotherTeam;
 

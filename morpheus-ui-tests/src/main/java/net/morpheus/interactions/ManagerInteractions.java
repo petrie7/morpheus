@@ -118,6 +118,10 @@ public class ManagerInteractions {
         };
     }
 
+    public ActionUnderTest clicksDeleteDeveloper() {
+        return null;
+    }
+
     public ActionUnderTest confirms() {
         return (givens, capturedInputAndOutputs) -> {
             new WebDriverWait(WebDriverRunner.getWebDriver(), 3).until(new Predicate<WebDriver>() {

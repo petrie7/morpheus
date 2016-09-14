@@ -12,7 +12,7 @@ import static net.morpheus.MorpheusDataFixtures.someUsername;
 import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 import static net.morpheus.matchers.ElementMatchers.isDisplayed;
 
-public class CreateEmployeeTest extends MorpheusTestCase {
+public class CreateDeveloperTest extends MorpheusTestCase {
 
     private EmployeeDetails newEmployee;
     private EmployeeDetails anotherEmployee;
