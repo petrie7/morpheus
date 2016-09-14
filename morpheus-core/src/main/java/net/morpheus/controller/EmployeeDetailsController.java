@@ -1,8 +1,7 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.persistence.EmployeeRepository;
-import net.morpheus.service.NewUserAuthenticator;
+import net.morpheus.service.EmployeeDetailsService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,26 +12,23 @@ import java.util.List;
 @RequestMapping(value = "/employee")
 public class EmployeeDetailsController {
 
-    private final EmployeeRepository employeeRepository;
-    private final NewUserAuthenticator newUserAuthenticator;
+    private EmployeeDetailsService employeeDetailsService;
 
-    public EmployeeDetailsController(EmployeeRepository employeeRepository, NewUserAuthenticator newUserAuthenticator) {
-        this.employeeRepository = employeeRepository;
-        this.newUserAuthenticator = newUserAuthenticator;
+    public EmployeeDetailsController(EmployeeDetailsService employeeDetailsService) {
+        this.employeeDetailsService = employeeDetailsService;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @RolesAllowed("ROLE_MANAGER")
     public List<EmployeeDetails> getAllEmployees() {
-        return employeeRepository.getAll();
+        return employeeDetailsService.getAll();
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @RolesAllowed("ROLE_MANAGER")
     public void create(@RequestBody EmployeeDetails employeeDetails) {
-        newUserAuthenticator.validateUserCanBeCreated(employeeDetails.username());
-        employeeRepository.create(
+        employeeDetailsService.create(
                 employeeDetails
         );
     }
@@ -40,7 +36,7 @@ public class EmployeeDetailsController {
     @RequestMapping(method = RequestMethod.POST)
     @RolesAllowed("ROLE_MANAGER")
     public void updateEmployeeDetails(@RequestBody EmployeeDetails employeeDetails){
-        employeeRepository.update(
+        employeeDetailsService.update(
                 employeeDetails
         );
     }

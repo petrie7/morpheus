@@ -3,10 +3,7 @@ package net.morpheus.manager;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
-import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.domain.Level;
-import net.morpheus.domain.Role;
-import net.morpheus.domain.Team;
+import net.morpheus.domain.*;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -15,11 +12,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static net.morpheus.MorpheusDataFixtures.someTeam;
+import static net.morpheus.MorpheusDataFixtures.someUsername;
 import static net.morpheus.domain.Level.MidDeveloper;
 import static net.morpheus.domain.Level.SeniorDeveloper;
 import static net.morpheus.domain.Role.TeamLead;
-import static net.morpheus.matchers.ElementMatchers.isDisabled;
-import static net.morpheus.matchers.ElementMatchers.isEnabled;
+import static net.morpheus.matchers.ElementMatchers.*;
 
 public class EditEmployeeTest extends MorpheusTestCase {
 
@@ -56,9 +53,34 @@ public class EditEmployeeTest extends MorpheusTestCase {
 
         then(theEditRoleDropdown(), isDisabled());
 
-        when(theManager.editsTheLevelOfTheDeveloperTo(Level.SeniorDeveloper));
+        when(theManager.editsTheLevelOfTheDeveloperTo(SeniorDeveloper));
 
         then(theEditRoleDropdown(), isEnabled());
+    }
+
+    @Test
+    public void canNotMakeADeveloperATeamLeadOfATeamWithATeamLead() throws Exception {
+        given(aTeamExists());
+        and(theManager.isLoggedIn());
+        and(anDeveloperExistsOn(theTeam, withLevel(SeniorDeveloper)));
+        and(aTeamLeadExistsOn(theTeam));
+        and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
+
+        when(theManager.editsTheRoleOfTheDeveloperTo(TeamLead));
+        when(theManager.savesTheTemplate());
+
+        then(aNotice.ofError(), isDisplayed());
+    }
+
+    private Level withLevel(Level level) {
+        return level;
+    }
+
+    private GivensBuilder aTeamLeadExistsOn(Team team) {
+        return interestingGivens -> {
+            employeeRepository.create(new EmployeeDetails(someUsername(), SeniorDeveloper, Role.TeamLead, team));
+            return interestingGivens;
+        };
     }
 
     private GivensBuilder anotherTeamExists() {

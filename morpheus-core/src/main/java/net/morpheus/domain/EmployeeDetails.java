@@ -44,6 +44,10 @@ public class EmployeeDetails {
         return team;
     }
 
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

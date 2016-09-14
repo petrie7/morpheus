@@ -72,6 +72,9 @@ angular
                             $scope.originalEmployeeDetails = angular.copy($scope.employeeDetails);
                             $.growl.notice({message: $scope.employee.username + ' successfully updated'});
                             $scope.performSearch();
+                        })
+                        .error(function (data) {
+                            $.growl.error({message: data.message});
                         });
                 }
             };

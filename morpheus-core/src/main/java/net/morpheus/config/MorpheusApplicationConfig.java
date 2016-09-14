@@ -8,7 +8,7 @@ import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.TeamRepository;
-import net.morpheus.service.NewUserAuthenticator;
+import net.morpheus.service.EmployeeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -53,8 +53,8 @@ public class MorpheusApplicationConfig {
 
     @Bean
     @Autowired
-    public EmployeeDetailsController employeeDetailsController(EmployeeRepository employeeRepository, NewUserAuthenticator newUserAuthenticator){
-        return new EmployeeDetailsController(employeeRepository, newUserAuthenticator);
+    public EmployeeDetailsController employeeDetailsController(EmployeeDetailsService employeeDetailsService) {
+        return new EmployeeDetailsController(employeeDetailsService);
     }
 
     @Bean
