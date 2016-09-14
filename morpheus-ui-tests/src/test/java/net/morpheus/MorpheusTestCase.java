@@ -7,7 +7,7 @@ import com.googlecode.yatspec.junit.WithCustomResultListeners;
 import com.googlecode.yatspec.rendering.html.HtmlResultRenderer;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
-import net.morpheus.config.MorpheusApplicationConfig;
+import net.morpheus.config.ApplicationConfig;
 import net.morpheus.config.PersistenceConfig;
 import net.morpheus.domain.*;
 import net.morpheus.interactions.DeveloperInteractions;
@@ -40,7 +40,7 @@ import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord
 import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
 
 @RunWith(SpecRunner.class)
-@SpringApplicationConfiguration(classes = {MorpheusApplicationConfig.class, PersistenceConfig.class})
+@SpringApplicationConfiguration(classes = {ApplicationConfig.class, PersistenceConfig.class})
 @WebIntegrationTest("spring.main.show_banner=false")
 public abstract class MorpheusTestCase extends TestState implements WithCustomResultListeners {
 

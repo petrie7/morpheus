@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
-public class MorpheusSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     private EmployeeRepository employeeRepository;

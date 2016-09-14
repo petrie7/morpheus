@@ -6,9 +6,9 @@ import net.morpheus.controller.*;
 import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.EmployeeRecord;
 import net.morpheus.persistence.EmployeeRecordRepository;
-import net.morpheus.persistence.EmployeeRepository;
-import net.morpheus.persistence.TeamRepository;
 import net.morpheus.service.EmployeeDetailsService;
+import net.morpheus.service.EmployeeRecordService;
+import net.morpheus.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-public class MorpheusApplicationConfig {
+public class ApplicationConfig {
 
     @Bean
     public EmbeddedServletContainerFactory servletContainer() {
@@ -47,8 +47,9 @@ public class MorpheusApplicationConfig {
 
     @Bean
     @Autowired
-    public EmployeeController employeeController(EmployeeRepository employeeRepository, EmployeeRecordRepository employeeRecordRepository) {
-        return new EmployeeController(employeeRepository, employeeRecordRepository);
+    public EmployeeController employeeController(EmployeeDetailsService employeeDetailsService,
+                                                 EmployeeRecordService employeeRecordService) {
+        return new EmployeeController(employeeDetailsService, employeeRecordService);
     }
 
     @Bean
@@ -59,8 +60,8 @@ public class MorpheusApplicationConfig {
 
     @Bean
     @Autowired
-    public TeamController teamController(TeamRepository teamRepository, EmployeeRepository employeeRepository) {
-        return new TeamController(teamRepository, employeeRepository);
+    public TeamController teamController(TeamService teamService, EmployeeDetailsService employeeDetailsService) {
+        return new TeamController(teamService, employeeDetailsService);
     }
 
     @Bean

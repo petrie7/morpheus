@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import net.morpheus.domain.*;
 import net.morpheus.domain.builder.EmployeeBuilder;
 import net.morpheus.exception.UnauthorisedAccessException;
-import net.morpheus.persistence.EmployeeRecordRepository;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.service.EmployeeDetailsService;
+import net.morpheus.service.EmployeeRecordService;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -24,32 +24,28 @@ import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord
 @RequestMapping(value = "/employee")
 public class EmployeeController {
 
-    private EmployeeRepository employeeRepository;
-    private EmployeeRecordRepository employeeRecordRepository;
+    private EmployeeDetailsService employeeDetailsService;
+    private EmployeeRecordService employeeRecordService;
 
-    public EmployeeController(EmployeeRepository employeeRepository, EmployeeRecordRepository employeeRecordRepository) {
-        this.employeeRepository = employeeRepository;
-        this.employeeRecordRepository = employeeRecordRepository;
+    public EmployeeController(EmployeeDetailsService employeeDetailsService, EmployeeRecordService employeeRecordService) {
+        this.employeeDetailsService = employeeDetailsService;
+        this.employeeRecordService = employeeRecordService;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Employee getEmployeeForLoggedInUser(Principal principal) {
-        EmployeeDetails employeeDetails = employeeRepository.findByName(principal.getName()).get();
-        List<EmployeeRecord> records = employeeRecordRepository.findByName(principal.getName())
-                .stream()
-                .filter(employeeRecord -> !employeeRecord.isWorkInProgress())
-                .collect(toList());
-
-        return new Employee(employeeDetails, records.isEmpty() ? emptyRecord(principal.getName()) : records);
+        List<EmployeeRecord> records = employeeRecordService.findWorkInProgressByName(principal.getName());
+        return new Employee(employeeDetailsService.findByName(principal.getName()).get(),
+                records.isEmpty() ? emptyRecord(principal.getName()) : records);
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Employee getAllEmployeeRecordsForUser(@PathVariable String username, Principal loggedInUser) {
-        EmployeeDetails employeeDetails = employeeRepository.findByName(username).get();
+        EmployeeDetails employeeDetails = employeeDetailsService.findByName(username).get();
         if (isAuthorisedToView(loggedInUser, employeeDetails)) {
-            List<EmployeeRecord> employeeRecords = employeeRecordRepository.findByName(username);
+            List<EmployeeRecord> employeeRecords = employeeRecordService.findAllByName(username);
             if (!employeeRecords.isEmpty()) {
                 EmployeeRecord latestRecord = employeeRecords.get(0);
                 List<EmployeeRecord> filteredList = employeeRecords
@@ -72,7 +68,8 @@ public class EmployeeController {
 
     @RequestMapping(value = "/authenticated")
     public EmployeePrincipal authenticatedUser(UsernamePasswordAuthenticationToken principal) {
-        EmployeeDetails employeeDetails = employeeRepository.findByName(principal.getName()).orElseGet(() -> EmployeeBuilder.anEmployee().withRole(Role.Manager).build());
+        EmployeeDetails employeeDetails = employeeDetailsService.findByName(principal.getName())
+                .orElseGet(() -> EmployeeBuilder.anEmployee().withRole(Role.Manager).build());
         return new EmployeePrincipal(principal, employeeDetails.role());
     }
 
@@ -83,7 +80,7 @@ public class EmployeeController {
     }
 
     private boolean isAuthorisedToView(Principal principal, EmployeeDetails employeeDetails) {
-        Optional<EmployeeDetails> loggedInUser = employeeRepository.findByName(principal.getName());
+        Optional<EmployeeDetails> loggedInUser = employeeDetailsService.findByName(principal.getName());
         if (loggedInUser.isPresent()) {
             return loggedInUser.get().role() == TeamLead && loggedInUser.get().team().equals(employeeDetails.team());
         } else {
