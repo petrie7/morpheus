@@ -198,7 +198,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         // Few
     }
 
-    protected GivensBuilder anDeveloperExists() {
+    protected GivensBuilder aDeveloperExists() {
         return givens -> {
             ldapStubServer.addEmployee(employeeForTest, employeePassword);
             employeeRepository.create(employeeDetailsForTest);
@@ -206,7 +206,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         };
     }
 
-    protected GivensBuilder anDeveloperExistsWithLevel(Level level) {
+    protected GivensBuilder aDeveloperExistsWithLevel(Level level) {
         return givens -> {
             employeeDetailsForTest.setLevel(level);
             ldapStubServer.addEmployee(employeeForTest, employeePassword);
@@ -215,7 +215,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         };
     }
 
-    protected GivensBuilder anDeveloperExistsOn(Team team, Level level) {
+    protected GivensBuilder aDeveloperExistsOn(Team team, Level level) {
         return givens -> {
             employeeDetailsForTest.setTeam(team);
             employeeDetailsForTest.setLevel(level);

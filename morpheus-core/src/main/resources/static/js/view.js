@@ -51,6 +51,7 @@ angular
                         $("#skills-matrix").show();
                         $("#save-button").show();
                         $("#save-employee").hide();
+                        $("#q").val('');
                     })
                     .error(function (data) {
                         $.growl.error({message: data.message});
@@ -214,6 +215,11 @@ angular
                     $scope.originalEmployeeDetails.isArchived = true;
                     $http.post('employee', $scope.originalEmployeeDetails)
                     .success(function () {
+                        $scope.employeeDetails = null;
+                        $scope.employeeRecords = null;
+                        $scope.employee = null;
+                        $("#skills-matrix").hide();
+                        retrieveAllEmployees();
                         $.growl.notice({message: $scope.employee.username + ' successfully deleted'});
                     })
                     };

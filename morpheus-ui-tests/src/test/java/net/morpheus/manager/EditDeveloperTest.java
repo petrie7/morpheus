@@ -27,7 +27,7 @@ public class EditDeveloperTest extends MorpheusTestCase {
         given(aTeamExists());
         and(anotherTeamExists());
         and(theManager.isLoggedIn());
-        and(anDeveloperExistsWithLevel(SeniorDeveloper));
+        and(aDeveloperExistsWithLevel(SeniorDeveloper));
         and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
 
         when(theManager.editsTheRoleOfTheDeveloperTo(TeamLead));
@@ -44,7 +44,7 @@ public class EditDeveloperTest extends MorpheusTestCase {
     public void canOnlyEditDeveloperRoleOfASeniorDeveloper() throws Exception {
         given(aTeamExists());
         and(theManager.isLoggedIn());
-        and(anDeveloperExists());
+        and(aDeveloperExists());
         and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
 
         then(theEditRoleDropdown(), isDisabled());
@@ -62,7 +62,7 @@ public class EditDeveloperTest extends MorpheusTestCase {
     public void canNotMakeADeveloperATeamLeadOfATeamWithATeamLead() throws Exception {
         given(aTeamExists());
         and(theManager.isLoggedIn());
-        and(anDeveloperExistsOn(theTeam, withLevel(SeniorDeveloper)));
+        and(aDeveloperExistsOn(theTeam, withLevel(SeniorDeveloper)));
         and(aTeamLeadExistsOn(theTeam));
         and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
 

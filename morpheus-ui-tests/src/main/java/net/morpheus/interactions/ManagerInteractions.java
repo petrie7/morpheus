@@ -52,6 +52,14 @@ public class ManagerInteractions {
         };
     }
 
+    public ActionUnderTest searchesFor(String username) {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("q")).setValue(username);
+            $(By.id("search")).click();
+            return capturedInputAndOutputs;
+        };
+    }
+
     public ActionUnderTest navigatesToCreateTeam() {
         return (givens, capturedInputAndOutputs) -> {
             $(By.id("createTeam")).click();

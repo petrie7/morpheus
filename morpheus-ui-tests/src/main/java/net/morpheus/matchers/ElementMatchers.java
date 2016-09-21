@@ -23,6 +23,20 @@ public class ElementMatchers {
         };
     }
 
+    public static Matcher<WebElement> isNotDisplayed() {
+        return new TypeSafeMatcher<WebElement>() {
+            @Override
+            protected boolean matchesSafely(WebElement element) {
+                return !element.isDisplayed();
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Web element not to be present");
+            }
+        };
+    }
+
     public static Matcher<List<WebElement>> areDisplayed() {
         return new TypeSafeMatcher<List<WebElement>>() {
             @Override

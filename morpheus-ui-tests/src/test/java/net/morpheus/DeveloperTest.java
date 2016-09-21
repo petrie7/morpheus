@@ -32,7 +32,7 @@ public class DeveloperTest extends MorpheusTestCase {
 
     @Test
     public void aDeveloperCanViewTheirSkillsAndComments() throws Exception {
-        given(anDeveloperExists());
+        given(aDeveloperExists());
         and(hasSomeSkillsWithComments());
 
         when(theDeveloper.logsIn());
@@ -43,7 +43,7 @@ public class DeveloperTest extends MorpheusTestCase {
 
     @Test
     public void noRecordsWhenNoRecordsExistForUser() throws Exception {
-        given(anDeveloperExists());
+        given(aDeveloperExists());
 
         when(theDeveloper.logsIn());
 

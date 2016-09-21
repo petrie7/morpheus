@@ -12,7 +12,7 @@ public class DeleteDeveloperTest extends MorpheusTestCase {
 
     @Test
     public void canDeleteDeveloper() throws Exception {
-        given(anDeveloperExists());
+        given(aDeveloperExists());
         and(theManager.isLoggedIn());
         and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
 

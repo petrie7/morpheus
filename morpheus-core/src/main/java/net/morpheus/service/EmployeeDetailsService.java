@@ -52,7 +52,7 @@ public class EmployeeDetailsService {
     }
 
     public List<EmployeeDetails> getAll() {
-        return employeeRepository.getAll();
+        return employeeRepository.getAll().stream().filter(employeeDetails -> !employeeDetails.isArchived()).collect(toList());
     }
 
     private boolean theTeamAlreadyHasATeamLead(EmployeeDetails employeeDetails) {
