@@ -85,7 +85,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         String username = someString();
         employeeForTest = anEmployee().withUsername(username).build();
         employeeRecordForTest = anEmployeeRecord().withUsername(username).withSkills(skills).build();
-        employeeDetailsForTest = new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, someTeam());
+        employeeDetailsForTest = new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, someTeam(), false);
         employeePassword = someString();
         webDriver = WebDriverRunner.getWebDriver();
 

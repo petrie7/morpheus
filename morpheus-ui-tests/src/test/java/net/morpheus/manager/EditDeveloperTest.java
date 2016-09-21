@@ -78,7 +78,7 @@ public class EditDeveloperTest extends MorpheusTestCase {
 
     private GivensBuilder aTeamLeadExistsOn(Team team) {
         return interestingGivens -> {
-            employeeRepository.create(new EmployeeDetails(someUsername(), SeniorDeveloper, Role.TeamLead, team));
+            employeeRepository.create(new EmployeeDetails(someUsername(), SeniorDeveloper, Role.TeamLead, team, false));
             return interestingGivens;
         };
     }

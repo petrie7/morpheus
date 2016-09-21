@@ -21,12 +21,14 @@ public class EmployeeDeserializer extends JsonDeserializer<EmployeeDetails> {
         Team team = new Team((node.has("team") && !node.get("team").has("name")) ? "" : node.get("team").get("name").asText());
         Level level = Level.valueOf(node.get("level").textValue());
         String username = node.get("username").asText();
+        boolean isArchived = node.get("isArchived").asBoolean();
 
         return anEmployee()
                 .withUsername(username)
                 .withLevel(level)
                 .withTeam(team)
                 .withRole(role)
+                .withIsArchived(isArchived)
                 .build();
     }
 }

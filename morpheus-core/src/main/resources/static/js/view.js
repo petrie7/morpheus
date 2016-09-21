@@ -211,10 +211,15 @@ angular
             $scope.deleteDeveloper = function() {
               bootbox.confirm("Are you sure you want to delete me?", function (result) {
                 if (result === true) {
-                    $.growl.notice({message: $scope.employee.username + ' successfully deleted'});
-                }
-            });
-            }
+                    $scope.originalEmployeeDetails.isArchived = true;
+                    $http.post('employee', $scope.originalEmployeeDetails)
+                    .success(function () {
+                        $.growl.notice({message: $scope.employee.username + ' successfully deleted'});
+                    })
+                    };
+
+                })
+            };
 
             function getSkillsTemplateAndEmployee(callback) {
                 getTemplates(callback);

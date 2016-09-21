@@ -16,12 +16,15 @@ public class EmployeeDetails {
     private Role role;
     @JsonProperty
     private Team team;
+    @JsonProperty
+    private boolean isArchived;
 
-    public EmployeeDetails(String username, Level level, Role role, Team team) {
+    public EmployeeDetails(String username, Level level, Role role, Team team, boolean isArchived) {
         this.username = username;
         this.level = level;
         this.role = role;
         this.team = team;
+        this.isArchived = isArchived;
     }
 
     public String username() {
@@ -47,6 +50,8 @@ public class EmployeeDetails {
     public void setTeam(Team team) {
         this.team = team;
     }
+
+    public boolean isArchived() { return isArchived; }
 
     @Override
     public boolean equals(Object o) {

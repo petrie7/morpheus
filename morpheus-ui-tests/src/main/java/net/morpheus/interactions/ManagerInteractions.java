@@ -119,7 +119,10 @@ public class ManagerInteractions {
     }
 
     public ActionUnderTest clicksDeleteDeveloper() {
-        return null;
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("delete-dev")).click();
+            return capturedInputAndOutputs;
+        };
     }
 
     public ActionUnderTest confirms() {

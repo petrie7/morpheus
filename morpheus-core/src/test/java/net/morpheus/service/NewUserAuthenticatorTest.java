@@ -49,7 +49,7 @@ public class NewUserAuthenticatorTest {
     @Test(expected = UserNotInCauthException.class)
     public void throwsExceptionWhenUserExistsInCauthButAlreadyExistsInSystem() {
         String username = "someNonExistentUser";
-        when(employeeRepository.findByName(username)).thenReturn(Optional.of(new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, new Team("A"))));
+        when(employeeRepository.findByName(username)).thenReturn(Optional.of(new EmployeeDetails(username, Level.JuniorDeveloper, Role.Developer, new Team("A"), false)));
         when(ldapTemplate.list(String.format(DN_SEARCH_BASE, username))).thenReturn(emptyList());
         newUserAuthenticator.validateUserCanBeCreated(username);
     }

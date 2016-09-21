@@ -11,6 +11,7 @@ public class EmployeeBuilder {
     private Role role = Role.Developer;
     private Level level = Level.JuniorDeveloper;
     private Team team = null;
+    private boolean isArchived = false;
 
     public static EmployeeBuilder anEmployee() {
         return new EmployeeBuilder();
@@ -36,7 +37,12 @@ public class EmployeeBuilder {
         return this;
     }
 
+    public EmployeeBuilder withIsArchived(boolean isArchived) {
+        this.isArchived = isArchived;
+        return this;
+    }
+
     public EmployeeDetails build() {
-        return new EmployeeDetails(username, level, role, team);
+        return new EmployeeDetails(username, level, role, team, isArchived);
     }
 }
