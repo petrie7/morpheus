@@ -129,10 +129,17 @@ angular
                 return 'SeniorDeveloper';
             };
 
-            $scope.updateCommentDialog = function (skill) {
-                $('#commentTextArea').val(skill.comment);
+            $scope.updateCommentDialog = function (skill, type) {
+            var isManagerComment = (type == 'manager') ? true : false;
+
+            if (isManagerComment) {
+                $('#managerCommentTextArea').val(skill.comment);
+            } else {
+                $('#devCommentTextArea').val(skill.devComment);
+            }
+
                 if ($scope.isManager() && $scope.isEditable()) {
-                    $("#commentsBox").dialog({
+                    $('#' + type + 'CommentsBox').dialog({
                         resizable: false,
                         height: 300,
                         width: 300,
@@ -142,19 +149,26 @@ angular
                                 var employeeSkill = $scope.employee.skills.filter(function (s) {
                                     return s.description === skill.fieldName;
                                 })[0];
-                                employeeSkill.comment = $('#commentTextArea').val();
-                                skill.comment = $('#commentTextArea').val();
+
+                                if (isManagerComment) {
+                                    employeeSkill.comment = $('#managerCommentTextArea').val();
+                                    skill.comment = $('#managerCommentTextArea').val();
+                                } else {
+                                    employeeSkill.devComment = $('#devCommentTextArea').val();
+                                    skill.devComment = $('#devCommentTextArea').val();
+                                }
+
                                 $scope.$apply();
-                                $(this).dialog("close");
+                                $(this).dialog('close');
                             },
                             Cancel: function () {
-                                $(this).dialog("close");
+                                $(this).dialog('close');
                             }
                         }
                     });
                 }
                 else {
-                    $("#commentsBox").dialog({
+                    $('#' + type + 'CommentsBox').dialog({
                         resizable: false,
                         height: 300,
                         width: 300,
@@ -162,7 +176,7 @@ angular
                         readonly: true,
                         buttons: {
                             Cancel: function () {
-                                $(this).dialog("close");
+                                $(this).dialog('close');
                             }
                         }
                     });
@@ -281,7 +295,7 @@ angular
                 if (typeof result !== 'undefined' && result.length > 0) {
                     return result[0].value;
                 } else {
-                    newEmployee.skills.push({'description': skill.fieldName, 'comment': '', 'value': null});
+                    newEmployee.skills.push({'description': skill.fieldName, 'comment': '', 'devComment': '', 'value': null});
                     return null;
                 }
             }

@@ -1,7 +1,6 @@
 package net.morpheus.config;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,7 +14,7 @@ import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord
 
 public class EmployeeRecordDeserializer extends JsonDeserializer<EmployeeRecord> {
     @Override
-    public EmployeeRecord deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public EmployeeRecord deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         ArrayList<Skill> skills = new ArrayList<>();
 
@@ -26,7 +25,8 @@ public class EmployeeRecordDeserializer extends JsonDeserializer<EmployeeRecord>
                         new Skill(
                                 jsonNode.get("description").textValue(),
                                 jsonNode.get("value").asText().equals("null") ? null : jsonNode.get("value").intValue(),
-                                jsonNode.get("comment").textValue())
+                                jsonNode.get("comment").textValue(),
+                                jsonNode.get("devComment").textValue())
                 );
             }
         }

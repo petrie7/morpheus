@@ -81,7 +81,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         ldapStubServer.start();
 
         ArrayList<Skill> skills = new ArrayList<>();
-        skills.add(new Skill("Functional Delivery", 7, "Always delivers on time"));
+        skills.add(new Skill("Functional Delivery", 7, "Always delivers on time", "I'm great!"));
         String username = someString();
         employeeForTest = anEmployee().withUsername(username).build();
         employeeRecordForTest = anEmployeeRecord().withUsername(username).withSkills(skills).build();
@@ -106,18 +106,18 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         employeeRepository.delete(anEmployee().withUsername("Laurence_Fishburne").build());
         employeeRecordRepository.delete(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(null).build());
         ArrayList<Skill> skills = new ArrayList<>();
-        skills.add(new Skill("Functional Delivery", 5, "Shows Potential"));
-        skills.add(new Skill("Quality Of Code", 5, "Fantastic"));
-        skills.add(new Skill("Patterns", 5, "Shows Potential"));
-        skills.add(new Skill("Refactoring Practice", 5, "Always looks to improve"));
-        skills.add(new Skill("Refactoring Experience", 5, "Gaining"));
-        skills.add(new Skill("Technical Debt", 5, ""));
-        skills.add(new Skill("Estimating and Planning", 5, "Should contribute more"));
-        skills.add(new Skill("Design", 5, "Research new patterns"));
-        skills.add(new Skill("Solutions", 5, ""));
-        skills.add(new Skill("TDD", 5, "Always looking to implement this"));
-        skills.add(new Skill("Java", 5, "Continuously Improving"));
-        skills.add(new Skill("Database Management Systems", 5, "Needs improving"));
+        skills.add(new Skill("Functional Delivery", 5, "Shows Potential", "I'm great!"));
+        skills.add(new Skill("Quality Of Code", 5, "Fantastic", "I'm great!"));
+        skills.add(new Skill("Patterns", 5, "Shows Potential", "I'm great!"));
+        skills.add(new Skill("Refactoring Practice", 5, "Always looks to improve", "I'm great!"));
+        skills.add(new Skill("Refactoring Experience", 5, "Gaining", "I'm great!"));
+        skills.add(new Skill("Technical Debt", 5, "", "I'm great!"));
+        skills.add(new Skill("Estimating and Planning", 5, "Should contribute more", "I'm great!"));
+        skills.add(new Skill("Design", 5, "Research new patterns", "I'm great!"));
+        skills.add(new Skill("Solutions", 5, "", "I'm great!"));
+        skills.add(new Skill("TDD", 5, "Always looking to implement this", "I'm great!"));
+        skills.add(new Skill("Java", 5, "Continuously Improving", "I'm great!"));
+        skills.add(new Skill("Database Management Systems", 5, "Needs improving", "I'm great!"));
 
         employeeRepository.create(anEmployee().withUsername("Laurence_Fishburne").build());
         employeeRecordRepository.create(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(skills).build());

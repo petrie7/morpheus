@@ -30,7 +30,8 @@
             <option value="TeamLead">TeamLead</option>
         </select>
         <div class="delete-dev" ng-show="isManager()">
-            <button class="btn btn-danger" id="delete-dev" type="submit" ng-click="deleteDeveloper()">Delete Developer</button>
+            <button class="btn btn-danger" id="delete-dev" type="submit" ng-click="deleteDeveloper()">Delete Developer
+            </button>
         </div>
     </div>
 
@@ -66,7 +67,8 @@
                     <th class="senior">Low</th>
                     <th class="senior">Mid</th>
                     <th class="senior">High</th>
-                    <th class="comments">Comments</th>
+                    <th class="comments">Manager Comments</th>
+                    <th class="comments">Dev Comments</th>
                 </tr>
                 </tr>
                 </thead>
@@ -93,13 +95,23 @@
                         </div>
                     </td>
                     <td>
-                        <input name="commentText" type="text" ng-model="field.comment" class="commentText"
+                        <input name="managerCommentText" type="text" ng-model="field.comment" class="managerCommentText"
                                readonly="readonly"/>
-                        <button class="button" ng-click="updateCommentDialog(field)">{{hasEditorPrivileges() &&
+                        <button class="button" ng-click="updateCommentDialog(field, 'manager')">{{hasEditorPrivileges() &&
                             isEditable() ?
                             'Edit'
                             :
                             'View'}}
+                        </button>
+                    </td>
+                    <td>
+                        <input name="devCommentText" type="text" ng-model="field.devComment" class="devCommentText"
+                               readonly="readonly"/>
+                        <button class="button" ng-click="updateCommentDialog(field, 'dev')">{{hasEditorPrivileges() &&
+                            isEditable() ?
+                            'View'
+                            :
+                            'Edit'}}
                         </button>
                     </td>
                 </tr>
@@ -127,6 +139,9 @@
         <div id="date"></div>
     </div>
 </div>
-<div id="commentsBox" title="Update comment" style="display: none">
-    <textarea id="commentTextArea" ng-readonly="!hasEditorPrivileges()"></textarea>
+<div id="managerCommentsBox" title="Update comment" style="display: none">
+    <textarea id="managerCommentTextArea" ng-readonly="!hasEditorPrivileges()"></textarea>
+</div>
+<div id="devCommentsBox" title="Update comment" style="display: none">
+    <textarea id="devCommentTextArea" ng-readonly="hasEditorPrivileges()"></textarea>
 </div>

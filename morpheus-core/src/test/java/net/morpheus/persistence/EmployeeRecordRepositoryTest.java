@@ -23,6 +23,7 @@ public class EmployeeRecordRepositoryTest extends AbstractRepositoryTestCase {
         assertThat(employeeRecordByName.skills().get(0).value(), is(7));
         assertThat(employeeRecordByName.skills().get(0).description(), is("Functional Delivery"));
         assertThat(employeeRecordByName.skills().get(0).comment(), is("Always delivers on time"));
+        assertThat(employeeRecordByName.skills().get(0).devComment(), is("I'm great!!"));
     }
 
     @Test
@@ -68,7 +69,7 @@ public class EmployeeRecordRepositoryTest extends AbstractRepositoryTestCase {
 
     private void createEmployeeRecord(int value) {
         ArrayList<Skill> skills = new ArrayList<>();
-        skills.add(new Skill("Functional Delivery", value, "Always delivers on time"));
+        skills.add(new Skill("Functional Delivery", value, "Always delivers on time", "I'm great!!"));
         employeeRecord = EmployeeRecordBuilder.anEmployeeRecord().withUsername("Pedr").withSkills(skills).build();
 
         employeeRecordRepository.create(employeeRecord);

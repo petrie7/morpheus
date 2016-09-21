@@ -191,8 +191,13 @@ h5 {
     text-align: center;
 }
 
-.commentText {
-    width: 300px;
+.managerCommentText, .devCommentText  {
+    width: 150px;
+    margin-left: 10px;
+}
+
+.devCommentText {
+    width: 150px;
     margin-left: 10px;
 }
 
@@ -310,7 +315,7 @@ h5 {
     display: none;
 }
 
-#commentTextArea {
+#managerCommentTextArea, #devCommentTextArea {
     width: 260;
     height: 175;
     resize: none;

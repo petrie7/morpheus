@@ -10,11 +10,14 @@ public class Skill {
     private Integer value;
     @JsonProperty
     private String comment;
+    @JsonProperty
+    private String devComment;
 
-    public Skill(String description, Integer value, String comment) {
+    public Skill(String description, Integer value, String comment, String devComment) {
         this.description = description;
         this.value = value;
         this.comment = comment;
+        this.devComment = devComment;
     }
 
     public String description() {
@@ -24,5 +27,7 @@ public class Skill {
     public Integer value() { return value; }
 
     public String comment() { return comment; }
+
+    public String devComment() { return  devComment; }
 
 }
