@@ -64,7 +64,7 @@ public class DeveloperTest extends MorpheusTestCase {
             protected boolean matchesSafely(List<WebElement> rows) {
                 for (Skill skill : employeeRecordForTest.skills()) {
                     Optional<WebElement> matchingSkill = rows.stream().filter(r -> r.getText().contains(skill.description())
-                            && r.findElement(By.name("commentText")).getAttribute("value").contains(skill.comment())
+                            && r.findElement(By.name("managerCommentText")).getAttribute("value").contains(skill.comment())
                     ).findFirst();
                     if (!matchingSkill.isPresent()) {
                         return false;

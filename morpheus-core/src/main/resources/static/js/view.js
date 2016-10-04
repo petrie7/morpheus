@@ -42,16 +42,30 @@ angular
                 return input;
             };
 
+            $scope.updateEmployeeLatestDetailAndRecord = function (data) {
+               $scope.employeeDetails = data.employeeDetails;
+               $scope.employeeRecords = data.employeeRecords;
+               $scope.employee = $scope.employeeRecords[0];
+               $("#skills-matrix").show();
+               $("#save-button").show();
+               $("#save-employee").hide();
+               $("#q").val('');
+            };
+
             $scope.performSearch = function () {
                 $http.get('employee/' + document.getElementById('q').value)
                     .success(function (data, status, headers, config) {
-                        $scope.employeeDetails = data.employeeDetails;
-                        $scope.employeeRecords = data.employeeRecords;
-                        $scope.employee = $scope.employeeRecords[0];
-                        $("#skills-matrix").show();
-                        $("#save-button").show();
-                        $("#save-employee").hide();
-                        $("#q").val('');
+                        $scope.updateEmployeeLatestDetailAndRecord(data);
+                    })
+                    .error(function (data) {
+                        $.growl.error({message: data.message});
+                    });
+            };
+
+            $scope.refreshSkills = function (username) {
+                $http.get('employee/' + username)
+                    .success(function (data, status, headers, config) {
+                        $scope.updateEmployeeLatestDetailAndRecord(data);
                     })
                     .error(function (data) {
                         $.growl.error({message: data.message});
@@ -64,15 +78,15 @@ angular
                         .success(function () {
                             $scope.originalEmployee = angular.copy($scope.employee);
                             $.growl.notice({message: $scope.employee.username + ' successfully updated'});
-                            $scope.performSearch();
+                            $scope.refreshSkills($scope.employee.username);
                         });
                 }
                 if ($scope.detailIsDirty()) {
-                    $http.post('employee', $scope.employeeDetails)
+                    $http.post('employeeDetail', $scope.employeeDetails)
                         .success(function () {
                             $scope.originalEmployeeDetails = angular.copy($scope.employeeDetails);
                             $.growl.notice({message: $scope.employee.username + ' successfully updated'});
-                            $scope.performSearch();
+                            $scope.refreshSkills($scope.employee.username);
                         })
                         .error(function (data) {
                             $.growl.error({message: data.message});
@@ -227,7 +241,7 @@ angular
               bootbox.confirm("Are you sure you want to delete me?", function (result) {
                 if (result === true) {
                     $scope.originalEmployeeDetails.isArchived = true;
-                    $http.post('employee', $scope.originalEmployeeDetails)
+                    $http.post('employeeDetail', $scope.originalEmployeeDetails)
                     .success(function () {
                         $scope.employeeDetails = null;
                         $scope.employeeRecords = null;
@@ -315,7 +329,7 @@ angular
             }
 
             function retrieveAllEmployees() {
-                $http.get('employee/all')
+                $http.get('employeeDetail/all')
                     .success(function (data, status, headers, config) {
                         $scope.employees = data.map(function (employeeDetail) {
                             return employeeDetail.username;

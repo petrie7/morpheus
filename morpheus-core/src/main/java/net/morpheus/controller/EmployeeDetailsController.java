@@ -9,7 +9,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/employee")
+@RequestMapping(value = "/employeeDetail")
 public class EmployeeDetailsController {
 
     private EmployeeDetailsService employeeDetailsService;

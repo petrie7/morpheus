@@ -18,7 +18,7 @@ angular
         $scope.persistEmployee = function () {
             $scope.employee.isArchived = false;
             debugger;
-            $http.post('employee/create', $scope.employee)
+            $http.post('employeeDetail/create', $scope.employee)
                 .success(function (data, status, headers, config) {
                     $.growl.notice({message: $scope.employee.username + ' successfully created'});
                 })
