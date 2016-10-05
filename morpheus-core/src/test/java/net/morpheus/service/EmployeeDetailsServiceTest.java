@@ -5,22 +5,31 @@ import net.morpheus.domain.Level;
 import net.morpheus.domain.Role;
 import net.morpheus.domain.Team;
 import net.morpheus.persistence.EmployeeRepository;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class EmployeeDetailsServiceTest {
 
+    private EmployeeDetailsService service;
+    private EmployeeRepository employeeRepository;
+
+    @Before
+    public void setup() {
+        employeeRepository = mock(EmployeeRepository.class);
+        service = new EmployeeDetailsService(employeeRepository, mock(NewUserAuthenticator.class));
+    }
+
     @Test
     public void getAllReturnsOnlyUnarchivedEmployees() throws Exception {
-        EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
         EmployeeDetails unarchivedEmployee = new EmployeeDetails("abc", Level.JuniorDeveloper, Role.Developer, new Team("def"), false);
         EmployeeDetails archivedEmployee = new EmployeeDetails("aaa", Level.JuniorDeveloper, Role.Developer, new Team("bbb"), true);
         when(employeeRepository.getAll()).thenReturn(asList(
@@ -28,11 +37,28 @@ public class EmployeeDetailsServiceTest {
                 archivedEmployee
         ));
 
-        EmployeeDetailsService service = new EmployeeDetailsService(employeeRepository, mock(NewUserAuthenticator.class));
-
         List<EmployeeDetails> allEmployees = service.getAll();
 
         assertThat(allEmployees, not(hasItem(archivedEmployee)));
+    }
+
+    @Test
+    public void canUpdateTeamLeadersTeamToAnotherTeamWithoutATeamLead() {
+        EmployeeDetails employeeDetails = new EmployeeDetails("Pedro", Level.SeniorDeveloper, Role.TeamLead, new Team("abc"), false);
+        when(employeeRepository.findByTeam("abc")).thenReturn(Collections.emptyList());
+
+        service.update(employeeDetails);
+
+        verify(employeeRepository, times(1)).update(employeeDetails);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void throwsExceptionWhenTryingToMakeAnEmployeeATeamLeadOfATeamAlreadyWithOne() {
+        EmployeeDetails employeeDetails = new EmployeeDetails("Pedro", Level.SeniorDeveloper, Role.TeamLead, new Team("abc"), false);
+        when(employeeRepository.findByTeam("abc"))
+                .thenReturn(asList(new EmployeeDetails("Bilbo", Level.SeniorDeveloper, Role.TeamLead, new Team("abc"), false)));
+
+        service.update(employeeDetails);
     }
 
 }
