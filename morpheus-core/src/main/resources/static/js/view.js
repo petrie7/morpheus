@@ -1,5 +1,5 @@
 angular
-    .module('morpheus.view', [])
+    .module('morpheus.view', ['AngularPrint'])
     .controller('EmployeeCtrl', function ($scope, $http, $routeParams) {
 
             $http.get('employee/levels')

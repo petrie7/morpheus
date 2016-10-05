@@ -44,7 +44,7 @@
         </li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content" print-section print-landscape>
         <div ng-repeat="template in templates" id="{{template.templateClass}}"
              class="{{$index === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}}">
             <table class="table myTable">
@@ -55,6 +55,7 @@
                     <th colspan="3" class="junior">Junior Dev</th>
                     <th colspan="3" class="mid">Mid Dev</th>
                     <th colspan="3" class="senior">Senior Dev</th>
+                    <th colspan="3"><button class="btn btn-primary pull-right" print-btn print-hide><span class="glyphicon glyphicon-print"></span></button></th>
                 </tr>
                 <tr>
                     <th></th>
@@ -95,24 +96,26 @@
                         </div>
                     </td>
                     <td>
-                        <input name="managerCommentText" type="text" ng-model="field.comment" class="managerCommentText"
+                        <input name="managerCommentText" print-hide type="text" ng-model="field.comment" class="managerCommentText"
                                readonly="readonly"/>
-                        <button class="button" ng-click="updateCommentDialog(field, 'manager')">{{hasEditorPrivileges() &&
+                        <button class="button" print-hide ng-click="updateCommentDialog(field, 'manager')">{{hasEditorPrivileges() &&
                             isEditable() ?
                             'Edit'
                             :
                             'View'}}
                         </button>
+                        <div print-only>{{field.comment}}</div>
                     </td>
                     <td>
-                        <input name="devCommentText" type="text" ng-model="field.devComment" class="devCommentText"
+                        <input name="devCommentText" print-hide type="text" ng-model="field.devComment" class="devCommentText"
                                readonly="readonly"/>
-                        <button class="button" ng-click="updateCommentDialog(field, 'dev')">{{hasEditorPrivileges() &&
+                        <button class="button" print-hide ng-click="updateCommentDialog(field, 'dev')">{{hasEditorPrivileges() &&
                             isEditable() ?
                             'View'
                             :
                             'Edit'}}
                         </button>
+                        <div print-only>{{field.comment}}</div>
                     </td>
                 </tr>
                 </tbody>
