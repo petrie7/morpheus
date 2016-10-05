@@ -10,8 +10,10 @@ import org.junit.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
@@ -52,7 +54,7 @@ public class EmployeeDetailsServiceTest {
         verify(employeeRepository, times(1)).update(employeeDetails);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void throwsExceptionWhenTryingToMakeAnEmployeeATeamLeadOfATeamAlreadyWithOne() {
         EmployeeDetails employeeDetails = new EmployeeDetails("Pedro", Level.SeniorDeveloper, Role.TeamLead, new Team("abc"), false);
         when(employeeRepository.findByTeam("abc"))
@@ -61,4 +63,19 @@ public class EmployeeDetailsServiceTest {
         service.update(employeeDetails);
     }
 
+    @Test
+    public void retrievesFellowNonArchivedTeamMembers() {
+        String username = "Pedro";
+        when(employeeRepository.findByName(username))
+                .thenReturn(Optional.of(new EmployeeDetails(username, Level.SeniorDeveloper, Role.TeamLead, new Team("abc"), false)));
+
+        EmployeeDetails unarchivedEmployee = new EmployeeDetails("Bilbo", Level.JuniorDeveloper, Role.Developer, new Team("abc"), false);
+        EmployeeDetails archivedEmployee = new EmployeeDetails("Billy", Level.JuniorDeveloper, Role.Developer, new Team("abc"), true);
+
+        when(employeeRepository.findByTeam("abc")).thenReturn(asList(unarchivedEmployee, archivedEmployee));
+
+        List<EmployeeDetails> developersTeamMembers = service.getDevelopersTeamMembers(username);
+
+        assertThat(developersTeamMembers.size(), is(1));
+    }
 }

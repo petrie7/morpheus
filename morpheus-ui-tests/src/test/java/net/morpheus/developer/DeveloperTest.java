@@ -1,6 +1,7 @@
-package net.morpheus;
+package net.morpheus.developer;
 
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
+import net.morpheus.MorpheusTestCase;
 import net.morpheus.components.SkillsMatrix;
 import net.morpheus.components.TymMachine;
 import net.morpheus.domain.Skill;

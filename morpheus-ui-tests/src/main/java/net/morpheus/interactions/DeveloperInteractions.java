@@ -1,6 +1,7 @@
 package net.morpheus.interactions;
 
 import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
+import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import net.morpheus.domain.EmployeeDetails;
 import org.openqa.selenium.By;
 
@@ -17,12 +18,28 @@ public class DeveloperInteractions {
         this.employeePassword = employeePassword;
     }
 
+    public GivensBuilder isLoggedIn() {
+        return interestingGivens -> {
+            openMorpheus();
+            loginUser();
+            return interestingGivens;
+        };
+    }
+
     public ActionUnderTest logsIn() {
         return (givens, capturedInputAndOutputs) -> {
             openMorpheus();
             loginUser();
             return capturedInputAndOutputs;
         };
+    }
+
+    public ActionUnderTest entersAComment() {
+        return null;
+    }
+
+    public ActionUnderTest savesTheTemplate() {
+        return null;
     }
 
     private void loginUser() {

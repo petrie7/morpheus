@@ -45,6 +45,7 @@ public class EmployeeDetailsService {
             return employeeRepository.findByTeam(loggedInUser.team().name())
                     .stream()
                     .filter(employeeDetails -> !employeeDetails.username().equals(loggedInUser.username()))
+                    .filter(employeeDetails -> !employeeDetails.isArchived())
                     .collect(toList());
         } else {
             return emptyList();
