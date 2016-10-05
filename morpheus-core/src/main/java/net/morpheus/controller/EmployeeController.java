@@ -17,7 +17,6 @@ import java.util.Optional;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
-import static net.morpheus.domain.Role.TeamLead;
 import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord;
 
 @RestController
@@ -82,10 +81,19 @@ public class EmployeeController {
     private boolean isAuthorisedToView(Principal principal, EmployeeDetails employeeDetails) {
         Optional<EmployeeDetails> loggedInUser = employeeDetailsService.findByName(principal.getName());
         if (loggedInUser.isPresent()) {
-            return loggedInUser.get().role() == TeamLead && loggedInUser.get().team().equals(employeeDetails.team());
+            return theyAreViewingThemselves(employeeDetails, loggedInUser)
+                    || theyAreATeamLeadViewingTheirTeamMembers(employeeDetails, loggedInUser);
         } else {
             return true;
         }
+    }
+
+    private boolean theyAreATeamLeadViewingTheirTeamMembers(EmployeeDetails employeeDetails, Optional<EmployeeDetails> loggedInUser) {
+        return loggedInUser.get().role() == Role.TeamLead && loggedInUser.get().team().equals(employeeDetails.team());
+    }
+
+    private boolean theyAreViewingThemselves(EmployeeDetails employeeDetails, Optional<EmployeeDetails> loggedInUser) {
+        return loggedInUser.get().username().equals(employeeDetails.username()) && loggedInUser.get().team().equals(employeeDetails.team());
     }
 
     private class EmployeePrincipal extends UsernamePasswordAuthenticationToken {

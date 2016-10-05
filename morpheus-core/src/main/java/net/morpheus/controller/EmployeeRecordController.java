@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.RolesAllowed;
-
 @RestController
 public class EmployeeRecordController {
 
@@ -19,7 +17,6 @@ public class EmployeeRecordController {
     }
 
     @RequestMapping(value = "employee/record", method = RequestMethod.POST)
-    @RolesAllowed("ROLE_MANAGER")
     public void updateEmployeeRecord(@RequestBody EmployeeRecord employeeRecord) {
         employeeRecordRepository.create(
                 employeeRecord

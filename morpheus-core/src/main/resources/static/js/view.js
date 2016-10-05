@@ -152,7 +152,7 @@ angular
                 $('#devCommentTextArea').val(skill.devComment);
             }
 
-                if ($scope.isManager() && $scope.isEditable()) {
+                if ($scope.isManager() && $scope.isEditable() && isManagerComment) {
                     $('#' + type + 'CommentsBox').dialog({
                         resizable: false,
                         height: 300,
@@ -164,14 +164,8 @@ angular
                                     return s.description === skill.fieldName;
                                 })[0];
 
-                                if (isManagerComment) {
-                                    employeeSkill.comment = $('#managerCommentTextArea').val();
-                                    skill.comment = $('#managerCommentTextArea').val();
-                                } else {
-                                    employeeSkill.devComment = $('#devCommentTextArea').val();
-                                    skill.devComment = $('#devCommentTextArea').val();
-                                }
-
+                                employeeSkill.comment = $('#managerCommentTextArea').val();
+                                skill.comment = $('#managerCommentTextArea').val();
                                 $scope.$apply();
                                 $(this).dialog('close');
                             },
@@ -181,19 +175,42 @@ angular
                         }
                     });
                 }
-                else {
+                else if (!$scope.isManager() && !isManagerComment){
                     $('#' + type + 'CommentsBox').dialog({
-                        resizable: false,
-                        height: 300,
-                        width: 300,
-                        modal: true,
-                        readonly: true,
-                        buttons: {
-                            Cancel: function () {
-                                $(this).dialog('close');
-                            }
-                        }
+                       resizable: false,
+                       height: 300,
+                       width: 300,
+                       modal: true,
+                       buttons: {
+                           Confirm: function () {
+                               var employeeSkill = $scope.employee.skills.filter(function (s) {
+                                   return s.description === skill.fieldName;
+                               })[0];
+
+                               employeeSkill.devComment = $('#devCommentTextArea').val();
+                               skill.devComment = $('#devCommentTextArea').val();
+                               $scope.$apply();
+                               $(this).dialog('close');
+                           },
+                           Cancel: function () {
+                               $(this).dialog('close');
+                           }
+                       }
                     });
+                }
+                else {
+                  $('#' + type + 'CommentsBox').dialog({
+                       resizable: false,
+                       height: 300,
+                       width: 300,
+                       modal: true,
+                       readonly: true,
+                       buttons: {
+                           Cancel: function () {
+                               $(this).dialog('close');
+                           }
+                       }
+                   });
                 }
             };
 
@@ -202,7 +219,8 @@ angular
                     $scope.templates.forEach(function (template) {
                         template.fields.forEach(function (skill) {
                             skill['rating'] = extractEmployeeSkillValues(newEmployee, skill);
-                            skill['comment'] = extractEmployeeSkillComments(newEmployee, skill);
+                            skill['comment'] = extractEmployeeSkillComments(newEmployee, skill, "manager");
+                            skill['devComment'] = extractEmployeeSkillComments(newEmployee, skill, "dev");
                         });
                     });
                     $scope.originalEmployee = angular.copy(newEmployee);
@@ -314,7 +332,7 @@ angular
                 }
             }
 
-            function extractEmployeeSkillComments(newEmployee, skill) {
+            function extractEmployeeSkillComments(newEmployee, skill, commentType) {
                 if (newEmployee.skills) {
                     var result = $.grep(newEmployee.skills,
                         function (employeeSkill) {
@@ -323,7 +341,11 @@ angular
                 }
 
                 if (typeof result !== 'undefined' && result.length > 0) {
-                    return result[0].comment;
+                    if (commentType == "manager") {
+                        return result[0].comment;
+                    } else {
+                        return result[0].devComment;
+                    }
                 }
                 return "";
             }
