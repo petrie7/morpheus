@@ -153,50 +153,10 @@ angular
             }
 
                 if ($scope.isManager() && $scope.isEditable() && isManagerComment) {
-                    $('#' + type + 'CommentsBox').dialog({
-                        resizable: false,
-                        height: 300,
-                        width: 300,
-                        modal: true,
-                        buttons: {
-                            Confirm: function () {
-                                var employeeSkill = $scope.employee.skills.filter(function (s) {
-                                    return s.description === skill.fieldName;
-                                })[0];
-
-                                employeeSkill.comment = $('#managerCommentTextArea').val();
-                                skill.comment = $('#managerCommentTextArea').val();
-                                $scope.$apply();
-                                $(this).dialog('close');
-                            },
-                            Cancel: function () {
-                                $(this).dialog('close');
-                            }
-                        }
-                    });
+                    $scope.showCommentDialogFor(skill, "manager");
                 }
                 else if (!$scope.isManager() && !isManagerComment){
-                    $('#' + type + 'CommentsBox').dialog({
-                       resizable: false,
-                       height: 300,
-                       width: 300,
-                       modal: true,
-                       buttons: {
-                           Confirm: function () {
-                               var employeeSkill = $scope.employee.skills.filter(function (s) {
-                                   return s.description === skill.fieldName;
-                               })[0];
-
-                               employeeSkill.devComment = $('#devCommentTextArea').val();
-                               skill.devComment = $('#devCommentTextArea').val();
-                               $scope.$apply();
-                               $(this).dialog('close');
-                           },
-                           Cancel: function () {
-                               $(this).dialog('close');
-                           }
-                       }
-                    });
+                    $scope.showCommentDialogFor(skill, "dev");
                 }
                 else {
                   $('#' + type + 'CommentsBox').dialog({
@@ -212,6 +172,36 @@ angular
                        }
                    });
                 }
+            };
+
+            $scope.showCommentDialogFor = function(skill, type) {
+             $('#' + type + 'CommentsBox').dialog({
+               resizable: false,
+               height: 300,
+               width: 300,
+               modal: true,
+               buttons: {
+                   Confirm: function () {
+                       var employeeSkill = $scope.employee.skills.filter(function (s) {
+                           return s.description === skill.fieldName;
+                       })[0];
+
+                       if(type == "manager") {
+                        employeeSkill.comment = $('#' + type + 'CommentTextArea').val();
+                        skill.comment = $('#' + type + 'CommentTextArea').val();
+                       } else {
+                        employeeSkill.devComment = $('#' + type + 'CommentTextArea').val();
+                        skill.devComment = $('#' + type + 'CommentTextArea').val();
+                       }
+
+                       $scope.$apply();
+                       $(this).dialog('close');
+                   },
+                   Cancel: function () {
+                       $(this).dialog('close');
+                   }
+               }
+             });
             };
 
             $scope.$watch('employee', function (newEmployee) {
