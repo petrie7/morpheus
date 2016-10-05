@@ -28,7 +28,7 @@ public class EmployeeDetailsService {
     }
 
     public void update(EmployeeDetails employeeDetails) {
-        if (!theTeamAlreadyHasATeamLead(employeeDetails)) {
+        if (employeeDetails.role() != Role.TeamLead || !theTeamAlreadyHasATeamLead(employeeDetails)) {
             employeeRepository.update(employeeDetails);
         } else {
             throw new IllegalArgumentException(String.format("Team [%s] already has a team lead", employeeDetails.team().name()));
