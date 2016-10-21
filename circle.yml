@@ -4,4 +4,4 @@ machine:
 
 dependencies:
   pre:
-    - mvn clean install -DskipTests
+    - mvn clean install  -pl '!morpheus-dist' -DskipTests
