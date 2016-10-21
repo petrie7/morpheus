@@ -17,13 +17,19 @@
 
     <modules>
         <module>morpheus-core</module>
-        <module>morpheus-test-support</module>
         <module>morpheus-ui-tests</module>
+        <module>morpheus-test-support</module>
+        <module>morpheus-dist</module>
     </modules>
 
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>net.wazim</groupId>
+                <artifactId>morpheus-core</artifactId>
+                <version>DEV-SNAPSHOT</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
@@ -112,6 +118,26 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.10</version>
+
+                <configuration>
+                    <imageName>morpheus:${project.version}</imageName>
+                    <dockerDirectory>${project.basedir}/docker</dockerDirectory>
+                    <!--suppress MavenModelInspection -->
+                    <dockerHost>${env.DOCKER_HOST_ADDRESS}</dockerHost>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>morpheus-core-${project.version}.jar</include>
+                        </resource>
+                    </resources>
                 </configuration>
             </plugin>
         </plugins>
