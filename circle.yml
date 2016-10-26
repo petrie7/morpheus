@@ -1,7 +1,0 @@
-machine:
-  java:
-    version: oraclejdk8
-
-dependencies:
-  pre:
-    - mvn clean install  -pl '!morpheus-dist' -DskipTests
