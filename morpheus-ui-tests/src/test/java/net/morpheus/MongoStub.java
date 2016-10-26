@@ -23,7 +23,7 @@ public class MongoStub {
 
         mongodConfig = new MongodConfigBuilder()
                 .version(Version.Main.PRODUCTION)
-                .net(new Net(27018, Network.localhostIsIPv6()))
+                .net(new Net(27017, Network.localhostIsIPv6()))
                 .build();
     }
 
