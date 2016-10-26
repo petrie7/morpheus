@@ -19,7 +19,9 @@ import net.morpheus.persistence.SkillTemplateRepository;
 import net.morpheus.persistence.TeamRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -29,6 +31,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.TestContextManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
@@ -61,19 +64,27 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     private EmployeeDetails employeeForTest;
     private String employeePassword;
 
-    private MongoStub mongoStub;
+    private static MongoStub mongoStub;
     protected ManagerInteractions theManager;
     protected DeveloperInteractions theDeveloper;
     protected NoticeInteractions aNotice;
     protected Team theTeam = someTeam();
+
+    @BeforeClass
+    public static void startMongo() {
+        try {
+            mongoStub = new MongoStub();
+            mongoStub.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Before
     public void setupTest() throws Exception {
         TestContextManager testContextManager = new TestContextManager(getClass());
         testContextManager.prepareTestInstance(this);
 
-        mongoStub = new MongoStub();
-        mongoStub.start();
         employeeRepositoryTestData();
         skillsRepositoryTestData();
 
@@ -98,104 +109,116 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     public void tearDown() {
         logoutUser();
         ldapStubServer.stop();
+    }
+
+    @AfterClass
+    public static void shutDownMongo() {
         mongoStub.stop();
     }
 
     private void employeeRepositoryTestData() {
         //Yikes! TODO: Remove this!
-        employeeRepository.delete(anEmployee().withUsername("Laurence_Fishburne").build());
-        employeeRecordRepository.delete(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(null).build());
-        ArrayList<Skill> skills = new ArrayList<>();
-        skills.add(new Skill("Functional Delivery", 5, "Shows Potential", "I'm great!"));
-        skills.add(new Skill("Quality Of Code", 5, "Fantastic", "I'm great!"));
-        skills.add(new Skill("Patterns", 5, "Shows Potential", "I'm great!"));
-        skills.add(new Skill("Refactoring Practice", 5, "Always looks to improve", "I'm great!"));
-        skills.add(new Skill("Refactoring Experience", 5, "Gaining", "I'm great!"));
-        skills.add(new Skill("Technical Debt", 5, "", "I'm great!"));
-        skills.add(new Skill("Estimating and Planning", 5, "Should contribute more", "I'm great!"));
-        skills.add(new Skill("Design", 5, "Research new patterns", "I'm great!"));
-        skills.add(new Skill("Solutions", 5, "", "I'm great!"));
-        skills.add(new Skill("TDD", 5, "Always looking to implement this", "I'm great!"));
-        skills.add(new Skill("Java", 5, "Continuously Improving", "I'm great!"));
-        skills.add(new Skill("Database Management Systems", 5, "Needs improving", "I'm great!"));
+        try {
+            employeeRepository.delete(anEmployee().withUsername("Laurence_Fishburne").build());
+            employeeRecordRepository.delete(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(null).build());
+            ArrayList<Skill> skills = new ArrayList<>();
+            skills.add(new Skill("Functional Delivery", 5, "Shows Potential", "I'm great!"));
+            skills.add(new Skill("Quality Of Code", 5, "Fantastic", "I'm great!"));
+            skills.add(new Skill("Patterns", 5, "Shows Potential", "I'm great!"));
+            skills.add(new Skill("Refactoring Practice", 5, "Always looks to improve", "I'm great!"));
+            skills.add(new Skill("Refactoring Experience", 5, "Gaining", "I'm great!"));
+            skills.add(new Skill("Technical Debt", 5, "", "I'm great!"));
+            skills.add(new Skill("Estimating and Planning", 5, "Should contribute more", "I'm great!"));
+            skills.add(new Skill("Design", 5, "Research new patterns", "I'm great!"));
+            skills.add(new Skill("Solutions", 5, "", "I'm great!"));
+            skills.add(new Skill("TDD", 5, "Always looking to implement this", "I'm great!"));
+            skills.add(new Skill("Java", 5, "Continuously Improving", "I'm great!"));
+            skills.add(new Skill("Database Management Systems", 5, "Needs improving", "I'm great!"));
 
-        employeeRepository.create(anEmployee().withUsername("Laurence_Fishburne").build());
-        employeeRecordRepository.create(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(skills).build());
-        //End Yikes!
+            employeeRepository.create(anEmployee().withUsername("Laurence_Fishburne").build());
+            employeeRecordRepository.create(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(skills).build());
+            //End Yikes!
+        } catch (Exception e){
+
+        }
     }
 
     private void skillsRepositoryTestData() {
         // Probably not wise TODO
-        skillTemplateRepository.deleteAll();
+        try {
+            skillTemplateRepository.deleteAll();
 
-        // More Yikes TODO
-        skillTemplateRepository.saveOrUpdate(
-                asList(new Template(
-                                "Technical Skills",
-                                asList(
-                                        templateField()
-                                                .fieldName("Functional Delivery")
-                                                .descriptionForJunior("Should know what Pipeline is")
-                                                .descriptionForMid("Should have deployed using Pipeline")
-                                                .descriptionForSenior("Should be at one with Pipeline")
-                                                .build(),
-                                        templateField()
-                                                .fieldName("Quality Of Code")
-                                                .descriptionForJunior("Should be able to write some code")
-                                                .descriptionForMid("Should know what an If Condition is")
-                                                .descriptionForSenior("Should know who Uncle Bob is")
-                                                .build(),
-                                        templateField()
-                                                .fieldName("Patterns")
-                                                .descriptionForJunior("Knows the difference between a circle and a square")
-                                                .descriptionForMid("Knowing that JSON isn't a person")
-                                                .descriptionForSenior("Has read GOF Design Patterns cover to cover")
-                                                .build()
-                                )
-                        ),
-                        new Template(
-                                "Soft Skills",
-                                asList(
-                                        templateField()
-                                                .fieldName("Listening")
-                                                .descriptionForJunior("People talking without speaking")
-                                                .descriptionForMid("People hearing without listening")
-                                                .descriptionForSenior("People writing songs that voices never share")
-                                                .build(),
-                                        templateField()
-                                                .fieldName("Learning (How)")
-                                                .descriptionForJunior("Horton knows a How")
-                                                .descriptionForMid("Horton know a What")
-                                                .descriptionForSenior("Horton knows a Who")
-                                                .build(),
-                                        templateField()
-                                                .fieldName("Learning (What)")
-                                                .descriptionForJunior("What is this?")
-                                                .descriptionForMid("What is that?")
-                                                .descriptionForSenior("What is life?")
-                                                .build()
-                                )
-                        ),
-                        new Template(
-                                "Business Skills",
-                                asList(
-                                        templateField()
-                                                .fieldName("Functionality")
-                                                .descriptionForJunior("Likes Functionality")
-                                                .descriptionForMid("Loves Functionality")
-                                                .descriptionForSenior("Lives Functionality")
-                                                .build(),
-                                        templateField()
-                                                .fieldName("Business Language / Terminology")
-                                                .descriptionForJunior("Knows what stuff is")
-                                                .descriptionForMid("Knows what stuff does")
-                                                .descriptionForSenior("Knows the meaning of life, the universe and everything")
-                                                .build()
-                                )
-                        )
-                )
-        );
-        // Few
+            // More Yikes TODO
+            skillTemplateRepository.saveOrUpdate(
+                    asList(new Template(
+                                    "Technical Skills",
+                                    asList(
+                                            templateField()
+                                                    .fieldName("Functional Delivery")
+                                                    .descriptionForJunior("Should know what Pipeline is")
+                                                    .descriptionForMid("Should have deployed using Pipeline")
+                                                    .descriptionForSenior("Should be at one with Pipeline")
+                                                    .build(),
+                                            templateField()
+                                                    .fieldName("Quality Of Code")
+                                                    .descriptionForJunior("Should be able to write some code")
+                                                    .descriptionForMid("Should know what an If Condition is")
+                                                    .descriptionForSenior("Should know who Uncle Bob is")
+                                                    .build(),
+                                            templateField()
+                                                    .fieldName("Patterns")
+                                                    .descriptionForJunior("Knows the difference between a circle and a square")
+                                                    .descriptionForMid("Knowing that JSON isn't a person")
+                                                    .descriptionForSenior("Has read GOF Design Patterns cover to cover")
+                                                    .build()
+                                    )
+                            ),
+                            new Template(
+                                    "Soft Skills",
+                                    asList(
+                                            templateField()
+                                                    .fieldName("Listening")
+                                                    .descriptionForJunior("People talking without speaking")
+                                                    .descriptionForMid("People hearing without listening")
+                                                    .descriptionForSenior("People writing songs that voices never share")
+                                                    .build(),
+                                            templateField()
+                                                    .fieldName("Learning (How)")
+                                                    .descriptionForJunior("Horton knows a How")
+                                                    .descriptionForMid("Horton know a What")
+                                                    .descriptionForSenior("Horton knows a Who")
+                                                    .build(),
+                                            templateField()
+                                                    .fieldName("Learning (What)")
+                                                    .descriptionForJunior("What is this?")
+                                                    .descriptionForMid("What is that?")
+                                                    .descriptionForSenior("What is life?")
+                                                    .build()
+                                    )
+                            ),
+                            new Template(
+                                    "Business Skills",
+                                    asList(
+                                            templateField()
+                                                    .fieldName("Functionality")
+                                                    .descriptionForJunior("Likes Functionality")
+                                                    .descriptionForMid("Loves Functionality")
+                                                    .descriptionForSenior("Lives Functionality")
+                                                    .build(),
+                                            templateField()
+                                                    .fieldName("Business Language / Terminology")
+                                                    .descriptionForJunior("Knows what stuff is")
+                                                    .descriptionForMid("Knows what stuff does")
+                                                    .descriptionForSenior("Knows the meaning of life, the universe and everything")
+                                                    .build()
+                                    )
+                            )
+                    )
+            );
+            // Few
+        } catch (Exception e){
+
+        }
     }
 
     protected GivensBuilder aDeveloperExists() {
