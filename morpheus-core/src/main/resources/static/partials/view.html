@@ -98,7 +98,7 @@
                     <td>
                         <input name="managerCommentText" print-hide type="text" ng-model="field.comment" class="managerCommentText"
                                readonly="readonly"/>
-                        <button class="button" print-hide ng-click="updateCommentDialog(field, 'manager')">{{hasEditorPrivileges() &&
+                        <button class="button" id="managerCommentBtn" print-hide ng-click="updateCommentDialog(field, 'manager')">{{hasEditorPrivileges() &&
                             isEditable() ?
                             'Edit'
                             :
@@ -109,7 +109,7 @@
                     <td>
                         <input name="devCommentText" print-hide type="text" ng-model="field.devComment" class="devCommentText"
                                readonly="readonly"/>
-                        <button class="button" print-hide ng-click="updateCommentDialog(field, 'dev')">{{hasEditorPrivileges() &&
+                        <button class="button" id="devCommentBtn" print-hide ng-click="updateCommentDialog(field, 'dev')">{{hasEditorPrivileges() &&
                             isEditable() ?
                             'View'
                             :

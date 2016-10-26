@@ -34,12 +34,20 @@ public class DeveloperInteractions {
         };
     }
 
-    public ActionUnderTest entersAComment() {
-        return null;
+    public ActionUnderTest entersAComment(String comment) {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("devCommentBtn")).click();
+            $(By.id("devCommentTextArea")).setValue(comment);
+            $(By.xpath("//*[contains(text(), 'Confirm')]")).click();
+            return capturedInputAndOutputs;
+        };
     }
 
     public ActionUnderTest savesTheTemplate() {
-        return null;
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("save-button")).click();
+            return capturedInputAndOutputs;
+        };
     }
 
     private void loginUser() {
