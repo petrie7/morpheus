@@ -25,7 +25,6 @@ public class MongoStub {
                 .version(Version.Main.PRODUCTION)
                 .net(new Net(27018, Network.localhostIsIPv6()))
                 .build();
-
     }
 
     public void start() throws IOException {

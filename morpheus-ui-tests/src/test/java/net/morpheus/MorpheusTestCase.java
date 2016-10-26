@@ -19,9 +19,7 @@ import net.morpheus.persistence.SkillTemplateRepository;
 import net.morpheus.persistence.TeamRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -31,7 +29,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.TestContextManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
@@ -70,15 +67,15 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     protected NoticeInteractions aNotice;
     protected Team theTeam = someTeam();
 
-    @BeforeClass
-    public static void startMongo() {
-        try {
-            mongoStub = new MongoStub();
-            mongoStub.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @BeforeClass
+//    public static void startMongo() {
+//        try {
+//            mongoStub = new MongoStub();
+//            mongoStub.start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Before
     public void setupTest() throws Exception {
@@ -110,11 +107,11 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         logoutUser();
         ldapStubServer.stop();
     }
-
-    @AfterClass
-    public static void shutDownMongo() {
-        mongoStub.stop();
-    }
+//
+//    @AfterClass
+//    public static void shutDownMongo() {
+//        mongoStub.stop();
+//    }
 
     private void employeeRepositoryTestData() {
         //Yikes! TODO: Remove this!

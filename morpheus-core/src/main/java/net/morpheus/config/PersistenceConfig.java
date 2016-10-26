@@ -25,7 +25,7 @@ public class PersistenceConfig {
     @Bean
     public static MongoDbFactory mongoDbFactory() throws UnknownHostException {
         return new SimpleMongoDbFactory(
-                new MongoClient("localhost", 27018),
+                new MongoClient("localhost", 27017),
                 "morpheus"
         );
     }
