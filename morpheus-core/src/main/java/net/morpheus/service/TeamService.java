@@ -1,15 +1,15 @@
 package net.morpheus.service;
 
 import net.morpheus.domain.Team;
-import net.morpheus.persistence.mongo.MongoTeamRepository;
+import net.morpheus.persistence.TeamRepository;
 
 import java.util.List;
 
 public class TeamService {
 
-    private MongoTeamRepository teamRepository;
+    private TeamRepository teamRepository;
 
-    public TeamService(MongoTeamRepository teamRepository) {
+    public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 

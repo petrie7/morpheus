@@ -1,7 +1,7 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.Template;
-import net.morpheus.persistence.mongo.MongoSkillTemplateRepository;
+import net.morpheus.persistence.SkillTemplateRepository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +18,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class TemplateController {
 
     @Resource
-    private MongoSkillTemplateRepository skillTemplateRepository;
+    private SkillTemplateRepository skillTemplateRepository;
 
     @RequestMapping(method = POST)
     @RolesAllowed(value = "ROLE_MANAGER")

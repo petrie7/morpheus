@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.morpheus.controller.*;
 import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.service.EmployeeDetailsService;
 import net.morpheus.service.EmployeeRecordService;
 import net.morpheus.service.TeamService;
@@ -41,7 +41,7 @@ public class ApplicationConfig {
 
     @Bean
     @Autowired
-    public EmployeeRecordController employeeRecordController(MongoEmployeeRecordRepository employeeRecordRepository) {
+    public EmployeeRecordController employeeRecordController(EmployeeRecordRepository employeeRecordRepository) {
         return new EmployeeRecordController(employeeRecordRepository);
     }
 

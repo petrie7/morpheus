@@ -1,6 +1,7 @@
 package net.morpheus.config;
 
 import com.mongodb.MongoClient;
+import net.morpheus.persistence.TeamRepository;
 import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
 import net.morpheus.persistence.mongo.MongoEmployeeRepository;
 import net.morpheus.persistence.mongo.MongoSkillTemplateRepository;
@@ -25,7 +26,7 @@ public class PersistenceConfig {
     @Bean
     public static MongoDbFactory mongoDbFactory() throws UnknownHostException {
         return new SimpleMongoDbFactory(
-                new MongoClient("localhost", 27018),
+                new MongoClient("localhost", 27017),
                 "morpheus"
         );
     }
@@ -46,7 +47,7 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public MongoTeamRepository teamRepository() throws UnknownHostException {
+    public TeamRepository teamRepository() throws UnknownHostException {
         return new MongoTeamRepository(mongoTemplate());
     }
 

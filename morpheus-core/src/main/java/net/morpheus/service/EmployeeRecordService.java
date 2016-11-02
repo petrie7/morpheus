@@ -1,7 +1,7 @@
 package net.morpheus.service;
 
 import net.morpheus.domain.EmployeeRecord;
-import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import static java.util.stream.Collectors.toList;
 
 public class EmployeeRecordService {
 
-    private MongoEmployeeRecordRepository employeeRecordRepository;
+    private EmployeeRecordRepository employeeRecordRepository;
 
-    public EmployeeRecordService(MongoEmployeeRecordRepository employeeRecordRepository) {
+    public EmployeeRecordService(EmployeeRecordRepository employeeRecordRepository) {
         this.employeeRecordRepository = employeeRecordRepository;
     }
 

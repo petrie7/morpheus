@@ -1,6 +1,6 @@
 package net.morpheus.config;
 
-import net.morpheus.persistence.mongo.MongoEmployeeRepository;
+import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.service.NewUserAuthenticator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private MongoEmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

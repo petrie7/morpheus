@@ -8,20 +8,18 @@ import com.googlecode.yatspec.rendering.html.HtmlResultRenderer;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.TestState;
 import net.morpheus.config.ApplicationConfig;
-import net.morpheus.config.PersistenceConfig;
+import net.morpheus.configuration.TestPersistenceConfig;
 import net.morpheus.domain.*;
 import net.morpheus.interactions.DeveloperInteractions;
 import net.morpheus.interactions.ManagerInteractions;
 import net.morpheus.interactions.NoticeInteractions;
-import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
-import net.morpheus.persistence.mongo.MongoEmployeeRepository;
-import net.morpheus.persistence.mongo.MongoSkillTemplateRepository;
-import net.morpheus.persistence.mongo.MongoTeamRepository;
+import net.morpheus.persistence.EmployeeRecordRepository;
+import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.SkillTemplateRepository;
+import net.morpheus.persistence.TeamRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -31,7 +29,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.TestContextManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.googlecode.yatspec.internal.totallylazy.$Sequences.sequence;
@@ -43,19 +40,19 @@ import static net.morpheus.domain.builder.EmployeeRecordBuilder.anEmployeeRecord
 import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
 
 @RunWith(SpecRunner.class)
-@SpringApplicationConfiguration(classes = {ApplicationConfig.class, PersistenceConfig.class})
+@SpringApplicationConfiguration(classes = {ApplicationConfig.class, TestPersistenceConfig.class})
 @WebIntegrationTest("spring.main.show_banner=false")
 public abstract class MorpheusTestCase extends TestState implements WithCustomResultListeners {
 
     @Autowired
-    protected MongoEmployeeRecordRepository employeeRecordRepository;
+    protected EmployeeRecordRepository employeeRecordRepository;
     @Autowired
-    protected MongoEmployeeRepository employeeRepository;
+    protected EmployeeRepository employeeRepository;
     @Autowired
-    protected MongoTeamRepository teamRepository;
+    protected TeamRepository teamRepository;
 
     @Autowired
-    private MongoSkillTemplateRepository skillTemplateRepository;
+    private SkillTemplateRepository skillTemplateRepository;
     protected LdapStubServer ldapStubServer;
 
     protected WebDriver webDriver;
@@ -64,21 +61,10 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     private EmployeeDetails employeeForTest;
     private String employeePassword;
 
-    private static MongoStub mongoStub;
     protected ManagerInteractions theManager;
     protected DeveloperInteractions theDeveloper;
     protected NoticeInteractions aNotice;
     protected Team theTeam = someTeam();
-
-    @BeforeClass
-    public static void startMongo() {
-        try {
-            mongoStub = new MongoStub();
-            mongoStub.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Before
     public void setupTest() throws Exception {
@@ -111,11 +97,6 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         ldapStubServer.stop();
     }
 
-    @AfterClass
-    public static void shutDownMongo() {
-        mongoStub.stop();
-    }
-
     private void employeeRepositoryTestData() {
         //Yikes! TODO: Remove this!
         try {
@@ -138,7 +119,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
             employeeRepository.create(anEmployee().withUsername("Laurence_Fishburne").build());
             employeeRecordRepository.create(anEmployeeRecord().withUsername("Laurence_Fishburne").withSkills(skills).build());
             //End Yikes!
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -216,7 +197,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
                     )
             );
             // Few
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
