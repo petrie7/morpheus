@@ -37,20 +37,28 @@ public abstract class AbstractRepositoryTestCase {
 
     @BeforeClass
     public static void startEmbeddedMongo() throws IOException {
-        MongodStarter starter = MongodStarter.getDefaultInstance();
+        try {
+            MongodStarter starter = MongodStarter.getDefaultInstance();
 
-        IMongodConfig mongodConfig = new MongodConfigBuilder()
-                .version(Version.Main.PRODUCTION)
-                .net(new Net(27017, Network.localhostIsIPv6()))
-                .build();
+            IMongodConfig mongodConfig = new MongodConfigBuilder()
+                    .version(Version.Main.PRODUCTION)
+                    .net(new Net(27017, Network.localhostIsIPv6()))
+                    .build();
 
-        MongodExecutable mongodExecutable = starter.prepare(mongodConfig);
-        mongod = mongodExecutable.start();
+            MongodExecutable mongodExecutable = starter.prepare(mongodConfig);
+            mongod = mongodExecutable.start();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @AfterClass
     public static void stopMongo() {
-        mongod.stop();
+        try {
+            mongod.stop();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Before
