@@ -54,7 +54,7 @@ public class LdapStubServer {
 
     public LdapStubServer() throws Exception {
         InMemoryDirectoryServerConfig config = new InMemoryDirectoryServerConfig("dc=isp,dc=company,dc=com");
-        InMemoryListenerConfig listenerConfig = createLDAPConfig("insecure", 51616);
+        InMemoryListenerConfig listenerConfig = createLDAPConfig("insecure", 51617);
         config.setListenerConfigs(listenerConfig);
         directoryServer = new InMemoryDirectoryServer(config);
         try (final InputStream in = new ClassPathResource("/ldap.ldif").getInputStream()) {

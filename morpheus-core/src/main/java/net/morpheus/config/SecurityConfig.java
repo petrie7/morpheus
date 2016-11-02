@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BaseLdapPathContextSource contextSource() {
-        DefaultSpringSecurityContextSource contextSource = new DefaultSpringSecurityContextSource("ldap://localhost:51616");
+        DefaultSpringSecurityContextSource contextSource = new DefaultSpringSecurityContextSource("ldap://localhost:51617");
         contextSource.setPooled(false);
         contextSource.setUserDn("uid=appauth,ou=auth,ou=morpheus,ou=Applications,dc=isp,dc=company,dc=com");
         contextSource.setPassword("secret");

@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
 public class LdapStubServerTest {
 
     private static final String HOSTNAME = "localhost";
-    private static final int PORT = 51616;
+    private static final int PORT = 51617;
     private static final String PEOPLE_SEARCH_BASE_DN = "ou=People,dc=isp,dc=company,dc=com";
     private static final Filter PERSON_CLASS_FILTER = createEqualityFilter("objectClass", "person");
     private static final SearchRequest allUsersSearchRequest = new SearchRequest(PEOPLE_SEARCH_BASE_DN, SearchScope.SUB, PERSON_CLASS_FILTER, "uid", "cn", "dn", "userPassword");
