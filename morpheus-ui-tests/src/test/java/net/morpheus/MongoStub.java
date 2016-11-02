@@ -23,14 +23,14 @@ public class MongoStub {
 
         mongodConfig = new MongodConfigBuilder()
                 .version(Version.Main.PRODUCTION)
-                .net(new Net(27017, Network.localhostIsIPv6()))
+                .net(new Net(27018, Network.localhostIsIPv6()))
                 .build();
     }
 
     public void start() throws IOException {
         mongodExecutable = starter.prepare(mongodConfig);
         mongodProcess = mongodExecutable.start();
-        while (!mongodProcess.isProcessRunning()){
+        while (!mongodProcess.isProcessRunning()) {
             System.out.println("Waiting for Mongo to start...");
             try {
                 Thread.sleep(1000);

@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.googlecode.yatspec</groupId>
             <artifactId>yatspec</artifactId>
-            <version>217</version>
+            <version>1.13</version>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
