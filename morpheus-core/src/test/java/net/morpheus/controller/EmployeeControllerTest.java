@@ -1,7 +1,7 @@
 package net.morpheus.controller;
 
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
 import net.morpheus.service.EmployeeDetailsService;
 import net.morpheus.service.NewUserAuthenticator;
 import org.junit.Before;
@@ -18,12 +18,12 @@ import static org.mockito.Mockito.when;
 
 public class EmployeeControllerTest {
 
-    private EmployeeRepository repository;
+    private MongoEmployeeRepository repository;
     private EmployeeDetailsController employeeController;
 
     @Before
     public void setUp() {
-        repository = Mockito.mock(EmployeeRepository.class);
+        repository = Mockito.mock(MongoEmployeeRepository.class);
         employeeController = new EmployeeDetailsController(new EmployeeDetailsService(
                 repository, Mockito.mock(NewUserAuthenticator.class)));
     }

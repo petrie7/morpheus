@@ -1,4 +1,4 @@
-package net.morpheus.persistence;
+package net.morpheus.persistence.mongo;
 
 import net.morpheus.domain.Team;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,12 +9,12 @@ import java.util.Optional;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
-public class TeamRepository {
+public class MongoTeamRepository {
 
     public static final String TEAM_COLLECTION = "team";
     private MongoTemplate mongoTemplate;
 
-    public TeamRepository(MongoTemplate mongoTemplate) {
+    public MongoTeamRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

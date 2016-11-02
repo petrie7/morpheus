@@ -1,10 +1,10 @@
 package net.morpheus.config;
 
 import com.mongodb.MongoClient;
-import net.morpheus.persistence.EmployeeRecordRepository;
-import net.morpheus.persistence.EmployeeRepository;
-import net.morpheus.persistence.SkillTemplateRepository;
-import net.morpheus.persistence.TeamRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
+import net.morpheus.persistence.mongo.MongoSkillTemplateRepository;
+import net.morpheus.persistence.mongo.MongoTeamRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -31,23 +31,23 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public EmployeeRecordRepository employeeRecordRepository() throws UnknownHostException {
-        return new EmployeeRecordRepository(mongoTemplate());
+    public MongoEmployeeRecordRepository employeeRecordRepository() throws UnknownHostException {
+        return new MongoEmployeeRecordRepository(mongoTemplate());
     }
 
     @Bean
-    public EmployeeRepository employeeRepository() throws UnknownHostException {
-        return new EmployeeRepository(mongoTemplate());
+    public MongoEmployeeRepository employeeRepository() throws UnknownHostException {
+        return new MongoEmployeeRepository(mongoTemplate());
     }
 
     @Bean
-    public SkillTemplateRepository skillTemplateRepository() throws UnknownHostException {
-        return new SkillTemplateRepository(mongoTemplate());
+    public MongoSkillTemplateRepository skillTemplateRepository() throws UnknownHostException {
+        return new MongoSkillTemplateRepository(mongoTemplate());
     }
 
     @Bean
-    public TeamRepository teamRepository() throws UnknownHostException {
-        return new TeamRepository(mongoTemplate());
+    public MongoTeamRepository teamRepository() throws UnknownHostException {
+        return new MongoTeamRepository(mongoTemplate());
     }
 
 

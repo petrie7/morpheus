@@ -2,7 +2,7 @@ package net.morpheus.service;
 
 import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.Role;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,10 +12,10 @@ import static java.util.stream.Collectors.toList;
 
 public class EmployeeDetailsService {
 
-    private EmployeeRepository employeeRepository;
+    private MongoEmployeeRepository employeeRepository;
     private NewUserAuthenticator newUserAuthenticator;
 
-    public EmployeeDetailsService(EmployeeRepository employeeRepository, NewUserAuthenticator newUserAuthenticator) {
+    public EmployeeDetailsService(MongoEmployeeRepository employeeRepository, NewUserAuthenticator newUserAuthenticator) {
         this.employeeRepository = employeeRepository;
         this.newUserAuthenticator = newUserAuthenticator;
     }

@@ -10,6 +10,9 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.EmployeeRecord;
+import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
+import net.morpheus.persistence.mongo.MongoSkillTemplateRepository;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,9 +27,9 @@ public abstract class AbstractRepositoryTestCase {
 
     private static MongodProcess mongod;
 
-    protected EmployeeRecordRepository employeeRecordRepository;
-    protected SkillTemplateRepository skillTemplateRepository;
-    protected EmployeeRepository employeeDetailsRepository;
+    protected MongoEmployeeRecordRepository employeeRecordRepository;
+    protected MongoSkillTemplateRepository skillTemplateRepository;
+    protected MongoEmployeeRepository employeeDetailsRepository;
 
     protected EmployeeRecord employeeRecord;
     protected EmployeeDetails employee;
@@ -53,9 +56,9 @@ public abstract class AbstractRepositoryTestCase {
     @Before
     public void setup() throws IOException {
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
-        employeeRecordRepository = new EmployeeRecordRepository(mongoTemplate);
-        employeeDetailsRepository = new EmployeeRepository(mongoTemplate);
-        skillTemplateRepository = new SkillTemplateRepository(mongoTemplate);
+        employeeRecordRepository = new MongoEmployeeRecordRepository(mongoTemplate);
+        employeeDetailsRepository = new MongoEmployeeRepository(mongoTemplate);
+        skillTemplateRepository = new MongoSkillTemplateRepository(mongoTemplate);
     }
 
     @After

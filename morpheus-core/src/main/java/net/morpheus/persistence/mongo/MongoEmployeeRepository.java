@@ -1,4 +1,4 @@
-package net.morpheus.persistence;
+package net.morpheus.persistence.mongo;
 
 import net.morpheus.domain.EmployeeDetails;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,12 +9,12 @@ import java.util.Optional;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
-public class EmployeeRepository {
+public class MongoEmployeeRepository {
 
     public static final String EMPLOYEE_COLLECTION = "employee";
     private MongoTemplate mongoTemplate;
 
-    public EmployeeRepository(MongoTemplate mongoTemplate) {
+    public MongoEmployeeRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

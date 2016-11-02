@@ -1,17 +1,17 @@
 package net.morpheus.controller;
 
-import net.morpheus.persistence.EmployeeRecordRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
 import org.junit.Before;
 import org.mockito.Mockito;
 
 public class EmployeeRecordControllerTest {
 
-    private EmployeeRecordRepository repository;
+    private MongoEmployeeRecordRepository repository;
     private EmployeeRecordController employeeRecordController;
 
     @Before
     public void setUp() {
-        repository = Mockito.mock(EmployeeRecordRepository.class);
+        repository = Mockito.mock(MongoEmployeeRecordRepository.class);
         employeeRecordController = new EmployeeRecordController(repository);
     }
 

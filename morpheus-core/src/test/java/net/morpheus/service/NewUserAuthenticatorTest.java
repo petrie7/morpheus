@@ -5,7 +5,7 @@ import net.morpheus.domain.Level;
 import net.morpheus.domain.Role;
 import net.morpheus.domain.Team;
 import net.morpheus.exception.UserNotInCauthException;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -22,12 +22,12 @@ public class NewUserAuthenticatorTest {
 
     private LdapTemplate ldapTemplate;
     private NewUserAuthenticator newUserAuthenticator;
-    private EmployeeRepository employeeRepository;
+    private MongoEmployeeRepository employeeRepository;
 
     @Before
     public void setUp() {
         ldapTemplate = mock(LdapTemplate.class);
-        employeeRepository = Mockito.mock(EmployeeRepository.class);
+        employeeRepository = Mockito.mock(MongoEmployeeRepository.class);
         newUserAuthenticator = new NewUserAuthenticator(ldapTemplate, employeeRepository);
     }
 

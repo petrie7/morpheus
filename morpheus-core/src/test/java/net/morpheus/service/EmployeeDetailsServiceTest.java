@@ -4,7 +4,7 @@ import net.morpheus.domain.EmployeeDetails;
 import net.morpheus.domain.Level;
 import net.morpheus.domain.Role;
 import net.morpheus.domain.Team;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,11 +22,11 @@ import static org.mockito.Mockito.*;
 public class EmployeeDetailsServiceTest {
 
     private EmployeeDetailsService service;
-    private EmployeeRepository employeeRepository;
+    private MongoEmployeeRepository employeeRepository;
 
     @Before
     public void setup() {
-        employeeRepository = mock(EmployeeRepository.class);
+        employeeRepository = mock(MongoEmployeeRepository.class);
         service = new EmployeeDetailsService(employeeRepository, mock(NewUserAuthenticator.class));
     }
 

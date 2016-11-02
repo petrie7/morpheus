@@ -2,16 +2,16 @@ package net.morpheus.service;
 
 import net.morpheus.exception.UserAlreadyExistsException;
 import net.morpheus.exception.UserNotInCauthException;
-import net.morpheus.persistence.EmployeeRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
 import org.springframework.ldap.core.LdapTemplate;
 
 public class NewUserAuthenticator {
 
     public static final String DN_SEARCH_BASE = "uid=%s,ou=People,dc=isp,dc=company,dc=com";
     private LdapTemplate ldapTemplate;
-    private EmployeeRepository employeeRepository;
+    private MongoEmployeeRepository employeeRepository;
 
-    public NewUserAuthenticator(LdapTemplate ldapTemplate, EmployeeRepository employeeRepository) {
+    public NewUserAuthenticator(LdapTemplate ldapTemplate, MongoEmployeeRepository employeeRepository) {
         this.ldapTemplate = ldapTemplate;
         this.employeeRepository = employeeRepository;
     }

@@ -1,4 +1,4 @@
-package net.morpheus.persistence;
+package net.morpheus.persistence.mongo;
 
 import net.morpheus.domain.Template;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -8,12 +8,12 @@ import java.util.List;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
-public class SkillTemplateRepository {
+public class MongoSkillTemplateRepository {
 
     private static final String TEMPLATE_COLLECTION = "template";
     private MongoTemplate mongoTemplate;
 
-    public SkillTemplateRepository(MongoTemplate mongoTemplate) {
+    public MongoSkillTemplateRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

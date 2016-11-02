@@ -1,8 +1,8 @@
 package net.morpheus.config;
 
-import net.morpheus.persistence.EmployeeRecordRepository;
-import net.morpheus.persistence.EmployeeRepository;
-import net.morpheus.persistence.TeamRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
+import net.morpheus.persistence.mongo.MongoTeamRepository;
 import net.morpheus.service.EmployeeDetailsService;
 import net.morpheus.service.EmployeeRecordService;
 import net.morpheus.service.NewUserAuthenticator;
@@ -20,19 +20,19 @@ public class ServiceConfig {
 
     @Bean
     @Autowired
-    public EmployeeDetailsService employeeDetailsService(EmployeeRepository employeeRepository, NewUserAuthenticator newUserAuthenticator) {
+    public EmployeeDetailsService employeeDetailsService(MongoEmployeeRepository employeeRepository, NewUserAuthenticator newUserAuthenticator) {
         return new EmployeeDetailsService(employeeRepository, newUserAuthenticator);
     }
 
     @Bean
     @Autowired
-    public EmployeeRecordService employeeRecordService(EmployeeRecordRepository employeeRecordRepository) {
+    public EmployeeRecordService employeeRecordService(MongoEmployeeRecordRepository employeeRecordRepository) {
         return new EmployeeRecordService(employeeRecordRepository);
     }
 
     @Bean
     @Autowired
-    public TeamService teamService(TeamRepository teamRepository) {
+    public TeamService teamService(MongoTeamRepository teamRepository) {
         return new TeamService(teamRepository);
     }
 

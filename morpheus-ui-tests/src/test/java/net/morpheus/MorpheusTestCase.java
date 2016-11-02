@@ -13,10 +13,10 @@ import net.morpheus.domain.*;
 import net.morpheus.interactions.DeveloperInteractions;
 import net.morpheus.interactions.ManagerInteractions;
 import net.morpheus.interactions.NoticeInteractions;
-import net.morpheus.persistence.EmployeeRecordRepository;
-import net.morpheus.persistence.EmployeeRepository;
-import net.morpheus.persistence.SkillTemplateRepository;
-import net.morpheus.persistence.TeamRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRecordRepository;
+import net.morpheus.persistence.mongo.MongoEmployeeRepository;
+import net.morpheus.persistence.mongo.MongoSkillTemplateRepository;
+import net.morpheus.persistence.mongo.MongoTeamRepository;
 import net.morpheus.stub.LdapStubServer;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -48,14 +48,14 @@ import static net.morpheus.domain.builder.TemplateFieldBuilder.templateField;
 public abstract class MorpheusTestCase extends TestState implements WithCustomResultListeners {
 
     @Autowired
-    protected EmployeeRecordRepository employeeRecordRepository;
+    protected MongoEmployeeRecordRepository employeeRecordRepository;
     @Autowired
-    protected EmployeeRepository employeeRepository;
+    protected MongoEmployeeRepository employeeRepository;
     @Autowired
-    protected TeamRepository teamRepository;
+    protected MongoTeamRepository teamRepository;
 
     @Autowired
-    private SkillTemplateRepository skillTemplateRepository;
+    private MongoSkillTemplateRepository skillTemplateRepository;
     protected LdapStubServer ldapStubServer;
 
     protected WebDriver webDriver;
