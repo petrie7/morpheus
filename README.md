@@ -1,5 +1,7 @@
 # morpheus
 
+[![CircleCI](https://circleci.com/gh/petrie7/morpheus.svg?style=svg)](https://circleci.com/gh/petrie7/morpheus)
+
 Morpheus is a tool to manage employee performance reviews.
 
 Functions
