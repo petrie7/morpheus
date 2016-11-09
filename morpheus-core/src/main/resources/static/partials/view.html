@@ -1,5 +1,5 @@
 <div class="input-group" ng-show="isManager()"
-     id="search-bar">
+     id="search-bar" print-remove>
     <input type="text" class="form-control" placeholder="Search for employee.." name="q"
            ng-model="searchValue" id="q"/>
 
@@ -11,7 +11,7 @@
 </div>
 
 <div id="skills-matrix" class="skills-matrix">
-    <div id="employeeDetails">
+    <div id="employeeDetails"  print-remove>
         <h3>{{employee.username}}</h3>
         <label id="team-label">Team</label>
         <select id="team-field" ng-model="employeeDetails.team.name" ng-disabled="!isManager()">
@@ -38,13 +38,13 @@
     <ul class="nav nav-tabs">
         <li ng-repeat="template in templates" class="{{$index === 0 ? 'active' : ''}}">
             <a data-toggle="tab"
-               href="#{{template.templateClass}}" target="_self">
+               href="#{{template.templateClass}}" target="_self" print-section>
                 {{template.templateName}}
             </a>
         </li>
     </ul>
 
-    <div class="tab-content" print-section print-landscape>
+    <div class="tab-content" print-section print-portrait>
         <div ng-repeat="template in templates" id="{{template.templateClass}}"
              class="{{$index === 0 ? 'tab-pane fade in active' : 'tab-pane fade'}}">
             <table class="table myTable">
