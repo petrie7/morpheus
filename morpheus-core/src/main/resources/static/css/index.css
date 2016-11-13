@@ -316,9 +316,10 @@ h5 {
 }
 
 #managerCommentTextArea, #devCommentTextArea {
-    width: 260;
+    width: 550;
     height: 175;
     resize: none;
+    margin-left: 8px;
 }
 
 /*TOOLTIP*/

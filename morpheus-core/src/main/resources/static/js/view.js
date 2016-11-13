@@ -144,13 +144,8 @@ angular
             };
 
             $scope.updateCommentDialog = function (skill, type) {
-            var isManagerComment = (type == 'manager') ? true : false;
 
-            if (isManagerComment) {
-                $('#managerCommentTextArea').val(skill.comment);
-            } else {
-                $('#devCommentTextArea').val(skill.devComment);
-            }
+            var isManagerComment = (type == 'manager') ? true : false;
 
                 if ($scope.isManager() && $scope.isEditable() && isManagerComment) {
                     $scope.showCommentDialogFor(skill, "manager");
@@ -159,49 +154,55 @@ angular
                     $scope.showCommentDialogFor(skill, "dev");
                 }
                 else {
-                  $('#' + type + 'CommentsBox').dialog({
-                       resizable: false,
-                       height: 300,
-                       width: 300,
-                       modal: true,
-                       readonly: true,
-                       buttons: {
-                           Cancel: function () {
-                               $(this).dialog('close');
-                           }
-                       }
-                   });
+                  if (isManagerComment) {
+                    $scope.viewComment = skill.comment;
+                  }
+                  else {
+                     $scope.viewComment = skill.devComment;
+                  }
+
+                  bootbox.dialog({
+                    message: '<div>' + $scope.viewComment + '</div>',
+                    title: skill.fieldName + ' Comment',
+                    className: type + 'CommentsBox'
+                    });
                 }
             };
 
             $scope.showCommentDialogFor = function(skill, type) {
-             $('#' + type + 'CommentsBox').dialog({
-               resizable: false,
-               height: 300,
-               width: 300,
-               modal: true,
-               buttons: {
-                   Confirm: function () {
-                       var employeeSkill = $scope.employee.skills.filter(function (s) {
-                           return s.description === skill.fieldName;
-                       })[0];
 
-                       if(type == "manager") {
-                        employeeSkill.comment = $('#' + type + 'CommentTextArea').val();
-                        skill.comment = $('#' + type + 'CommentTextArea').val();
-                       } else {
-                        employeeSkill.devComment = $('#' + type + 'CommentTextArea').val();
-                        skill.devComment = $('#' + type + 'CommentTextArea').val();
-                       }
+            if (type === 'manager') {
+                $scope.dialogHtml = '<textarea id="managerCommentTextArea" ng-readonly="!hasEditorPrivileges()">' + skill.comment + '</textarea>'
+            } else {
+                $scope.dialogHtml = '<textarea id="devCommentTextArea" ng-readonly="hasEditorPrivileges()">' + skill.devComment + '</textarea>'
+            }
 
-                       $scope.$apply();
-                       $(this).dialog('close');
-                   },
-                   Cancel: function () {
-                       $(this).dialog('close');
-                   }
-               }
-             });
+            bootbox.dialog({
+                    message: $scope.dialogHtml,
+                    title: 'Update ' + skill.fieldName + ' Comment',
+                    className: type + 'CommentsBox',
+                    buttons: {
+                        main: {
+                            label: "Confirm",
+                            className: "btn-primary",
+                            callback: function() {
+                                var employeeSkill = $scope.employee.skills.filter(function (s) {
+                                    return s.description === skill.fieldName;
+                                })[0];
+
+                                if(type == "manager") {
+                                 employeeSkill.comment = $('#' + type + 'CommentTextArea').val();
+                                 skill.comment = $('#' + type + 'CommentTextArea').val();
+                                } else {
+                                 employeeSkill.devComment = $('#' + type + 'CommentTextArea').val();
+                                 skill.devComment = $('#' + type + 'CommentTextArea').val();
+                                }
+
+                                $scope.$apply();
+                            }
+                        }
+                    }
+                });
             };
 
             $scope.$watch('employee', function (newEmployee) {
