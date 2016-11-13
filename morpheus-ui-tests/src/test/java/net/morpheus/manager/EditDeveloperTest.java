@@ -3,7 +3,10 @@ package net.morpheus.manager;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
 import net.morpheus.MorpheusTestCase;
-import net.morpheus.domain.*;
+import net.morpheus.domain.EmployeeDetails;
+import net.morpheus.domain.Level;
+import net.morpheus.domain.Role;
+import net.morpheus.domain.Team;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -13,7 +16,6 @@ import org.openqa.selenium.WebElement;
 
 import static net.morpheus.MorpheusDataFixtures.someTeam;
 import static net.morpheus.MorpheusDataFixtures.someUsername;
-import static net.morpheus.domain.Level.MidDeveloper;
 import static net.morpheus.domain.Level.SeniorDeveloper;
 import static net.morpheus.domain.Role.TeamLead;
 import static net.morpheus.matchers.ElementMatchers.*;
@@ -23,7 +25,7 @@ public class EditDeveloperTest extends MorpheusTestCase {
     private Team anotherTeam;
 
     @Test
-    public void canEditAnEmployee() throws Exception {
+    public void canEditASeniorDevelopersRoleAndTeamButNotLevelWhenTheyAreATeamLead() throws Exception {
         given(aTeamExists());
         and(anotherTeamExists());
         and(theManager.isLoggedIn());
@@ -31,11 +33,10 @@ public class EditDeveloperTest extends MorpheusTestCase {
         and(theManager.isViewing(theDeveloper.getEmployeeForTest().username()));
 
         when(theManager.editsTheRoleOfTheDeveloperTo(TeamLead));
-        when(theManager.editsTheLevelOfTheDeveloperTo(MidDeveloper));
         when(theManager.editsTheTeamOfTheDeveloperTo(anotherTeam));
         when(theManager.savesTheTemplate());
 
-        then(theDeveloper(), hasALevelOf(MidDeveloper));
+        then(theEditLevelDropdown(), isDisabled());
         then(theDeveloper(), isOn(anotherTeam));
         then(theDeveloper(), hasARoleOf(TeamLead));
     }
@@ -97,6 +98,10 @@ public class EditDeveloperTest extends MorpheusTestCase {
 
     private StateExtractor<WebElement> theEditRoleDropdown() {
         return capturedInputAndOutputs -> webDriver.findElement(By.id("role-field"));
+    }
+
+    private StateExtractor<WebElement> theEditLevelDropdown() {
+        return capturedInputAndOutputs -> webDriver.findElement(By.id("level-field"));
     }
 
     private Matcher<EmployeeDetails> hasALevelOf(Level expectedLevel) {

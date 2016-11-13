@@ -2,14 +2,16 @@
     <input id="newUsername" class="form-control" type="text" name="Employee Name"
            ng-model="employee.username" placeholder="Enter new employee username.."/>
     <label id="roleLabel">Role</label>
-    <select id="roleSelect" ng-init="employee.role = 'Developer'" ng-model="employee.role">
+    <select id="roleSelect" ng-init="employee.role = 'Developer'" ng-model="employee.role"
+            ng-disabled="(employee.level != 'SeniorDeveloper')">
         <option value="Developer">Developer</option>
         <option value="TeamLead">Team Lead</option>
     </select>
     <br/>
     <label>Level</label>
-    <select id="levelSelect" ng-model="employee.level">
-        <option ng-repeat="level in levels">{{level}}</option>
+    <select id="levelSelect" ng-model="employee.level"
+            ng-disabled="(employee.role == 'TeamLead')">
+        <option ng-repeat="level in levels" value="{{level}}">{{level}}</option>
     </select>
     <br/>
     <label>Team</label>

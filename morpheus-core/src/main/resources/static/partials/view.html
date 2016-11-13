@@ -19,7 +19,7 @@
         </select>
 
         <label id="level-label">Level</label>
-        <select id="level-field" ng-model="employeeDetails.level" ng-disabled="!isManager()">
+        <select id="level-field" ng-model="employeeDetails.level" ng-disabled="employeeDetails.role == 'TeamLead' || !isManager()">
             <option ng-repeat="level in levels" value="{{level}}">{{level}}</option>
         </select>
 
