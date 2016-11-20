@@ -67,6 +67,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     protected DeveloperInteractions theDeveloper;
     protected NoticeInteractions aNotice;
     protected Team theTeam = someTeam();
+    protected EmployeeDetails teamLeadForTest;
 
     @Before
     public void setupTest() throws Exception {
@@ -89,7 +90,6 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         webDriver = WebDriverRunner.getWebDriver();
 
         theManager = new ManagerInteractions(ldapStubServer, employeePassword);
-        theTeamLead = new TeamLeadInteractions(ldapStubServer, employeePassword);
         theDeveloper = new DeveloperInteractions(employeeForTest, employeePassword);
         aNotice = new NoticeInteractions(webDriver);
     }
@@ -228,6 +228,21 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
             employeeDetailsForTest.setLevel(level);
             ldapStubServer.addEmployee(employeeForTest, employeePassword);
             employeeRepository.create(employeeDetailsForTest);
+            return givens;
+        };
+    }
+
+    protected GivensBuilder aTeamLeadExistsOn(Team team) {
+        return givens -> {
+            teamLeadForTest = anEmployee()
+                    .withUsername(someString())
+                    .withLevel(Level.SeniorDeveloper)
+                    .withTeam(team)
+                    .withRole(Role.TeamLead)
+                    .build();
+            ldapStubServer.addEmployee(teamLeadForTest, employeePassword);
+            employeeRepository.create(teamLeadForTest);
+            theTeamLead = new TeamLeadInteractions(teamLeadForTest, employeePassword);
             return givens;
         };
     }

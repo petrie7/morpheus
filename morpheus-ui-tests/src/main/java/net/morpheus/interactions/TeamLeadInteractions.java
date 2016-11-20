@@ -3,48 +3,56 @@ package net.morpheus.interactions;
 import com.googlecode.yatspec.state.givenwhenthen.ActionUnderTest;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import net.morpheus.domain.EmployeeDetails;
-import net.morpheus.domain.Role;
-import net.morpheus.stub.LdapStubServer;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static net.morpheus.domain.builder.EmployeeBuilder.anEmployee;
 
 public class TeamLeadInteractions {
-    private final LdapStubServer ldapStubServer;
     private final String employeePassword;
     private EmployeeDetails employeeForTest;
 
-    public TeamLeadInteractions(LdapStubServer ldapStubServer, String employeePassword) {
-        this.ldapStubServer = ldapStubServer;
+    public TeamLeadInteractions(EmployeeDetails employeeForTest, String employeePassword) {
+        this.employeeForTest = employeeForTest;
         this.employeePassword = employeePassword;
     }
 
     public GivensBuilder isLoggedIn() {
         return interestingGivens -> {
-            employeeForTest = anEmployee()
-                    .withUsername("TeamLead")
-                    .withRole(Role.TeamLead)
-                    .build();
-
-            ldapStubServer.addEmployee(employeeForTest, employeePassword);
-
             openMorpheus();
             loginUser();
             return interestingGivens;
         };
     }
 
+    public GivensBuilder isViewingTheirOwnMatrix() {
+        return interestingGivens -> interestingGivens;
+    }
+
     public GivensBuilder isViewing(String username) {
         return interestingGivens -> {
-            // search for and click on link with username
+            $(By.xpath("//*[contains(text(), 'View Team')]")).click();
+            $(By.xpath("//*[contains(text(),'" + username + "')]")).click();
             return interestingGivens;
         };
     }
 
-    public ActionUnderTest entersAManagerCommentWith(String someComment) {
-        return null;
+    public ActionUnderTest entersADevCommentWith(String comment) {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("devCommentBtn")).click();
+            $(By.id("devCommentTextArea")).setValue(comment);
+            $(By.xpath("//*[contains(text(), 'Confirm')]")).click();
+            return capturedInputAndOutputs;
+        };
+    }
+
+    public ActionUnderTest entersAManagerCommentWith(String comment) {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("managerCommentBtn")).click();
+            $(By.id("managerCommentTextArea")).setValue(comment);
+            $(By.xpath("//*[contains(text(), 'Confirm')]")).click();
+            return capturedInputAndOutputs;
+        };
     }
 
     public ActionUnderTest savesTheTemplate() {
@@ -55,7 +63,17 @@ public class TeamLeadInteractions {
     }
 
     public ActionUnderTest viewsTheDevComment() {
-        return null;
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("devCommentBtn")).click();
+            return capturedInputAndOutputs;
+        };
+    }
+
+    public ActionUnderTest viewsTheManagerComment() {
+        return (interestingGivens, capturedInputAndOutputs) -> {
+            $(By.id("managerCommentBtn")).click();
+            return capturedInputAndOutputs;
+        };
     }
 
     private void loginUser() {

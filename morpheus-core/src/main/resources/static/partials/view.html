@@ -11,7 +11,7 @@
 </div>
 
 <div id="skills-matrix" class="skills-matrix">
-    <div id="employeeDetails"  print-remove>
+    <div id="employeeDetails" print-remove>
         <h3>{{employee.username}}</h3>
         <label id="team-label">Team</label>
         <select id="team-field" ng-model="employeeDetails.team.name" ng-disabled="!isManager()">
@@ -19,7 +19,8 @@
         </select>
 
         <label id="level-label">Level</label>
-        <select id="level-field" ng-model="employeeDetails.level" ng-disabled="employeeDetails.role == 'TeamLead' || !isManager()">
+        <select id="level-field" ng-model="employeeDetails.level"
+                ng-disabled="employeeDetails.role == 'TeamLead' || !isManager()">
             <option ng-repeat="level in levels" value="{{level}}">{{level}}</option>
         </select>
 
@@ -55,7 +56,10 @@
                     <th colspan="3" class="junior">Junior Dev</th>
                     <th colspan="3" class="mid">Mid Dev</th>
                     <th colspan="3" class="senior">Senior Dev</th>
-                    <th colspan="3"><button class="btn btn-primary pull-right" print-btn print-hide><span class="glyphicon glyphicon-print"></span></button></th>
+                    <th colspan="3">
+                        <button class="btn btn-primary pull-right" print-btn print-hide><span
+                                class="glyphicon glyphicon-print"></span></button>
+                    </th>
                 </tr>
                 <tr>
                     <th></th>
@@ -96,9 +100,11 @@
                         </div>
                     </td>
                     <td>
-                        <input name="managerCommentText" print-hide type="text" ng-model="field.comment" class="managerCommentText"
+                        <input name="managerCommentText" print-hide type="text" ng-model="field.comment"
+                               class="managerCommentText"
                                readonly="readonly"/>
-                        <button class="button" id="managerCommentBtn" print-hide ng-click="updateCommentDialog(field, 'manager')">{{hasEditorPrivileges() &&
+                        <button class="button" id="managerCommentBtn" print-hide
+                                ng-click="updateCommentDialog(field, 'manager')">{{hasEditorPrivileges() &&
                             theyAreNotViewingThemselves() ?
                             'Edit'
                             :
@@ -107,9 +113,11 @@
                         <div print-only>{{field.comment}}</div>
                     </td>
                     <td>
-                        <input name="devCommentText" print-hide type="text" ng-model="field.devComment" class="devCommentText"
+                        <input name="devCommentText" print-hide type="text" ng-model="field.devComment"
+                               class="devCommentText"
                                readonly="readonly"/>
-                        <button class="button" id="devCommentBtn" print-hide ng-click="updateCommentDialog(field, 'dev')">{{hasEditorPrivileges() &&
+                        <button class="button" id="devCommentBtn" print-hide
+                                ng-click="updateCommentDialog(field, 'dev')">{{hasEditorPrivileges() &&
                             theyAreNotViewingThemselves() ?
                             'View'
                             :

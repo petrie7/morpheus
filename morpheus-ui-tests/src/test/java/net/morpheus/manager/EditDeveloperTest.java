@@ -15,7 +15,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static net.morpheus.MorpheusDataFixtures.someTeam;
-import static net.morpheus.MorpheusDataFixtures.someUsername;
 import static net.morpheus.domain.Level.SeniorDeveloper;
 import static net.morpheus.domain.Role.TeamLead;
 import static net.morpheus.matchers.ElementMatchers.*;
@@ -75,13 +74,6 @@ public class EditDeveloperTest extends MorpheusTestCase {
 
     private Level withLevel(Level level) {
         return level;
-    }
-
-    private GivensBuilder aTeamLeadExistsOn(Team team) {
-        return interestingGivens -> {
-            employeeRepository.create(new EmployeeDetails(someUsername(), SeniorDeveloper, Role.TeamLead, team, false));
-            return interestingGivens;
-        };
     }
 
     private GivensBuilder anotherTeamExists() {
