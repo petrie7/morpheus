@@ -101,7 +101,7 @@ angular
             };
 
             $scope.managerCanSee = function (property, value) {
-                return !$scope.editable && !(property === value);
+                return !$scope.theyAreNotViewingThemselves() && !(property === value);
             };
 
             $scope.isNotDirty = function () {
