@@ -254,7 +254,11 @@ angular
             }
 
             $scope.theyAreNotViewingThemselves = function() {
-                return $scope.authenticatedUser.name !== $scope.employee.username;
+                if (typeof $scope.employee !== 'undefined') {
+                    return $scope.authenticatedUser.name !== $scope.employee.username;
+                } else {
+                    return true;
+                }
             }
 
             $scope.deleteDeveloper = function() {
