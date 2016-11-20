@@ -13,6 +13,7 @@ import net.morpheus.domain.*;
 import net.morpheus.interactions.DeveloperInteractions;
 import net.morpheus.interactions.ManagerInteractions;
 import net.morpheus.interactions.NoticeInteractions;
+import net.morpheus.interactions.TeamLeadInteractions;
 import net.morpheus.persistence.EmployeeRecordRepository;
 import net.morpheus.persistence.EmployeeRepository;
 import net.morpheus.persistence.SkillTemplateRepository;
@@ -62,6 +63,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
     private String employeePassword;
 
     protected ManagerInteractions theManager;
+    protected TeamLeadInteractions theTeamLead;
     protected DeveloperInteractions theDeveloper;
     protected NoticeInteractions aNotice;
     protected Team theTeam = someTeam();
@@ -87,6 +89,7 @@ public abstract class MorpheusTestCase extends TestState implements WithCustomRe
         webDriver = WebDriverRunner.getWebDriver();
 
         theManager = new ManagerInteractions(ldapStubServer, employeePassword);
+        theTeamLead = new TeamLeadInteractions(ldapStubServer, employeePassword);
         theDeveloper = new DeveloperInteractions(employeeForTest, employeePassword);
         aNotice = new NoticeInteractions(webDriver);
     }

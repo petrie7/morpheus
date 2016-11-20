@@ -104,20 +104,6 @@ public class EditDeveloperTest extends MorpheusTestCase {
         return capturedInputAndOutputs -> webDriver.findElement(By.id("level-field"));
     }
 
-    private Matcher<EmployeeDetails> hasALevelOf(Level expectedLevel) {
-        return new TypeSafeMatcher<EmployeeDetails>() {
-            @Override
-            protected boolean matchesSafely(EmployeeDetails employeeDetails) {
-                return employeeDetails.level().name().equals(expectedLevel.name());
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("employee level of: " + expectedLevel);
-            }
-        };
-    }
-
     private Matcher<EmployeeDetails> isOn(Team expectedTeam) {
         return new TypeSafeMatcher<EmployeeDetails>() {
             @Override

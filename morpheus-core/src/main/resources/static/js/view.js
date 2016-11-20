@@ -147,8 +147,15 @@ angular
 
             var isManagerComment = (type == 'manager') ? true : false;
 
-                if ($scope.isManager() && $scope.isEditable() && isManagerComment) {
+                if (($scope.isManager() || ($scope.isTeamLead() && $scope.theyAreNotViewingThemselves())) && $scope.isEditable() && isManagerComment) {
                     $scope.showCommentDialogFor(skill, "manager");
+                }
+                else if ($scope.isTeamLead() && $scope.theyAreNotViewingThemselves() && !isManagerComment){
+                    bootbox.dialog({
+                       message: '<div>' + skill.devComment + '</div>',
+                       title: skill.fieldName + ' Comment',
+                       className: type + 'CommentsBox'
+                    });
                 }
                 else if (!$scope.isManager() && !isManagerComment){
                     $scope.showCommentDialogFor(skill, "dev");
@@ -244,6 +251,10 @@ angular
                 } else {
                     return false;
                 }
+            }
+
+            $scope.theyAreNotViewingThemselves = function() {
+                return $scope.authenticatedUser.name !== $scope.employee.username;
             }
 
             $scope.deleteDeveloper = function() {
